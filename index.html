@@ -23,7 +23,7 @@
         
         /* Language Buttons */
         .lang-container { display: flex; align-items: center; gap: 3px; background: #eee; padding: 3px; border-radius: 20px; }
-        .lang-btn { background: transparent; border: none; padding: 3px 7px; border-radius: 15px; cursor: pointer; font-size: 0.75rem; font-weight: bold; color: #555; }
+        .lang-btn { background: transparent; border: none; padding: 3px 7px; border-radius: 15px; cursor: pointer; font-size: 0.75rem; font-weight: bold; color: #555; display: inline-flex; align-items: center; }
         .lang-btn.active { background: #ff6600; color: white; }
 
         .admin-btn { background: #ff6600; color: white !important; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; border: none; }
@@ -112,9 +112,15 @@
             
             <!-- Language Buttons -->
             <div class="lang-container">
-                <button class="lang-btn active" id="btnAM" onclick="setLanguage('AM')">🇪🇹 Am</button>
-                <button class="lang-btn" id="btnOR" onclick="setLanguage('OR')">Oro</button>
-                <button class="lang-btn" id="btnEN" onclick="setLanguage('EN')">Eng</button>
+                <button class="lang-btn active" id="btnAM" onclick="setLanguage('AM')">
+                    <img src="https://flagcdn.com/w20/et.png" alt="ET" style="width:16px; vertical-align:middle; margin-right:3px;"> Am
+                </button>
+                <button class="lang-btn" id="btnOR" onclick="setLanguage('OR')">
+                    <img src="https://flagcdn.com/w20/et.png" alt="ET" style="width:16px; vertical-align:middle; margin-right:3px;"> Oro
+                </button>
+                <button class="lang-btn" id="btnEN" onclick="setLanguage('EN')">
+                    <img src="https://flagcdn.com/w20/gb.png" alt="EN" style="width:16px; vertical-align:middle; margin-right:3px;"> Eng
+                </button>
             </div>
 
             <!-- Admin Button -->
@@ -253,13 +259,11 @@
 
             try {
                 if(editId) {
-                    // Update existing post
                     await updateDoc(doc(db, "news", editId), { title, category, mediaUrl, content });
                     alert("መረጃው በተሳካ ሁኔታ ተሻሽሏል (Updated)!");
                     document.getElementById("editDocId").value = "";
                     document.getElementById("publishBtn").innerText = "መረጃውን ለጥፍ (Publish)";
                 } else {
-                    // Add new post
                     await addDoc(collection(db, "news"), { title, category, mediaUrl, content, createdAt: new Date() });
                     alert("መረጃው በተሳካ ሁኔታ ተለጥፏል!");
                 }
@@ -306,7 +310,6 @@
                 let mediaElement = '';
                 if(data.mediaUrl) {
                     if(data.category === 'Video' || data.mediaUrl.includes('youtube') || data.mediaUrl.includes('youtu.be')) {
-                        // YouTube embed helper conversion if needed, or direct iframe/video
                         let embedUrl = data.mediaUrl;
                         if(embedUrl.includes('watch?v=')) {
                             embedUrl = embedUrl.replace('watch?v=', 'embed/');
