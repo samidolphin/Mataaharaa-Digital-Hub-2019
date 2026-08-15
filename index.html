@@ -3,98 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mataahara Digital News</title>
+    <title>Mataaharaa Digital Hub 2019</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #f4f7f6; color: #333; line-height: 1.6; }
 
-        /* የሰማያዊው ከፍል ከቨር (Header) */
-        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: #0b3c65; color: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); flex-wrap: wrap; gap: 15px; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 12px 4%; background: #ffffff; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); flex-wrap: wrap; gap: 10px; }
         .logo-area { display: flex; align-items: center; gap: 10px; }
-        .logo-area svg { width: 28px; height: 28px; fill: white; }
-        .logo-text h1 { font-size: 1.3rem; font-weight: bold; color: white; letter-spacing: 0.5px; }
+        .logo-area img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
+        .logo-text h1 { font-size: 1.1rem; color: #ff6600; font-weight: bold; }
 
-        /* የቋንቋ መምረጫ ቁልፎች በስተቀኝ */
-        .lang-nav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        .lang-btn { background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); padding: 6px 14px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-weight: 600; color: white; transition: all 0.3s ease; }
-        .lang-btn:hover, .lang-btn.active { background: white; color: #0b3c65; }
+        /* የጀርባ ፎቶ ያለው ኃይለኛ የከፍል ከቨር (Hero Banner) */
+        .hero-banner { 
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200') no-repeat center center/cover; 
+            color: white; 
+            padding: 60px 20px; 
+            text-align: center; 
+        }
+        .hero-banner h2 { font-size: 2rem; margin-bottom: 10px; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        .hero-banner p { font-size: 1.1rem; opacity: 0.95; font-weight: 500; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
 
-        .admin-toggle-btn { background: #ff6600; color: white; border: none; padding: 6px 14px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-weight: bold; margin-left: 10px; }
+        /* ከቀኝ ወደ ግራ የሚንቀሳቀሰው የሚያምረው መስመር */
+        .marquee-container { background: #ff6600; color: white; padding: 8px 0; font-size: 0.95rem; font-weight: bold; overflow: hidden; white-space: nowrap; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .marquee-container marquee { width: 100%; }
 
-        /* ዋናው የይዘት ክፍል */
-        .main-container { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
-        .section-title { text-align: center; font-size: 2rem; color: #0b3c65; margin-bottom: 30px; font-weight: bold; }
-
-        /* የዜና ካርድ ዲዛይን */
-        .news-grid { display: flex; flex-direction: column; gap: 20px; }
-        .news-card { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); display: flex; gap: 25px; align-items: flex-start; flex-wrap: wrap; }
-        .news-img-box { flex: 1; min-width: 300px; background: #1a2634; border-radius: 8px; height: 220px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
-        .news-content { flex: 1.5; min-width: 300px; }
+        nav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+        nav a { text-decoration: none; color: #333; font-weight: 600; font-size: 0.75rem; transition: color 0.3s; padding: 4px 6px; border-radius: 4px; cursor: pointer; }
+        nav a:hover, nav a.active { color: #ff6600; background: #fff3ed; }
         
-        .badge { display: inline-block; background: #ff4d4d; color: white; font-size: 0.75rem; font-weight: bold; padding: 4px 12px; border-radius: 20px; margin-bottom: 12px; }
-        .date-info { font-size: 0.8rem; color: #666; margin-bottom: 8px; font-weight: 500; }
-        .news-title { font-size: 1.25rem; font-weight: bold; color: #111; margin-bottom: 12px; line-height: 1.4; }
-        .news-desc { font-size: 0.95rem; color: #444; margin-bottom: 20px; }
-        
-        .read-more-btn { display: inline-block; background: #004b93; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; transition: background 0.3s; }
-        .read-more-btn:hover { background: #0b3c65; }
+        /* የቋንቋ መምረጫ ከባንዲራዎች ጋር */
+        .lang-container { display: flex; align-items: center; gap: 3px; background: #eee; padding: 3px; border-radius: 20px; }
+        .lang-btn { background: transparent; border: none; padding: 3px 8px; border-radius: 15px; cursor: pointer; font-size: 0.75rem; font-weight: bold; color: #555; display: inline-flex; align-items: center; }
+        .lang-btn.active { background: #ff6600; color: white; }
 
-        /* አድሚን ፓነል */
-        .admin-section { display: none; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 30px; border: 2px dashed #0b3c65; }
+        .admin-btn { background: #ff6600; color: white !important; padding: 5px 12px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; border: none; font-weight: bold; }
+        
+        .admin-section { display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 40px; border: 2px dashed #ff6600; }
         .admin-section.active { display: block; }
         .form-group { margin-bottom: 15px; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.95rem; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 0.95rem; }
         .form-group textarea { height: 120px; resize: vertical; }
-        .submit-btn { background: #0b3c65; color: white; border: none; padding: 10px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 100%; }
+        .submit-btn { background: #ff6600; color: white; border: none; padding: 10px 20px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; }
+
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .news-card { background: white; border-radius: 8px; padding: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .news-card img { width: 100%; height: 180px; object-fit: cover; border-radius: 6px; }
+        .cat { color: #ff6600; font-size: 0.7rem; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <!-- የሰማያዊ ከቨር ማዕከል -->
     <header>
         <div class="logo-area">
-            <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" alt="Logo">
             <div class="logo-text">
-                <h1>Mataahara Digital News</h1>
+                <h1 id="brandTitle">መታሃራ / Mataaharaa</h1>
             </div>
         </div>
-        
-        <div class="lang-nav">
-            <button class="lang-btn" id="btnOR" onclick="setLanguage('OR')">Afaan Oromoo</button>
-            <button class="lang-btn active" id="btnAM" onclick="setLanguage('AM')">አማርኛ</button>
-            <button class="lang-btn" id="btnEN" onclick="setLanguage('EN')">English</button>
-            <button class="admin-toggle-btn" onclick="toggleAdmin()">አድሚን</button>
-        </div>
+        <nav>
+            <a onclick="updateFilter('cat', 'All')" id="navAll" class="active">ሁሉም</a>
+            <a onclick="updateFilter('cat', 'News')" id="navNews">ዜና</a>
+            <a onclick="updateFilter('cat', 'Tourism')" id="navTourism">ቱሪዝም</a>
+            <a onclick="updateFilter('cat', 'Culture')" id="navCulture">ባህል</a>
+            <a onclick="updateFilter('cat', 'Philosophy')" id="navPhilosophy">ፍልስፍና</a>
+            <a onclick="updateFilter('cat', 'Literature')" id="navLiterature">ፅነ-ፅሁፍ</a>
+            <a onclick="updateFilter('cat', 'Video')" id="navVideo">የቪዲዮ ጋለሪ</a>
+            <a onclick="updateFilter('cat', 'Photo')" id="navPhoto">የፎቶ ጋለሪ</a>
+            
+            <!-- የቋንቋ መምረጫ ከባንዲራዎች ጋር -->
+            <div class="lang-container">
+                <button class="lang-btn active" id="btnAM" onclick="updateFilter('lang', 'AM')">
+                    <img src="https://flagcdn.com/w20/et.png" alt="ET" style="width:14px; vertical-align:middle; margin-right:2px;"> Am
+                </button>
+                <button class="lang-btn" id="btnOR" onclick="updateFilter('lang', 'OR')">Oro</button>
+                <button class="lang-btn" id="btnEN" onclick="updateFilter('lang', 'EN')">
+                    <img src="https://flagcdn.com/w20/gb.png" alt="EN" style="width:14px; vertical-align:middle; margin-right:2px;"> Eng
+                </button>
+            </div>
+
+            <button class="admin-btn" onclick="toggleAdminPanel()">አድሚን</button>
+        </nav>
     </header>
 
-    <div class="main-container">
-        <!-- አድሚን መስጫ ቅጽ -->
+    <!-- የጀርባ ፎቶ ያለው የከተማው ዋና መፈክር -->
+    <div class="hero-banner">
+        <h2>እንኳን ወደ መታሃራ デジタル ሀብ በደህና መጡ</h2>
+        <p>☀️ ፀሐይ የማይጠልቅባት ታሪካዊት ከተማ ☀️</p>
+    </div>
+
+    <!-- ከቀኝ ወደ ግራ የሚንቀሳቀሰው የሚያምረው ጽሑፍ -->
+    <div class="marquee-container">
+        <marquee behavior="scroll" direction="left">🔥 እንኳን ወደ መታሃራ ዲጂታል ሀብ 2.0 በሰላም መጡ! ወቅታዊ የከተማችን መረጃዎች እና በስርጭት ላይ ያሉ ዜናዎችን እዚህ ማግኘት ይችላሉ። 🔥</marquee>
+    </div>
+
+    <div class="container" style="padding: 20px;">
         <div class="admin-section" id="adminSection">
-            <h2 style="margin-bottom: 15px; color: #0b3c65;">መረጃ መጫኛ (Admin Panel)</h2>
+            <h2>መረጃ መጫኛ (Admin Panel)</h2>
             <form id="newsForm">
-                <div class="form-group">
-                    <input type="text" id="newsTitle" placeholder="ርዕስ (Title)" required>
-                </div>
-                <div class="form-group">
-                    <select id="newsLang">
-                        <option value="AM">አማርኛ (Amharic)</option>
-                        <option value="OR">ኦሮምኛ (Afaan Oromoo)</option>
-                        <option value="EN">እንግሊዝኛ (English)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <textarea id="newsContent" placeholder="የዜናው ዝርዝር ይዘት..." required></textarea>
-                </div>
-                <button type="submit" class="submit-btn">መረጃውን ለጠፍ</button>
+                <input type="text" id="newsTitle" placeholder="ርዕስ" required style="margin-bottom:10px; width:100%; padding:8px;">
+                <select id="newsCategory" style="margin-bottom:10px; width:100%; padding:8px;">
+                    <option value="News">ዜና</option>
+                    <option value="Tourism">ቱሪዝም</option>
+                    <option value="Culture">ባህል</option>
+                    <option value="Philosophy">ፍልስፍና</option>
+                    <option value="Literature">ፅነ-ፅሁፍ</option>
+                    <option value="Video">የቪዲዮ ጋለሪ</option>
+                    <option value="Photo">የፎቶ ጋለሪ</option>
+                </select>
+                <select id="newsLang" style="margin-bottom:10px; width:100%; padding:8px;">
+                    <option value="AM">አማርኛ (Am)</option>
+                    <option value="OR">ኦሮምኛ (Oro)</option>
+                    <option value="EN">እንግሊዝኛ (Eng)</option>
+                </select>
+                <textarea id="newsContent" placeholder="ይዘት" required style="margin-bottom:10px; width:100%; padding:8px;"></textarea>
+                <button type="submit" class="submit-btn">ለጥፍ</button>
             </form>
         </div>
 
-        <h2 class="section-title" id="pageHeading">Odeeffannoo Haaraa</h2>
-
-        <!-- የዜና ማሳያ ግሪድ -->
-        <div class="news-grid" id="newsContainer">
-            <!-- በጃቫስክሪፕት የሚሞላ -->
-        </div>
+        <div class="news-grid" id="newsContainer"></div>
     </div>
 
     <script type="module">
@@ -112,87 +138,68 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        let currentCat = 'All';
         let currentLang = 'AM';
         let allPosts = [];
 
-        const headings = {
-            'AM': 'አዳዲስ መረጃዎች',
-            'OR': 'Odeeffannoo Haaraa',
-            'EN': 'Latest News'
-        };
-
-        window.setLanguage = (lang) => {
-            currentLang = lang;
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('btn' + lang).classList.add('active');
-            document.getElementById('pageHeading').innerText = headings[lang];
-            renderPosts();
+        window.updateFilter = (type, val) => {
+            if(type === 'cat') {
+                currentCat = val;
+                document.querySelectorAll('nav a[id^="nav"]').forEach(a => a.classList.remove('active'));
+                document.getElementById('nav' + (val === 'All' ? 'All' : val)).classList.add('active');
+            }
+            if(type === 'lang') {
+                currentLang = val;
+                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+                document.getElementById('btn' + val).classList.add('active');
+            }
+            render();
         }
 
-        function renderPosts() {
+        async function render() {
             const container = document.getElementById("newsContainer");
             container.innerHTML = "";
-            
-            const filtered = allPosts.filter(p => p.lang === currentLang);
+            const filtered = allPosts.filter(p => 
+                (currentCat === 'All' || p.category === currentCat) && 
+                (p.lang === currentLang)
+            );
 
             if(filtered.length === 0) {
-                container.innerHTML = `<p style="text-align:center; color:#777; padding:20px;">በዚህ ቋንቋ የተለጠፈ መረጃ የለም።</p>`;
+                container.innerHTML = "<p>በዚህ ቋንቋ ወይም ምድብ የተለጠፈ መረጃ የለም።</p>";
                 return;
             }
 
             filtered.forEach(p => {
-                container.innerHTML += `
-                    <div class="news-card">
-                        <div class="news-img-box">
-                            <span style="color:#aaa; font-size:0.9rem;">Mataaharaa News</span>
-                        </div>
-                        <div class="news-content">
-                            <span class="badge">Haaraa / አዲስ</span>
-                            <div class="date-info">📅 July 2026</div>
-                            <h3 class="news-title">${p.title}</h3>
-                            <p class="news-desc">${p.content}</p>
-                            <a href="#" class="read-more-btn">Сеenaa Guutuu Dubbisi →</a>
-                        </div>
-                    </div>
-                `;
+                container.innerHTML += `<div class="news-card"><span class="cat">${p.category}</span><h3>${p.title}</h3><p>${p.content}</p></div>`;
             });
         }
 
         document.getElementById("newsForm").addEventListener("submit", async (e) => {
             e.preventDefault();
-            try {
-                await addDoc(collection(db, "news"), {
-                    title: document.getElementById("newsTitle").value,
-                    lang: document.getElementById("newsLang").value,
-                    content: document.getElementById("newsContent").value,
-                    createdAt: new Date().toISOString()
-                });
-                alert("መረጃው በተሳካ ሁኔታ ተለጠፈ!");
-                document.getElementById("newsForm").reset();
-                loadDataFromFirebase();
-            } catch (err) {
-                console.error(err);
-            }
+            await addDoc(collection(db, "news"), {
+                title: document.getElementById("newsTitle").value,
+                category: document.getElementById("newsCategory").value,
+                lang: document.getElementById("newsLang").value,
+                content: document.getElementById("newsContent").value
+            });
+            alert("መረጃው በተሳካ ሁኔታ ተለጠፈ!");
+            document.getElementById("newsForm").reset();
+            loadData();
         });
 
-        window.toggleAdmin = () => {
-            document.getElementById("adminSection").classList.toggle("active");
-        }
-
-        async function loadDataFromFirebase() {
+        window.toggleAdminPanel = () => document.getElementById("adminSection").classList.toggle("active");
+        
+        async function loadData() {
             try {
-                const querySnapshot = await getDocs(collection(db, "news"));
+                const snap = await getDocs(collection(db, "news"));
                 allPosts = [];
-                querySnapshot.forEach((doc) => {
-                    allPosts.push({ id: doc.id, ...doc.data() });
-                });
-                renderPosts();
-            } catch (err) {
+                snap.forEach(d => allPosts.push({id: d.id, ...d.data()}));
+                render();
+            } catch(err) {
                 console.error(err);
             }
         }
-
-        loadDataFromFirebase();
+        loadData();
     </script>
 </body>
 </html>
