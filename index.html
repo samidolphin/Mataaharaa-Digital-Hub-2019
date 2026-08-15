@@ -12,7 +12,10 @@
         .logo-area { display: flex; align-items: center; gap: 8px; }
         .logo-area img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
         .logo-text h1 { font-size: 1.1rem; color: #ff6600; font-weight: bold; }
-        .logo-text p { font-size: 0.75rem; color: #666; }
+
+        /* የማስታወቂያ / የሚንቀሳቀስ ጽሑፍ መስመር */
+        .marquee-container { background: #ff6600; color: white; padding: 6px 0; font-size: 0.9rem; font-weight: bold; overflow: hidden; white-space: nowrap; box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); }
+        .marquee-container marquee { width: 100%; }
 
         nav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
         nav a { text-decoration: none; color: #333; font-weight: 600; font-size: 0.75rem; transition: color 0.3s; padding: 4px 6px; border-radius: 4px; cursor: pointer; }
@@ -56,14 +59,12 @@
             <a onclick="updateFilter('cat', 'Video')" id="navVideo">የቪዲዮ ጋለሪ</a>
             <a onclick="updateFilter('cat', 'Photo')" id="navPhoto">የፎቶ ጋለሪ</a>
             
-            <!-- የቋንቋ መምረጫ -->
+            <!-- የቋንቋ መምረጫ ቁልፎች -->
             <div class="lang-container">
                 <button class="lang-btn active" id="btnAM" onclick="updateFilter('lang', 'AM')">
                     <img src="https://flagcdn.com/w20/et.png" alt="ET" style="width:14px; vertical-align:middle; margin-right:2px;"> Am
                 </button>
-                <button class="lang-btn" id="btnOR" onclick="updateFilter('lang', 'OR')">
-                    Oro
-                </button>
+                <button class="lang-btn" id="btnOR" onclick="updateFilter('lang', 'OR')">Oro</button>
                 <button class="lang-btn" id="btnEN" onclick="updateFilter('lang', 'EN')">
                     <img src="https://flagcdn.com/w20/gb.png" alt="EN" style="width:14px; vertical-align:middle; margin-right:2px;"> Eng
                 </button>
@@ -72,6 +73,11 @@
             <button class="admin-btn" onclick="toggleAdminPanel()">አድሚን</button>
         </nav>
     </header>
+
+    <!-- የሚንቀሳቀሰው ጽሑፍ (ፀሐይ የማይጠልቅባት ከተማ) -->
+    <div class="marquee-container">
+        <marquee behavior="scroll" direction="left">🌟 እንኳን ወደ መታሃራ ዲጂታል ሀብ (Mataaharaa Digital Hub) በደህና መጡ — ፀሐይ የማይጠልቅባት ታሪካዊት ከተማ! 🌟</marquee>
+    </div>
 
     <div class="container" style="padding: 20px;">
         <div class="admin-section" id="adminSection">
