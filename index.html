@@ -14,15 +14,15 @@
         .logo-text h1 { font-size: 1.1rem; color: #ff6600; font-weight: bold; }
         .logo-text p { font-size: 0.75rem; color: #666; }
 
-        nav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        nav a { text-decoration: none; color: #333; font-weight: 600; font-size: 0.8rem; transition: color 0.3s; padding: 4px 6px; border-radius: 4px; cursor: pointer; }
+        nav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+        nav a { text-decoration: none; color: #333; font-weight: 600; font-size: 0.75rem; transition: color 0.3s; padding: 4px 6px; border-radius: 4px; cursor: pointer; }
         nav a:hover, nav a.active { color: #ff6600; background: #fff3ed; }
         
         .lang-container { display: flex; align-items: center; gap: 3px; background: #eee; padding: 3px; border-radius: 20px; }
-        .lang-btn { background: transparent; border: none; padding: 3px 7px; border-radius: 15px; cursor: pointer; font-size: 0.75rem; font-weight: bold; color: #555; display: inline-flex; align-items: center; }
+        .lang-btn { background: transparent; border: none; padding: 3px 6px; border-radius: 15px; cursor: pointer; font-size: 0.7rem; font-weight: bold; color: #555; display: inline-flex; align-items: center; }
         .lang-btn.active { background: #ff6600; color: white; }
 
-        .admin-btn { background: #ff6600; color: white !important; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; border: none; }
+        .admin-btn { background: #ff6600; color: white !important; padding: 5px 10px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; border: none; }
         
         .admin-section { display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 40px; border: 2px dashed #ff6600; }
         .admin-section.active { display: block; }
@@ -47,19 +47,25 @@
             </div>
         </div>
         <nav>
-            <a onclick="updateFilter('cat', 'All')" id="navNews" class="active">ዜና</a>
+            <a onclick="updateFilter('cat', 'All')" id="navAll" class="active">ሁሉም</a>
+            <a onclick="updateFilter('cat', 'News')" id="navNews">ዜና</a>
             <a onclick="updateFilter('cat', 'Tourism')" id="navTourism">ቱሪዝም</a>
+            <a onclick="updateFilter('cat', 'Culture')" id="navCulture">ባህል</a>
+            <a onclick="updateFilter('cat', 'Philosophy')" id="navPhilosophy">ፍልስፍና</a>
+            <a onclick="updateFilter('cat', 'Literature')" id="navLiterature">ፅነ-ፅሁፍ</a>
+            <a onclick="updateFilter('cat', 'Video')" id="navVideo">የቪዲዮ ጋለሪ</a>
+            <a onclick="updateFilter('cat', 'Photo')" id="navPhoto">የፎቶ ጋለሪ</a>
             
-            <!-- የቋንቋ መምረጫ (Oro ባንዲራ የጠፋበት እና ንጹህ የሆነ) -->
+            <!-- የቋንቋ መምረጫ -->
             <div class="lang-container">
                 <button class="lang-btn active" id="btnAM" onclick="updateFilter('lang', 'AM')">
-                    <img src="https://flagcdn.com/w20/et.png" alt="ET" style="width:16px; vertical-align:middle; margin-right:3px;"> Am
+                    <img src="https://flagcdn.com/w20/et.png" alt="ET" style="width:14px; vertical-align:middle; margin-right:2px;"> Am
                 </button>
                 <button class="lang-btn" id="btnOR" onclick="updateFilter('lang', 'OR')">
                     Oro
                 </button>
                 <button class="lang-btn" id="btnEN" onclick="updateFilter('lang', 'EN')">
-                    <img src="https://flagcdn.com/w20/gb.png" alt="EN" style="width:16px; vertical-align:middle; margin-right:3px;"> Eng
+                    <img src="https://flagcdn.com/w20/gb.png" alt="EN" style="width:14px; vertical-align:middle; margin-right:2px;"> Eng
                 </button>
             </div>
 
@@ -75,6 +81,11 @@
                 <select id="newsCategory" style="margin-bottom:10px; width:100%; padding:8px;">
                     <option value="News">ዜና</option>
                     <option value="Tourism">ቱሪዝም</option>
+                    <option value="Culture">ባህል</option>
+                    <option value="Philosophy">ፍልስፍና</option>
+                    <option value="Literature">ፅነ-ፅሁፍ</option>
+                    <option value="Video">የቪዲዮ ጋለሪ</option>
+                    <option value="Photo">የፎቶ ጋለሪ</option>
                 </select>
                 <select id="newsLang" style="margin-bottom:10px; width:100%; padding:8px;">
                     <option value="AM">አማርኛ (Am)</option>
@@ -93,7 +104,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // Firebase Config
         const firebaseConfig = { 
             apiKey: "AIzaSy...", 
             authDomain: "mataaharaa-hub-2019.firebaseapp.com",
@@ -110,10 +120,13 @@
         let allPosts = [];
 
         window.updateFilter = (type, val) => {
-            if(type === 'cat') currentCat = val;
-            if(type === 'lang') currentLang = val;
-            
+            if(type === 'cat') {
+                currentCat = val;
+                document.querySelectorAll('nav a[id^="nav"]').forEach(a => a.classList.remove('active'));
+                document.getElementById('nav' + (val === 'All' ? 'All' : val)).classList.add('active');
+            }
             if(type === 'lang') {
+                currentLang = val;
                 document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
                 document.getElementById('btn' + val).classList.add('active');
             }
@@ -134,7 +147,7 @@
             }
 
             filtered.forEach(p => {
-                container.innerHTML += `<div class="news-card"><h3>${p.title}</h3><p>${p.content}</p></div>`;
+                container.innerHTML += `<div class="news-card"><span class="cat">${p.category}</span><h3>${p.title}</h3><p>${p.content}</p></div>`;
             });
         }
 
