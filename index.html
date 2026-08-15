@@ -41,6 +41,15 @@
         .modal-content input { width: 100%; padding: 10px; margin: 15px 0; border: 1px solid #ccc; border-radius: 4px; }
         .modal-content button { background: #ff6600; color: white; border: none; padding: 9px 15px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; }
 
+        /* የሙሉ ዜና ማንበቢያ ፖፕ-አፕ (Read More Modal) */
+        .detail-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 3000; justify-content: center; align-items: center; padding: 20px; }
+        .detail-modal.active { display: flex; }
+        .detail-content { background: white; padding: 30px; border-radius: 10px; max-width: 700px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 5px 20px rgba(0,0,0,0.3); position: relative; }
+        .detail-content img, .detail-content iframe { width: 100%; height: 280px; object-fit: cover; border-radius: 6px; margin-bottom: 15px; }
+        .detail-content h2 { color: #222; margin-bottom: 15px; font-size: 1.5rem; }
+        .detail-content p { color: #444; font-size: 1.02rem; line-height: 1.7; white-space: pre-wrap; }
+        .close-detail-btn { position: absolute; top: 15px; right: 15px; background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+
         .main-container { flex: 1; padding: 30px 5%; max-width: 1300px; margin: 0 auto; width: 100%; }
 
         .admin-section { display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 40px; border: 2px dashed #ff6600; }
@@ -55,12 +64,15 @@
         .submit-btn { background: #ff6600; color: white; border: none; padding: 11px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; }
 
         .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 20px; }
-        .news-card { background: white; border-radius: 8px; padding: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.06); transition: transform 0.3s; }
+        .news-card { background: white; border-radius: 8px; padding: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.06); transition: transform 0.3s; display: flex; flex-direction: column; justify-content: space-between; }
         .news-card:hover { transform: translateY(-3px); }
         .news-card img, .news-card iframe { width: 100%; height: 190px; object-fit: cover; border-radius: 6px; margin-bottom: 12px; }
         .cat { color: #ff6600; font-size: 0.72rem; font-weight: bold; text-transform: uppercase; }
         .news-card h3 { font-size: 1.15rem; margin: 8px 0; color: #222; }
-        .news-card p { font-size: 0.9rem; color: #555; }
+        .news-card p { font-size: 0.9rem; color: #555; margin-bottom: 12px; }
+        
+        .read-more-btn { background: transparent; color: #ff6600; border: 1px solid #ff6600; padding: 6px 12px; border-radius: 4px; font-size: 0.82rem; font-weight: bold; cursor: pointer; text-align: center; transition: all 0.3s; align-self: flex-start; }
+        .read-more-btn:hover { background: #ff6600; color: white; }
 
         footer { background: #222; color: #ccc; padding: 40px 5% 20px; margin-top: 50px; font-size: 0.88rem; }
         .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; max-width: 1300px; margin: 0 auto; padding-bottom: 25px; border-bottom: 1px solid #444; }
@@ -68,7 +80,6 @@
         .footer-col h4 { color: #ff6600; margin-bottom: 12px; font-size: 1.05rem; }
         .footer-col p { margin-bottom: 8px; }
         
-        /* የየራሳቸው ትክክለኛ የብራንድ ቀለሞች ያሉት የማህበራዊ ሚዲያ አዝራሮች */
         .social-links { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
         .social-links a { display: inline-block; padding: 6px 14px; color: white; text-align: center; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 0.8rem; transition: opacity 0.3s; }
         .social-links a:hover { opacity: 0.85; }
@@ -113,12 +124,21 @@
         </nav>
     </header>
 
+    <!-- የአድሚን የለፍ ቃል ማረጋገጫ ፖፕ-አፕ -->
     <div class="modal" id="passwordModal">
         <div class="modal-content">
             <h3>የአድሚን የለፍ ቃል ያስገቡ</h3>
             <input type="password" id="adminPasswordInput" placeholder="የለፍ ቃል (Password)">
             <button onclick="verifyPassword()">ግባ</button>
             <button onclick="closeModal()" style="margin-top:8px; background-color:#777;">ሰርዝ</button>
+        </div>
+    </div>
+
+    <!-- የሙሉ ዜና ማሳያ ፖፕ-አፕ (Read More Detail Modal) -->
+    <div class="detail-modal" id="detailModal">
+        <div class="detail-content" id="detailModalContent">
+            <button class="close-detail-btn" onclick="closeDetailModal()">✖ ዝጋ</button>
+            <!-- መረጃው እዚህ በጃቫስክሪፕት ይጫናል -->
         </div>
     </div>
 
@@ -231,6 +251,7 @@
                 navAll: "ሁሉም", navNews: "ዜና", navTourism: "ቱሪዝም", navCulture: "ባህል",
                 navPhilosophy: "ፍልስፍና", navLiterature: "ፅነ-ፅሁፍ", navVideo: "የቪዲዮ ጋለሪ", navPhoto: "የፎቶ ጋለሪ",
                 sectionHeading: "ወቅታዊ መረጃዎች",
+                readMore: "ተጨማሪ ለማንበብ...",
                 footerAboutTitle: "ስለ መታሃራ ዲጂታል 2019",
                 footerAboutText: "መታሃራ ዲጂታል 2019 የከተማችንን ቱሪዝም፣ ባህል፣ ልማት እና ወቅታዊ መረጃዎች በሶስት ቋንቋዎች ለህብረተሰቡ የሚያደርስ መድረክ ነው።",
                 footerContactTitle: "አግኙን / Contact Us",
@@ -245,6 +266,7 @@
                 navAll: "Hunda", navNews: "Oduu", navTourism: "Tuuriizimii", navCulture: "Aadaa",
                 navPhilosophy: "Filoosofii", navLiterature: "Barruu", navVideo: "Gaalarii Viidiyoo", navPhoto: "Gaalarii Suuraa",
                 sectionHeading: "Odeeffannoo Yeroo Ammaa",
+                readMore: "Dabalataan Dubbisuuf...",
                 footerAboutTitle: "Waa'ee Mataaharaa Digital 2019",
                 footerAboutText: "Mataaharaa Digital 2019 wiirtuu odeeffannoo tuuriizimii, aadaa fi misiyoonsii magaalattii afaan sadiin dhiyeessuudha.",
                 footerContactTitle: "Nu Quunnamaa",
@@ -259,6 +281,7 @@
                 navAll: "All", navNews: "News", navTourism: "Tourism", navCulture: "Culture",
                 navPhilosophy: "Philosophy", navLiterature: "Literature", navVideo: "Video Gallery", navPhoto: "Photo Gallery",
                 sectionHeading: "Latest Updates",
+                readMore: "Read More...",
                 footerAboutTitle: "About Mataaharaa Digital 2019",
                 footerAboutText: "Mataaharaa Digital 2019 is a comprehensive platform sharing tourism, culture, development, and news in three languages.",
                 footerContactTitle: "Contact Us",
@@ -318,7 +341,7 @@
                 return;
             }
 
-            filtered.forEach(p => {
+            filtered.forEach((p, index) => {
                 let mediaHtml = '';
                 if(p.media) {
                     if(p.media.includes('youtube') || p.media.includes('youtu.be')) {
@@ -328,14 +351,55 @@
                         mediaHtml = `<img src="${p.media}" alt="Media">`;
                     }
                 }
+
+                // ጽሁፉን በአጭሩ (Excerpt) ለመቁረጥ (ለምሳሌ እስከ 120 ፊደላት)
+                let shortContent = p.content.length > 120 ? p.content.substring(0, 120) + "..." : p.content;
+
                 container.innerHTML += `
                     <div class="news-card">
-                        ${mediaHtml}
-                        <span class="cat">${p.category}</span>
-                        <h3>${p.title}</h3>
-                        <p>${p.content}</p>
+                        <div>
+                            ${mediaHtml}
+                            <span class="cat">${p.category}</span>
+                            <h3>${p.title}</h3>
+                            <p>${shortContent}</p>
+                        </div>
+                        <button class="read-more-btn" onclick="openDetailModal(${index})">${translations[currentLang].readMore}</button>
                     </div>`;
             });
+        }
+
+        // ሙሉውን ዜና ማሳያ ፖፕ-አፕ መክፈቻ
+        window.openDetailModal = (index) => {
+            const filtered = allPosts.filter(p => 
+                (currentCat === 'All' || p.category === currentCat) && 
+                (p.lang === currentLang)
+            );
+            const p = filtered[index];
+            if(!p) return;
+
+            let mediaHtml = '';
+            if(p.media) {
+                if(p.media.includes('youtube') || p.media.includes('youtu.be')) {
+                    let videoId = p.media.split('v=')[1] || p.media.split('/').pop();
+                    mediaHtml = `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+                } else {
+                    mediaHtml = `<img src="${p.media}" alt="Media">`;
+                }
+            }
+
+            const modalContent = document.getElementById("detailModalContent");
+            modalContent.innerHTML = `
+                <button class="close-detail-btn" onclick="closeDetailModal()">✖ ዝጋ</button>
+                ${mediaHtml}
+                <span class="cat" style="display:block; margin-bottom:5px;">${p.category}</span>
+                <h2>${p.title}</h2>
+                <p>${p.content}</p>
+            `;
+            document.getElementById("detailModal").classList.add("active");
+        }
+
+        window.closeDetailModal = () => {
+            document.getElementById("detailModal").classList.remove("active");
         }
 
         window.checkPassword = () => {
