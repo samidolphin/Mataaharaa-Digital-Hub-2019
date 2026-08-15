@@ -15,13 +15,18 @@
         .logo-text h1 { font-size: 1.2rem; color: #ff6600; font-weight: bold; }
         .logo-text p { font-size: 0.8rem; color: #666; }
 
-        nav { display: flex; align-items: center; gap: 15px; }
-        nav a { text-decoration: none; color: #333; font-weight: 600; font-size: 0.95rem; transition: color 0.3s; }
+        nav { display: flex; align-items: center; gap: 12px; }
+        nav a { text-decoration: none; color: #333; font-weight: 600; font-size: 0.9rem; transition: color 0.3s; }
         nav a:hover { color: #ff6600; }
 
         .search-icon { cursor: pointer; font-size: 1.1rem; }
-        .lang-switcher { display: flex; align-items: center; gap: 5px; background: #eee; padding: 5px 10px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-weight: bold; }
-        .admin-btn { background: #ff6600; color: white !important; padding: 8px 15px; border-radius: 4px; font-size: 0.9rem; }
+        
+        /* Language Buttons Side-by-Side */
+        .lang-container { display: flex; align-items: center; gap: 4px; background: #eee; padding: 4px; border-radius: 20px; }
+        .lang-btn { background: transparent; border: none; padding: 4px 8px; border-radius: 15px; cursor: pointer; font-size: 0.8rem; font-weight: bold; color: #555; }
+        .lang-btn.active { background: #ff6600; color: white; }
+
+        .admin-btn { background: #ff6600; color: white !important; padding: 6px 12px; border-radius: 4px; font-size: 0.85rem; cursor: pointer; border: none; }
 
         /* Hero Section */
         .hero { height: 70vh; background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1600') center/cover; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; text-align: center; padding: 0 20px; }
@@ -44,8 +49,9 @@
         .explore-card span { font-size: 2.5rem; display: block; margin-bottom: 10px; }
         .explore-card h3 { font-size: 1rem; color: #333; }
 
-        /* Admin / News Submission Section */
-        .admin-section { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 50px; }
+        /* Admin / News Submission Section (Hidden by default) */
+        .admin-section { display: none; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 50px; border: 2px dashed #ff6600; }
+        .admin-section.active { display: block; }
         .form-group { margin-bottom: 15px; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; }
         .form-group textarea { height: 120px; resize: vertical; }
@@ -86,10 +92,16 @@
             <a href="#" id="navDev">Development</a>
             <a href="#" id="navSports">Sports</a>
             <span class="search-icon" title="Search">🔍</span>
-            <div class="lang-switcher" onclick="changeLanguage()">
-                <span>🇪🇹</span> <span id="langLabel">AM</span>
+            
+            <!-- Language Buttons Side-by-Side (Am, Oro, Eng) -->
+            <div class="lang-container">
+                <button class="lang-btn active" id="btnAM" onclick="setLanguage('AM')">Am</button>
+                <button class="lang-btn" id="btnOR" onclick="setLanguage('OR')">Oro</button>
+                <button class="lang-btn" id="btnEN" onclick="setLanguage('EN')">Eng</button>
             </div>
-            <a href="#adminSection" class="admin-link" id="navAdmin">አድሚን</a>
+
+            <!-- Admin Toggle Button -->
+            <button class="admin-btn" id="navAdmin" onclick="toggleAdminPanel()">አድሚን</button>
         </nav>
     </header>
 
@@ -109,25 +121,17 @@
         <!-- EXPLORE MATAAHARAA -->
         <h2 class="section-title" id="exploreTitle">Explore Mataaharaa</h2>
         <div class="explore-grid">
-            <div class="explore-card"><span>🌊</span><h3>Lake Beseka</h3></div>
-            <div class="explore-card"><span>⛰️</span><h3>Mount Fentale</h3></div>
-            <div class="explore-card"><span>🌳</span><h3>Green Development</h3></div>
-            <div class="explore-card"><span>🍊</span><h3>Agriculture</h3></div>
-            <div class="explore-card"><span>🚂</span><h3>Ethio-Djibouti Railway</h3></div>
-            <div class="explore-card"><h3>🏙️</h3><h3>City Development</h3></div>
+            <div class="explore-card"><span>🌊</span><h3 id="exp1">Lake Beseka</h3></div>
+            <div class="explore-card"><span>⛰️</span><h3 id="exp2">Mount Fentale</h3></div>
+            <div class="explore-card"><span>🌳</span><h3 id="exp3">Green Development</h3></div>
+            <div class="explore-card"><span>🍊</span><h3 id="exp4">Agriculture</h3></div>
+            <div class="explore-card"><span>🚂</span><h3 id="exp5">Ethio-Djibouti Railway</h3></div>
+            <div class="explore-card"><span>🏙️</span><h3 id="exp6">City Development</h3></div>
         </div>
 
-        <!-- LIVE NEWS FEED FROM FIREBASE -->
-        <h2 class="section-title" id="latestNewsTitle">የከተማችን ወቅታዊ ዜናዎች</h2>
-        <div class="news-grid" id="newsContainer">
-            <!-- ዜናዎች ከ Firebase በቀጥታ እዚህ ይጫወታሉ -->
-        </div>
-
-        <br><br>
-
-        <!-- ADMIN SECTION: POST NEWS -->
+        <!-- ADMIN SECTION: POST NEWS (Hidden by default, opens on clicking Admin button) -->
         <div class="admin-section" id="adminSection">
-            <h2 class="section-title" style="border-color: #333;" id="adminTitle">አዲስ ዜና መጫኛ (አድሚን ፓነል)</h2>
+            <h2 class="section-title" style="border-color: #ff6600;" id="adminTitle">አዲስ ዜና መጫኛ (አድሚን ፓነል)</h2>
             <form id="newsForm">
                 <div class="form-group">
                     <input type="text" id="newsTitle" placeholder="የዜናው ርዕስ (Title)" required>
@@ -147,6 +151,12 @@
             </form>
         </div>
 
+        <!-- LIVE NEWS FEED FROM FIREBASE -->
+        <h2 class="section-title" id="latestNewsTitle">የከተማችን ወቅታዊ ዜናዎች</h2>
+        <div class="news-grid" id="newsContainer">
+            <!-- ዜናዎች ከ Firebase በቀጥታ እዚህ ይጫወታሉ -->
+        </div>
+
     </div>
 
     <!-- FOOTER -->
@@ -161,12 +171,23 @@
         </div>
     </footer>
 
-    <!-- JAVASCRIPT: LANGUAGE SWITCHER & FIREBASE BACKEND -->
+    <!-- JAVASCRIPT: ADMIN TOGGLE & FIREBASE BACKEND -->
+    <script>
+        // Admin Panel Toggle Function
+        function toggleAdminPanel() {
+            const adminSec = document.getElementById("adminSection");
+            adminSec.classList.toggle("active");
+            if(adminSec.classList.contains("active")) {
+                adminSec.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
+
+    <!-- FIREBASE & LANGUAGE SCRIPTS -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, query } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // የራስህ የ Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSy...", 
             authDomain: "mataaharaa-hub-2019.firebaseapp.com",
@@ -179,7 +200,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // ዜና መለጠፍ (Post News to Firebase)
+        // ዜና መለጠፍ
         const newsForm = document.getElementById("newsForm");
         newsForm.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -196,14 +217,15 @@
                 });
                 alert("ዜናው በተሳካ ሁኔታ ተለጥፏል! ለሁሉም ጎብኚዎች ይታያል።");
                 newsForm.reset();
-                loadNews(); // ዜናዎችን እንደገና መጫን
+                document.getElementById("adminSection").classList.remove("active");
+                loadNews();
             } catch (error) {
                 console.error("Error adding document: ", error);
                 alert("ማስገባት አልተቻለም፣ እባክዎ እንደገና ይሞክሩ።");
             }
         });
 
-        // ዜናዎችን ከ Firebase አምጥቶ ማሳየት (Fetch News)
+        // ዜናዎችን ማምጣት
         async function loadNews() {
             const newsContainer = document.getElementById("newsContainer");
             newsContainer.innerHTML = "<p>ዜናዎች በመጫን ላይ...</p>";
@@ -213,7 +235,7 @@
                 newsContainer.innerHTML = "";
                 
                 if(querySnapshot.empty) {
-                    newsContainer.innerHTML = "<p>እስካሁን የተለጠፈ ዜና የለም። ከታች ካለው አድሚን ፓነል ዜና ይለጥፉ!</p>";
+                    newsContainer.innerHTML = "<p>እስካሁን የተለጠፈ ዜና የለም። ከአድሚን ፓነል ዜና ይለጥፉ!</p>";
                     return;
                 }
 
@@ -234,15 +256,11 @@
             }
         }
 
-        // ገጹ ሲከፈት ዜናዎችን መጫን
         loadNews();
     </script>
 
-    <!-- LANGUAGE SWITCHER SCRIPT -->
+    <!-- MULTI-LANGUAGE SCRIPT (Am, Oro, Eng) -->
     <script>
-        let currentLangIndex = 0;
-        const languages = ['AM', 'OR', 'EN'];
-        
         const translations = {
             AM: {
                 brandTitle: "መታሃራ / Mataaharaa",
@@ -251,7 +269,8 @@
                 exploreTitle: "የማታሃራ መዳረሻዎች",
                 latestNewsTitle: "የከተማችን ወቅታዊ ዜናዎች",
                 adminTitle: "አዲስ ዜና መጫኛ (አድሚን ፓነል)",
-                publishBtn: "ዜናውን ለጥፍ (Publish)"
+                publishBtn: "ዜናውን ለጥፍ (Publish)",
+                exp1: "የበሰቃ ሐይቅ", exp2: "የፍንታሌ ተራራ", exp3: "አረንጓዴ ልማት", exp4: "ግብርና", exp5: "ኢትዮ-ጂቡቲ ባቡር", exp6: "የከተማ ልማት"
             },
             OR: {
                 brandTitle: "Mataaharaa / Matahaaraa",
@@ -260,7 +279,8 @@
                 exploreTitle: "Matahaaraa Daawwadhaa",
                 latestNewsTitle: "Oduu Haaraa Magaalaa Keenyaa",
                 adminTitle: "Oduu Haaraa Galchuu (Admin)",
-                publishBtn: "Oduu Maxxansi (Publish)"
+                publishBtn: "Oduu Maxxansi (Publish)",
+                exp1: "Haroo Besekaa", exp2: "Tulluu Fantaalee", exp3: "Misooma Magariisa", exp4: "Qonnaa", exp5: "Baabura Itoophiyaa-Jibuuti", exp6: "Misooma Magaalaa"
             },
             EN: {
                 brandTitle: "Mataaharaa Hub",
@@ -269,14 +289,15 @@
                 exploreTitle: "Explore Mataaharaa",
                 latestNewsTitle: "Latest City News",
                 adminTitle: "Post New News (Admin Panel)",
-                publishBtn: "Publish News"
+                publishBtn: "Publish News",
+                exp1: "Lake Beseka", exp2: "Mount Fentale", exp3: "Green Development", exp4: "Agriculture", exp5: "Ethio-Djibouti Railway", exp6: "City Development"
             }
         };
 
-        function changeLanguage() {
-            currentLangIndex = (currentLangIndex + 1) % languages.length;
-            const lang = languages[currentLangIndex];
-            document.getElementById("langLabel").innerText = lang;
+        function setLanguage(lang) {
+            // Update active button styling
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn' + lang).classList.add('active');
 
             const t = translations[lang];
             document.getElementById("brandTitle").innerText = t.brandTitle;
@@ -293,6 +314,13 @@
             document.getElementById("latestNewsTitle").innerText = t.latestNewsTitle;
             document.getElementById("adminTitle").innerText = t.adminTitle;
             document.getElementById("publishBtn").innerText = t.publishBtn;
+            
+            document.getElementById("exp1").innerText = t.exp1;
+            document.getElementById("exp2").innerText = t.exp2;
+            document.getElementById("exp3").innerText = t.exp3;
+            document.getElementById("exp4").innerText = t.exp4;
+            document.getElementById("exp5").innerText = t.exp5;
+            document.getElementById("exp6").innerText = t.exp6;
         }
     </script>
 </body>
