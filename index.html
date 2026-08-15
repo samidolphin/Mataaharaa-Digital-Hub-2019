@@ -13,15 +13,15 @@
         .logo-area img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
         .logo-text h1 { font-size: 1.1rem; color: #ff6600; font-weight: bold; }
 
-        /* የጀርባ ፎቶ ያለው ኃይለኛ የከፍል ከቨር (Hero Banner) */
+        /* የጀርባ ፎቶ ያለው ዋናው ኃይለኛ ከፍል ከቨር */
         .hero-banner { 
             background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200') no-repeat center center/cover; 
             color: white; 
-            padding: 60px 20px; 
+            padding: 50px 20px; 
             text-align: center; 
         }
-        .hero-banner h2 { font-size: 2rem; margin-bottom: 10px; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-        .hero-banner p { font-size: 1.1rem; opacity: 0.95; font-weight: 500; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
+        .hero-banner h2 { font-size: 1.8rem; margin-bottom: 8px; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        .hero-banner p { font-size: 1rem; opacity: 0.95; font-weight: 500; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
 
         /* ከቀኝ ወደ ግራ የሚንቀሳቀሰው የሚያምረው መስመር */
         .marquee-container { background: #ff6600; color: white; padding: 8px 0; font-size: 0.95rem; font-weight: bold; overflow: hidden; white-space: nowrap; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
@@ -85,10 +85,10 @@
         </nav>
     </header>
 
-    <!-- የጀርባ ፎቶ ያለው የከተማው ዋና መፈክር -->
+    <!-- የጀርባ ፎቶ ያለው የከተማው ዋና መፈክር (ቻይንኛ የሌለበት) -->
     <div class="hero-banner">
-        <h2>እንኳን ወደ መታሃራ デジタル ሀብ በደህና መጡ</h2>
-        <p>☀️ ፀሐይ የማይጠልቅባት ታሪካዊት ከተማ ☀️</p>
+        <h2 id="heroTitle">እንኳን ወደ መታሃራ ከተማ ዲጂታል መረጃ ማእከል በደህና መጡ</h2>
+        <p id="heroSubtitle">☀️ ፀሐይ የማይጠልቅባት ታሪካዊት ከተማ ☀️</p>
     </div>
 
     <!-- ከቀኝ ወደ ግራ የሚንቀሳቀሰው የሚያምረው ጽሑፍ -->
@@ -142,6 +142,12 @@
         let currentLang = 'AM';
         let allPosts = [];
 
+        const heroTexts = {
+            'AM': { title: 'እንኳን ወደ መታሃራ ከተማ ዲጂታል መረጃ ማእከል በደህና መጡ', subtitle: '☀️ ፀሐይ የማይጠልቅባት ታሪካዊት ከተማ ☀️' },
+            'OR': { title: 'Baga Nagaan Gara Maakiza Odeeffannoo Dijitaalaa Magaalaa Mataaharaa Dhuftan', subtitle: '☀️ Magaalaa Seena Qabeessa Ishee Aduun Hin Seenne ☀️' },
+            'EN': { title: 'Welcome to Mataaharaa City Digital Information Center', subtitle: '☀️ The Historical City Where the Sun Never Sets ☀️' }
+        };
+
         window.updateFilter = (type, val) => {
             if(type === 'cat') {
                 currentCat = val;
@@ -152,6 +158,10 @@
                 currentLang = val;
                 document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
                 document.getElementById('btn' + val).classList.add('active');
+                
+                // የቋንቋ ለውጥ ሲደረግ የከፍል ርዕሶችን መቀየር
+                document.getElementById('heroTitle').innerText = heroTexts[val].title;
+                document.getElementById('heroSubtitle').innerText = heroTexts[val].subtitle;
             }
             render();
         }
