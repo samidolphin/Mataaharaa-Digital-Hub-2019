@@ -13,7 +13,6 @@
         .logo-area img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
         .logo-text h1 { font-size: 1.15rem; color: #ff6600; font-weight: bold; }
 
-        /* የፊት ገፅ ሰፋ ያለና ውብ የክብደት ንድፍ */
         .hero-banner { 
             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200') no-repeat center center/cover; 
             color: white; 
@@ -36,7 +35,6 @@
 
         .admin-btn { background: #ff6600; color: white !important; padding: 6px 14px; border-radius: 4px; font-size: 0.78rem; cursor: pointer; border: none; font-weight: bold; }
         
-        /* ፖስወርድ መጠየቂያ ሞዳል */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center; }
         .modal.active { display: flex; }
         .modal-content { background: white; padding: 25px; border-radius: 8px; width: 320px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
@@ -60,14 +58,13 @@
         .news-card h3 { font-size: 1.15rem; margin: 8px 0; color: #222; }
         .news-card p { font-size: 0.9rem; color: #555; }
 
-        /* እግር (Footer) ከማህበራዊ ሚዲያ እና አድራሻዎች ጋር */
         footer { background: #222; color: #ccc; padding: 40px 5% 20px; margin-top: 50px; font-size: 0.88rem; }
         .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; max-width: 1300px; margin: 0 auto; padding-bottom: 25px; border-bottom: 1px solid #444; }
         .footer-col { flex: 1; min-width: 250px; }
         .footer-col h4 { color: #ff6600; margin-bottom: 12px; font-size: 1.05rem; }
         .footer-col p { margin-bottom: 8px; }
         .social-links { display: flex; gap: 12px; margin-top: 12px; }
-        .social-links a { display: inline-block; width: 32px; height: 32px; background: #ff6600; color: white; text-align: center; line-height: 32px; border-radius: 50%; text-decoration: none; font-weight: bold; transition: background 0.3s; }
+        .social-links a { display: inline-block; padding: 6px 12px; background: #ff6600; color: white; text-align: center; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 0.8rem; transition: background 0.3s; }
         .social-links a:hover { background: #e05b00; }
         .footer-bottom { text-align: center; padding-top: 20px; font-size: 0.8rem; color: #888; }
     </style>
@@ -105,30 +102,27 @@
         </nav>
     </header>
 
-    <!-- የአድሚን የለፍ ቃል መጠየቂያ ሞዳል -->
     <div class="modal" id="passwordModal">
         <div class="modal-content">
             <h3>የአድሚን የለፍ ቃል ያስገቡ</h3>
             <input type="password" id="adminPasswordInput" placeholder="የለፍ ቃል (Password)">
             <button onclick="verifyPassword()">ግባ</button>
-            <button onclick="closeModal()" style="background:#88n; margin-top:8px; background-color:#777;">ሰርዝ</button>
+            <button onclick="closeModal()" style="margin-top:8px; background-color:#777;">ሰርዝ</button>
         </div>
     </div>
 
-    <!-- የፊት ገፅ ሰፋ ያለና ውብ የክብደት ንድፍ -->
     <div class="hero-banner">
         <h2 id="heroTitle">እንኳን ወደ መታሃራ ከተማ ዲጂታል መረጃ ማእከል በደህና መጡ</h2>
         <p id="heroSub">☀️ ፀሐይ የማይጠልቅባት ታሪካዊት ከተማ ☀️</p>
     </div>
 
-    <!-- ከቀኝ ወደ ግራ የሚንቀሳቀሰው የሚያምረው ጽሑፍ -->
     <div class="marquee-container">
-        <marquee behavior="scroll" direction="left" id="marqueeText">🔥 እንኳን ወደ መታሃራ ዲጂታል ሀብ 2.0 በሰላም መጡ! ወቅታዊ የከተማችን መረጃዎች እና በስርጭት ላይ ያሉ ዜናዎችን እዚህ ማግኘት ይችላሉ። 🔥</marquee>
+        <marquee behavior="scroll" direction="left" id="marqueeText">🔥 እንኳን ወደ መታሃራ ዲጂታል 2019 በሰላም መጡ! ወቅታዊ የከተማችን መረጃዎች እና በስርጭት ላይ ያሉ ዜናዎችን እዚህ ማግኘት ይችላሉ። 🔥</marquee>
     </div>
 
     <div class="main-container">
         <div class="admin-section" id="adminSection">
-            <h2>መረጃ መጫኛ (Admin Panel) - ለሶስቱም ቋንቋዎች በድጋሚ</h2>
+            <h2>መረጃ መጫኛ (Admin Panel) - ለሶስቱም ቋንቋዎች</h2>
             <form id="newsForm">
                 <div class="form-group">
                     <select id="newsCategory">
@@ -148,17 +142,14 @@
 
                 <hr style="margin: 15px 0; border: 0; border-top: 1px solid #ddd;">
 
-                <!-- አማርኛ -->
                 <h4>አማርኛ (Amharic)</h4>
                 <div class="form-group"><input type="text" id="titleAM" placeholder="የአማርኛ ርዕስ"></div>
                 <div class="form-group"><textarea id="contentAM" placeholder="የአማርኛ ይዘት"></textarea></div>
 
-                <!-- ኦሮምኛ -->
                 <h4>ኦሮምኛ (Afaan Oromoo)</h4>
                 <div class="form-group"><input type="text" id="titleOR" placeholder="Mata Duree (Oro)"></div>
                 <div class="form-group"><textarea id="contentOR" placeholder="Qabiyyee (Oro)"></textarea></div>
 
-                <!-- እንግሊዝኛ -->
                 <h4>እንግሊዝኛ (English)</h4>
                 <div class="form-group"><input type="text" id="titleEN" placeholder="English Title"></div>
                 <div class="form-group"><textarea id="contentEN" placeholder="English Content"></textarea></div>
@@ -171,12 +162,11 @@
         <div class="news-grid" id="newsContainer"></div>
     </div>
 
-    <!-- እግር (Footer) ከማህበራዊ ሚዲያ እና አድራሻዎች ጋር -->
     <footer>
         <div class="footer-content">
             <div class="footer-col">
-                <h4 id="footerAboutTitle">ስለ መታሃራ ዲጂታል ሀብ</h4>
-                <p id="footerAboutText">መታሃራ ዲጂታል ሀብ የከተማችንን ቱሪዝም፣ ባህል፣ ልማት እና ወቅታዊ መረጃዎች በሶስት ቋንቋዎች ለህብረተሰቡ የሚያደርስ መድረክ ነው።</p>
+                <h4 id="footerAboutTitle">ስለ መታሃራ ዲጂታል 2019</h4>
+                <p id="footerAboutText">መታሃራ ዲጂታል 2019 የከተማችንን ቱሪዝም፣ ባህል፣ ልማት እና ወቅታዊ መረጃዎች በሶስት ቋንቋዎች ለህብረተሰቡ የሚያደርስ መድረክ ነው።</p>
             </div>
             <div class="footer-col">
                 <h4 id="footerContactTitle">አግኙን / Contact Us</h4>
@@ -188,10 +178,10 @@
                 <h4 id="footerSocialTitle">ማህበራዊ ሚዲያዎቻችን</h4>
                 <p id="footerSocialText">ከታች ባሉት ማህበራዊ አገናኞች ይከተሉን፡</p>
                 <div class="social-links">
-                    <a href="#" target="_blank">F</a>
-                    <a href="#" target="_blank">T</a>
-                    <a href="#" target="_blank">Y</a>
-                    <a href="#" target="_blank">I</a>
+                    <a href="https://www.facebook.com/samson.tesfaye2" target="_blank">Facebook</a>
+                    <a href="https://t.me/Ayyotube_bot" target="_blank">Telegram Bot</a>
+                    <a href="https://youtube.com/@samsontesfaye2670?si=fPw92gh3Qg9_y1hB" target="_blank">YouTube</a>
+                    <a href="https://samidolphin.github.io/Mataaharaa-Digital-Hub-2019/" target="_blank">Instagram</a>
                 </div>
             </div>
         </div>
@@ -223,12 +213,12 @@
             'AM': {
                 heroTitle: "እንኳን ወደ መታሃራ ከተማ ዲጂታል መረጃ ማእከል በደህና መጡ",
                 heroSub: "☀️ ፀሐይ የማይጠልቅባት ታሪካዊት ከተማ ☀️",
-                marquee: "🔥 እንኳን ወደ መታሃራ ዲጂታል ሀብ 2.0 በሰላም መጡ! ወቅታዊ የከተማችን መረጃዎች እና በስርጭት ላይ ያሉ ዜናዎችን እዚህ ማግኘት ይችላሉ። 🔥",
+                marquee: "🔥 እንኳን ወደ መታሃራ ዲጂታል 2019 በሰላም መጡ! ወቅታዊ የከተማችን መረጃዎች እና በስርጭት ላይ ያሉ ዜናዎችን እዚህ ማግኘት ይችላሉ። 🔥",
                 navAll: "ሁሉም", navNews: "ዜና", navTourism: "ቱሪዝም", navCulture: "ባህል",
                 navPhilosophy: "ፍልስፍና", navLiterature: "ፅነ-ፅሁፍ", navVideo: "የቪዲዮ ጋለሪ", navPhoto: "የፎቶ ጋለሪ",
                 sectionHeading: "ወቅታዊ መረጃዎች",
-                footerAboutTitle: "ስለ መታሃራ ዲጂታል ሀብ",
-                footerAboutText: "መታሃራ ዲጂታል ሀብ የከተማችንን ቱሪዝም፣ ባህል፣ ልማት እና ወቅታዊ መረጃዎች በሶስት ቋንቋዎች ለህብረተሰቡ የሚያደርስ መድረክ ነው።",
+                footerAboutTitle: "ስለ መታሃራ ዲጂታል 2019",
+                footerAboutText: "መታሃራ ዲጂታል 2019 የከተማችንን ቱሪዝም፣ ባህል፣ ልማት እና ወቅታዊ መረጃዎች በሶስት ቋንቋዎች ለህብረተሰቡ የሚያደርስ መድረክ ነው።",
                 footerContactTitle: "አግኙን / Contact Us",
                 footerSocialTitle: "ማህበራዊ ሚዲያዎቻችን",
                 footerSocialText: "ከታች ባሉት ማህበራዊ አገናኞች ይከተሉን፡",
@@ -237,12 +227,12 @@
             'OR': {
                 heroTitle: "Baga Nagaan Gara Wiirtuu Odeeffannoo Dijitaalaa Magaala Mataaharaa Dhuftan",
                 heroSub: "☀️ Magaalaa Seena Qabeessa Ishee Adduun Hin Balleessine ☀️",
-                marquee: "🔥 Baga Nagaan Gara Mataaharaa Digital Hub 2.0 dhuftan! Odeeffannoowwan yeroo fi oduulee magaalattii as irratti argachuu dandeessu. 🔥",
+                marquee: "🔥 Baga Nagaan Gara Mataaharaa Digital 2019 dhuftan! Odeeffannoowwan yeroo fi oduulee magaalattii as irratti argachuu dandeessu. 🔥",
                 navAll: "Hunda", navNews: "Oduu", navTourism: "Tuuriizimii", navCulture: "Aadaa",
                 navPhilosophy: "Filoosofii", navLiterature: "Barruu", navVideo: "Gaalarii Viidiyoo", navPhoto: "Gaalarii Suuraa",
                 sectionHeading: "Odeeffannoo Yeroo Ammaa",
-                footerAboutTitle: "Waa'ee Mataaharaa Digital Hub",
-                footerAboutText: "Mataaharaa Digital Hub wiirtuu odeeffannoo tuuriizimii, aadaa fi misiyoonsii magaalattii afaan sadiin dhiyeessuudha.",
+                footerAboutTitle: "Waa'ee Mataaharaa Digital 2019",
+                footerAboutText: "Mataaharaa Digital 2019 wiirtuu odeeffannoo tuuriizimii, aadaa fi misiyoonsii magaalattii afaan sadiin dhiyeessuudha.",
                 footerContactTitle: "Nu Quunnamaa",
                 footerSocialTitle: "Midiyaa Hawaasaa Keenya",
                 footerSocialText: "Marsariitilee hawaasaa keenyaan nu hordofaa:",
@@ -251,12 +241,12 @@
             'EN': {
                 heroTitle: "Welcome to Mataaharaa City Digital Information Center",
                 heroSub: "☀️ The Historic City Where the Sun Never Sets ☀️",
-                marquee: "🔥 Welcome to Mataaharaa Digital Hub 2.0! Find the latest city updates, news, and insights right here. 🔥",
+                marquee: "🔥 Welcome to Mataaharaa Digital 2019! Find the latest city updates, news, and insights right here. 🔥",
                 navAll: "All", navNews: "News", navTourism: "Tourism", navCulture: "Culture",
                 navPhilosophy: "Philosophy", navLiterature: "Literature", navVideo: "Video Gallery", navPhoto: "Photo Gallery",
                 sectionHeading: "Latest Updates",
-                footerAboutTitle: "About Mataaharaa Digital Hub",
-                footerAboutText: "Mataaharaa Digital Hub is a comprehensive platform sharing tourism, culture, development, and news in three languages.",
+                footerAboutTitle: "About Mataaharaa Digital 2019",
+                footerAboutText: "Mataaharaa Digital 2019 is a comprehensive platform sharing tourism, culture, development, and news in three languages.",
                 footerContactTitle: "Contact Us",
                 footerSocialTitle: "Our Social Media",
                 footerSocialText: "Follow us on our social channels:",
@@ -334,7 +324,6 @@
             });
         }
 
-        // አድሚን ፓስወርድ ማረጋገጫ (sami2all@8080)
         window.checkPassword = () => {
             document.getElementById("passwordModal").classList.add("active");
         }
@@ -353,7 +342,6 @@
             }
         }
 
-        // መረጃዎችን በሶስቱም ቋንቋዎች በአንድ ጊዜ መጫን
         document.getElementById("newsForm").addEventListener("submit", async (e) => {
             e.preventDefault();
             const category = document.getElementById("newsCategory").value;
