@@ -6,49 +6,70 @@
     <title>Mataaharaa Digital Hub 2019</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #f4f7f6; color: #333; line-height: 1.6; }
+        body { background-color: #f4f7f6; color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
 
         header { display: flex; justify-content: space-between; align-items: center; padding: 12px 4%; background: #ffffff; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); flex-wrap: wrap; gap: 10px; }
         .logo-area { display: flex; align-items: center; gap: 10px; }
-        .logo-area img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
-        .logo-text h1 { font-size: 1.1rem; color: #ff6600; font-weight: bold; }
+        .logo-area img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
+        .logo-text h1 { font-size: 1.15rem; color: #ff6600; font-weight: bold; }
 
-        /* የጀርባ ፎቶ ያለው የከተማው ዋና መፈክር */
+        /* የፊት ገፅ ሰፋ ያለና ውብ የክብደት ንድፍ */
         .hero-banner { 
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200') no-repeat center center/cover; 
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200') no-repeat center center/cover; 
             color: white; 
-            padding: 50px 20px; 
+            padding: 70px 20px; 
             text-align: center; 
         }
-        .hero-banner h2 { font-size: 1.8rem; margin-bottom: 8px; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-        .hero-banner p { font-size: 1rem; opacity: 0.95; font-weight: 500; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
+        .hero-banner h2 { font-size: 2.1rem; margin-bottom: 12px; font-weight: bold; text-shadow: 2px 2px 5px rgba(0,0,0,0.6); }
+        .hero-banner p { font-size: 1.15rem; opacity: 0.95; font-weight: 500; text-shadow: 1px 1px 3px rgba(0,0,0,0.6); }
 
-        /* ከቀኝ ወደ ግራ የሚንቀሳቀሰው የሚያምረው ጽሑፍ */
-        .marquee-container { background: #ff6600; color: white; padding: 8px 0; font-size: 0.95rem; font-weight: bold; overflow: hidden; white-space: nowrap; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .marquee-container { background: #ff6600; color: white; padding: 9px 0; font-size: 0.95rem; font-weight: bold; overflow: hidden; white-space: nowrap; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .marquee-container marquee { width: 100%; }
 
         nav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-        nav a { text-decoration: none; color: #333; font-weight: 600; font-size: 0.75rem; transition: color 0.3s; padding: 4px 6px; border-radius: 4px; cursor: pointer; }
+        nav a { text-decoration: none; color: #333; font-weight: 600; font-size: 0.78rem; transition: color 0.3s; padding: 5px 8px; border-radius: 4px; cursor: pointer; }
         nav a:hover, nav a.active { color: #ff6600; background: #fff3ed; }
         
-        /* የቋንቋ መምረጫ ከባንዲራዎች ጋር */
         .lang-container { display: flex; align-items: center; gap: 3px; background: #eee; padding: 3px; border-radius: 20px; }
         .lang-btn { background: transparent; border: none; padding: 3px 8px; border-radius: 15px; cursor: pointer; font-size: 0.75rem; font-weight: bold; color: #555; display: inline-flex; align-items: center; }
         .lang-btn.active { background: #ff6600; color: white; }
 
-        .admin-btn { background: #ff6600; color: white !important; padding: 5px 12px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; border: none; font-weight: bold; }
+        .admin-btn { background: #ff6600; color: white !important; padding: 6px 14px; border-radius: 4px; font-size: 0.78rem; cursor: pointer; border: none; font-weight: bold; }
         
+        /* ፖስወርድ መጠየቂያ ሞዳል */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; padding: 25px; border-radius: 8px; width: 320px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .modal-content input { width: 100%; padding: 10px; margin: 15px 0; border: 1px solid #ccc; border-radius: 4px; }
+        .modal-content button { background: #ff6600; color: white; border: none; padding: 9px 15px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; }
+
+        .main-container { flex: 1; padding: 30px 5%; max-width: 1300px; margin: 0 auto; width: 100%; }
+
         .admin-section { display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 40px; border: 2px dashed #ff6600; }
         .admin-section.active { display: block; }
-        .form-group { margin-bottom: 15px; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 0.95rem; }
-        .form-group textarea { height: 120px; resize: vertical; }
-        .submit-btn { background: #ff6600; color: white; border: none; padding: 10px 20px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; }
+        .form-group { margin-bottom: 14px; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 0.92rem; }
+        .form-group textarea { height: 95px; resize: vertical; }
+        .submit-btn { background: #ff6600; color: white; border: none; padding: 11px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; }
 
-        .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .news-card { background: white; border-radius: 8px; padding: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .news-card img { width: 100%; height: 180px; object-fit: cover; border-radius: 6px; }
-        .cat { color: #ff6600; font-size: 0.7rem; font-weight: bold; }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 20px; }
+        .news-card { background: white; border-radius: 8px; padding: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.06); transition: transform 0.3s; }
+        .news-card:hover { transform: translateY(-3px); }
+        .news-card img, .news-card iframe { width: 100%; height: 190px; object-fit: cover; border-radius: 6px; margin-bottom: 12px; }
+        .cat { color: #ff6600; font-size: 0.72rem; font-weight: bold; text-transform: uppercase; }
+        .news-card h3 { font-size: 1.15rem; margin: 8px 0; color: #222; }
+        .news-card p { font-size: 0.9rem; color: #555; }
+
+        /* እግር (Footer) ከማህበራዊ ሚዲያ እና አድራሻዎች ጋር */
+        footer { background: #222; color: #ccc; padding: 40px 5% 20px; margin-top: 50px; font-size: 0.88rem; }
+        .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; max-width: 1300px; margin: 0 auto; padding-bottom: 25px; border-bottom: 1px solid #444; }
+        .footer-col { flex: 1; min-width: 250px; }
+        .footer-col h4 { color: #ff6600; margin-bottom: 12px; font-size: 1.05rem; }
+        .footer-col p { margin-bottom: 8px; }
+        .social-links { display: flex; gap: 12px; margin-top: 12px; }
+        .social-links a { display: inline-block; width: 32px; height: 32px; background: #ff6600; color: white; text-align: center; line-height: 32px; border-radius: 50%; text-decoration: none; font-weight: bold; transition: background 0.3s; }
+        .social-links a:hover { background: #e05b00; }
+        .footer-bottom { text-align: center; padding-top: 20px; font-size: 0.8rem; color: #888; }
     </style>
 </head>
 <body>
@@ -70,7 +91,6 @@
             <a onclick="updateFilter('cat', 'Video')" id="navVideo">የቪዲዮ ጋለሪ</a>
             <a onclick="updateFilter('cat', 'Photo')" id="navPhoto">የፎቶ ጋለሪ</a>
             
-            <!-- የቋንቋ መምረጫ ከባንዲራዎች ጋር -->
             <div class="lang-container">
                 <button class="lang-btn active" id="btnAM" onclick="updateLanguage('AM')">
                     <img src="https://flagcdn.com/w20/et.png" alt="ET" style="width:14px; vertical-align:middle; margin-right:2px;"> Am
@@ -81,11 +101,21 @@
                 </button>
             </div>
 
-            <button class="admin-btn" onclick="toggleAdminPanel()">አድሚን</button>
+            <button class="admin-btn" onclick="checkPassword()">አድሚን</button>
         </nav>
     </header>
 
-    <!-- የጀርባ ፎቶ ያለው የከተማው ዋና መፈክር (በንጹህ አማርኛ የተስተካከለ) -->
+    <!-- የአድሚን የለፍ ቃል መጠየቂያ ሞዳል -->
+    <div class="modal" id="passwordModal">
+        <div class="modal-content">
+            <h3>የአድሚን የለፍ ቃል ያስገቡ</h3>
+            <input type="password" id="adminPasswordInput" placeholder="የለፍ ቃል (Password)">
+            <button onclick="verifyPassword()">ግባ</button>
+            <button onclick="closeModal()" style="background:#88n; margin-top:8px; background-color:#777;">ሰርዝ</button>
+        </div>
+    </div>
+
+    <!-- የፊት ገፅ ሰፋ ያለና ውብ የክብደት ንድፍ -->
     <div class="hero-banner">
         <h2 id="heroTitle">እንኳን ወደ መታሃራ ከተማ ዲጂታል መረጃ ማእከል በደህና መጡ</h2>
         <p id="heroSub">☀️ ፀሐይ የማይጠልቅባት ታሪካዊት ከተማ ☀️</p>
@@ -96,32 +126,79 @@
         <marquee behavior="scroll" direction="left" id="marqueeText">🔥 እንኳን ወደ መታሃራ ዲጂታል ሀብ 2.0 በሰላም መጡ! ወቅታዊ የከተማችን መረጃዎች እና በስርጭት ላይ ያሉ ዜናዎችን እዚህ ማግኘት ይችላሉ። 🔥</marquee>
     </div>
 
-    <div class="container" style="padding: 20px;">
+    <div class="main-container">
         <div class="admin-section" id="adminSection">
-            <h2>መረጃ መጫኛ (Admin Panel)</h2>
+            <h2>መረጃ መጫኛ (Admin Panel) - ለሶስቱም ቋንቋዎች በድጋሚ</h2>
             <form id="newsForm">
-                <input type="text" id="newsTitle" placeholder="ርዕስ" required style="margin-bottom:10px; width:100%; padding:8px;">
-                <select id="newsCategory" style="margin-bottom:10px; width:100%; padding:8px;">
-                    <option value="News">ዜና</option>
-                    <option value="Tourism">ቱሪዝም</option>
-                    <option value="Culture">ባህል</option>
-                    <option value="Philosophy">ፍልስፍና</option>
-                    <option value="Literature">ፅነ-ፅሁፍ</option>
-                    <option value="Video">የቪዲዮ ጋለሪ</option>
-                    <option value="Photo">የፎቶ ጋለሪ</option>
-                </select>
-                <select id="newsLang" style="margin-bottom:10px; width:100%; padding:8px;">
-                    <option value="AM">አማርኛ (Am)</option>
-                    <option value="OR">ኦሮምኛ (Oro)</option>
-                    <option value="EN">እንግሊዝኛ (Eng)</option>
-                </select>
-                <textarea id="newsContent" placeholder="ይዘት" required style="margin-bottom:10px; width:100%; padding:8px;"></textarea>
-                <button type="submit" class="submit-btn">ለጥፍ</button>
+                <div class="form-group">
+                    <select id="newsCategory">
+                        <option value="News">ዜና (News)</option>
+                        <option value="Tourism">ቱሪዝም (Tourism)</option>
+                        <option value="Culture">ባህል (Culture)</option>
+                        <option value="Philosophy">ፍልስፍና (Philosophy)</option>
+                        <option value="Literature">ፅነ-ፅሁፍ (Literature)</option>
+                        <option value="Video">የቪዲዮ ጋለሪ (Video)</option>
+                        <option value="Photo">የፎቶ ጋለሪ (Photo)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <input type="text" id="mediaUrl" placeholder="የፎቶ ወይም የዩቲዩብ ቪዲዮ ሊንክ (Image/Video URL) ያስገቡ">
+                </div>
+
+                <hr style="margin: 15px 0; border: 0; border-top: 1px solid #ddd;">
+
+                <!-- አማርኛ -->
+                <h4>አማርኛ (Amharic)</h4>
+                <div class="form-group"><input type="text" id="titleAM" placeholder="የአማርኛ ርዕስ"></div>
+                <div class="form-group"><textarea id="contentAM" placeholder="የአማርኛ ይዘት"></textarea></div>
+
+                <!-- ኦሮምኛ -->
+                <h4>ኦሮምኛ (Afaan Oromoo)</h4>
+                <div class="form-group"><input type="text" id="titleOR" placeholder="Mata Duree (Oro)"></div>
+                <div class="form-group"><textarea id="contentOR" placeholder="Qabiyyee (Oro)"></textarea></div>
+
+                <!-- እንግሊዝኛ -->
+                <h4>እንግሊዝኛ (English)</h4>
+                <div class="form-group"><input type="text" id="titleEN" placeholder="English Title"></div>
+                <div class="form-group"><textarea id="contentEN" placeholder="English Content"></textarea></div>
+
+                <button type="submit" class="submit-btn">በሶስቱም ቋንቋዎች ለጥፍ</button>
             </form>
         </div>
 
+        <h3 id="sectionHeading" style="margin-bottom: 15px; color: #333; border-bottom: 2px solid #ff6600; display: inline-block; padding-bottom: 5px;">ወቅታዊ መረጃዎች</h3>
         <div class="news-grid" id="newsContainer"></div>
     </div>
+
+    <!-- እግር (Footer) ከማህበራዊ ሚዲያ እና አድራሻዎች ጋር -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4 id="footerAboutTitle">ስለ መታሃራ ዲጂታል ሀብ</h4>
+                <p id="footerAboutText">መታሃራ ዲጂታል ሀብ የከተማችንን ቱሪዝም፣ ባህል፣ ልማት እና ወቅታዊ መረጃዎች በሶስት ቋንቋዎች ለህብረተሰቡ የሚያደርስ መድረክ ነው።</p>
+            </div>
+            <div class="footer-col">
+                <h4 id="footerContactTitle">አግኙን / Contact Us</h4>
+                <p>📍 Mataaharaa, Oromia, Ethiopia</p>
+                <p>📧 info@mataaharaa.gov.et</p>
+                <p>📞 +251 900 000 000</p>
+            </div>
+            <div class="footer-col">
+                <h4 id="footerSocialTitle">ማህበራዊ ሚዲያዎቻችን</h4>
+                <p id="footerSocialText">ከታች ባሉት ማህበራዊ አገናኞች ይከተሉን፡</p>
+                <div class="social-links">
+                    <a href="#" target="_blank">F</a>
+                    <a href="#" target="_blank">T</a>
+                    <a href="#" target="_blank">Y</a>
+                    <a href="#" target="_blank">I</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2019 Mataaharaa Digital Hub. All Rights Reserved. Designed by Sami Online Advert & Promotion.</p>
+        </div>
+    </footer>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -149,6 +226,12 @@
                 marquee: "🔥 እንኳን ወደ መታሃራ ዲጂታል ሀብ 2.0 በሰላም መጡ! ወቅታዊ የከተማችን መረጃዎች እና በስርጭት ላይ ያሉ ዜናዎችን እዚህ ማግኘት ይችላሉ። 🔥",
                 navAll: "ሁሉም", navNews: "ዜና", navTourism: "ቱሪዝም", navCulture: "ባህል",
                 navPhilosophy: "ፍልስፍና", navLiterature: "ፅነ-ፅሁፍ", navVideo: "የቪዲዮ ጋለሪ", navPhoto: "የፎቶ ጋለሪ",
+                sectionHeading: "ወቅታዊ መረጃዎች",
+                footerAboutTitle: "ስለ መታሃራ ዲጂታል ሀብ",
+                footerAboutText: "መታሃራ ዲጂታል ሀብ የከተማችንን ቱሪዝም፣ ባህል፣ ልማት እና ወቅታዊ መረጃዎች በሶስት ቋንቋዎች ለህብረተሰቡ የሚያደርስ መድረክ ነው።",
+                footerContactTitle: "አግኙን / Contact Us",
+                footerSocialTitle: "ማህበራዊ ሚዲያዎቻችን",
+                footerSocialText: "ከታች ባሉት ማህበራዊ አገናኞች ይከተሉን፡",
                 noData: "በዚህ ቋንቋ ወይም ምድብ የተለጠፈ መረጃ የለም።"
             },
             'OR': {
@@ -157,6 +240,12 @@
                 marquee: "🔥 Baga Nagaan Gara Mataaharaa Digital Hub 2.0 dhuftan! Odeeffannoowwan yeroo fi oduulee magaalattii as irratti argachuu dandeessu. 🔥",
                 navAll: "Hunda", navNews: "Oduu", navTourism: "Tuuriizimii", navCulture: "Aadaa",
                 navPhilosophy: "Filoosofii", navLiterature: "Barruu", navVideo: "Gaalarii Viidiyoo", navPhoto: "Gaalarii Suuraa",
+                sectionHeading: "Odeeffannoo Yeroo Ammaa",
+                footerAboutTitle: "Waa'ee Mataaharaa Digital Hub",
+                footerAboutText: "Mataaharaa Digital Hub wiirtuu odeeffannoo tuuriizimii, aadaa fi misiyoonsii magaalattii afaan sadiin dhiyeessuudha.",
+                footerContactTitle: "Nu Quunnamaa",
+                footerSocialTitle: "Midiyaa Hawaasaa Keenya",
+                footerSocialText: "Marsariitilee hawaasaa keenyaan nu hordofaa:",
                 noData: "Odeeffannoon afaan kana ykn ramaddii kanaan hin jiru."
             },
             'EN': {
@@ -165,6 +254,12 @@
                 marquee: "🔥 Welcome to Mataaharaa Digital Hub 2.0! Find the latest city updates, news, and insights right here. 🔥",
                 navAll: "All", navNews: "News", navTourism: "Tourism", navCulture: "Culture",
                 navPhilosophy: "Philosophy", navLiterature: "Literature", navVideo: "Video Gallery", navPhoto: "Photo Gallery",
+                sectionHeading: "Latest Updates",
+                footerAboutTitle: "About Mataaharaa Digital Hub",
+                footerAboutText: "Mataaharaa Digital Hub is a comprehensive platform sharing tourism, culture, development, and news in three languages.",
+                footerContactTitle: "Contact Us",
+                footerSocialTitle: "Our Social Media",
+                footerSocialText: "Follow us on our social channels:",
                 noData: "No posts available in this language or category."
             }
         };
@@ -183,7 +278,6 @@
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('btn' + lang).classList.add('active');
             
-            // የጽሑፎችን  भाषा መቀየር
             document.getElementById('heroTitle').innerText = translations[lang].heroTitle;
             document.getElementById('heroSub').innerText = translations[lang].heroSub;
             document.getElementById('marqueeText').innerText = translations[lang].marquee;
@@ -197,6 +291,13 @@
             document.getElementById('navVideo').innerText = translations[lang].navVideo;
             document.getElementById('navPhoto').innerText = translations[lang].navPhoto;
 
+            document.getElementById('sectionHeading').innerText = translations[lang].sectionHeading;
+            document.getElementById('footerAboutTitle').innerText = translations[lang].footerAboutTitle;
+            document.getElementById('footerAboutText').innerText = translations[lang].footerAboutText;
+            document.getElementById('footerContactTitle').innerText = translations[lang].footerContactTitle;
+            document.getElementById('footerSocialTitle').innerText = translations[lang].footerSocialTitle;
+            document.getElementById('footerSocialText').innerText = translations[lang].footerSocialText;
+
             render();
         }
 
@@ -209,29 +310,81 @@
             );
 
             if(filtered.length === 0) {
-                container.innerHTML = `<p style="text-align:center; color:#666; padding:20px;">${translations[currentLang].noData}</p>`;
+                container.innerHTML = `<p style="text-align:center; color:#666; padding:30px; grid-column: 1/-1;">${translations[currentLang].noData}</p>`;
                 return;
             }
 
             filtered.forEach(p => {
-                container.innerHTML += `<div class="news-card"><span class="cat">${p.category}</span><h3>${p.title}</h3><p>${p.content}</p></div>`;
+                let mediaHtml = '';
+                if(p.media) {
+                    if(p.media.includes('youtube') || p.media.includes('youtu.be')) {
+                        let videoId = p.media.split('v=')[1] || p.media.split('/').pop();
+                        mediaHtml = `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+                    } else {
+                        mediaHtml = `<img src="${p.media}" alt="Media">`;
+                    }
+                }
+                container.innerHTML += `
+                    <div class="news-card">
+                        ${mediaHtml}
+                        <span class="cat">${p.category}</span>
+                        <h3>${p.title}</h3>
+                        <p>${p.content}</p>
+                    </div>`;
             });
         }
 
+        // አድሚን ፓስወርድ ማረጋገጫ (sami2all@8080)
+        window.checkPassword = () => {
+            document.getElementById("passwordModal").classList.add("active");
+        }
+        window.closeModal = () => {
+            document.getElementById("passwordModal").classList.remove("active");
+            document.getElementById("adminPasswordInput").value = "";
+        }
+        window.verifyPassword = () => {
+            const pass = document.getElementById("adminPasswordInput").value;
+            if(pass === "sami2all@8080") { 
+                document.getElementById("passwordModal").classList.remove("active");
+                document.getElementById("adminSection").classList.toggle("active");
+                document.getElementById("adminPasswordInput").value = "";
+            } else {
+                alert("የገባው የለፍ ቃል ስህተት ነው!");
+            }
+        }
+
+        // መረጃዎችን በሶስቱም ቋንቋዎች በአንድ ጊዜ መጫን
         document.getElementById("newsForm").addEventListener("submit", async (e) => {
             e.preventDefault();
-            await addDoc(collection(db, "news"), {
-                title: document.getElementById("newsTitle").value,
-                category: document.getElementById("newsCategory").value,
-                lang: document.getElementById("newsLang").value,
-                content: document.getElementById("newsContent").value
-            });
-            alert("መረጃው በተሳካ ሁኔታ ተለጠፈ!");
-            document.getElementById("newsForm").reset();
-            loadData();
-        });
+            const category = document.getElementById("newsCategory").value;
+            const media = document.getElementById("mediaUrl").value;
 
-        window.toggleAdminPanel = () => document.getElementById("adminSection").classList.toggle("active");
+            const posts = [
+                { lang: 'AM', title: document.getElementById("titleAM").value, content: document.getElementById("contentAM").value },
+                { lang: 'OR', title: document.getElementById("titleOR").value, content: document.getElementById("contentOR").value },
+                { lang: 'EN', title: document.getElementById("titleEN").value, content: document.getElementById("contentEN").value }
+            ];
+
+            try {
+                for(let p of posts) {
+                    if(p.title && p.content) {
+                        await addDoc(collection(db, "news"), {
+                            category,
+                            media,
+                            lang: p.lang,
+                            title: p.title,
+                            content: p.content
+                        });
+                    }
+                }
+                alert("መረጃው በሶስቱም ቋንቋዎች በተሳካ ሁኔታ ተለጠፈ!");
+                document.getElementById("newsForm").reset();
+                loadData();
+            } catch(err) {
+                console.error(err);
+                alert("ስህተት ተፈጥሯል እባክዎ እንደገና ይሞክሩ።");
+            }
+        });
         
         async function loadData() {
             try {
