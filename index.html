@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mataaharaa Digital Hub 2.0</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: #f9f9f9; color: #333; line-height: 1.6; }
+        
+        /* Header */
+        header { display: flex; justify-content: space-between; padding: 20px 5%; background: #fff; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        nav { font-weight: bold; cursor: pointer; }
+
+        /* Hero */
+        .hero { height: 60vh; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1600') center/cover; display: flex; align-items: center; justify-content: center; color: white; text-align: center; }
+        .hero h1 { font-size: 3.5rem; }
+
+        /* News Ticker */
+        .ticker { background: #ff6600; color: white; padding: 12px; overflow: hidden; white-space: nowrap; font-weight: bold; }
+        .ticker-text { display: inline-block; animation: marquee 25s linear infinite; }
+        @keyframes marquee { 0% { transform: translate(100%, 0); } 100% { transform: translate(-100%, 0); } }
+
+        /* News Form Section */
+        .form-container { max-width: 600px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .form-container h2 { margin-bottom: 20px; color: #ff6600; }
+        .form-group { margin-bottom: 15px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem; }
+        .form-group textarea { height: 120px; resize: vertical; }
+        .form-btn { background: #ff6600; color: white; border: none; padding: 12px 20px; font-size: 1rem; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; }
+        .form-btn:hover { background: #e55b00; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h2>Mataaharaa Digital Hub</h2>
+        <nav>መነሻ | ዜናዎች | ቱሪዝም | እውቂያ</nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>እንኳን ወደ ማታሃራ ዲጂታል ሀብ በደህና መጡ</h1>
+    </section>
+
+    <!-- News Ticker -->
+    <div class="ticker">
+        <div class="ticker-text">🔥 እንኳን ወደ ማታሃራ ዲጂታል ሀብ 2.0 በሰላም መጡ! ወቅታዊ የከተማችን መረጃዎችን እና ዜናዎችን እዚህ ያገኛሉ።</div>
+    </div>
+
+    <!-- News Submission Form -->
+    <div class="form-container">
+        <h2>አዲስ ዜና መለጠፊያ</h2>
+        <form id="newsForm">
+            <div class="form-group">
+                <input type="text" id="title" placeholder="የዜናው ርዕስ" required>
+            </div>
+            <div class="form-group">
+                <textarea id="content" placeholder="የዜናው ዝርዝር ይዘት..." required></textarea>
+            </div>
+            <div class="form-group">
+                <input type="text" id="category" placeholder="ምድብ (ለምሳሌ፦ ዜና / ቱሪዝም / ስፖርት)" required>
+            </div>
+            <button type="submit" class="form-btn">ዜናውን ይለጥፉ</button>
+        </form>
+    </div>
+
+    <!-- Firebase Integration Scripts -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // የራስህ የ Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSy...", 
+            authDomain: "mataaharaa-hub-2019.firebaseapp.com",
+            projectId: "mataaharaa-hub-2019",
+            storageBucket: "mataaharaa-hub-2019.appspot.com",
+            messagingSenderId: "538021472549",
+            appId: "1:538021472549:web:dae14f2a677582b9e6d2cc"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        document.getElementById("newsForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const title = document.getElementById("title").value;
+            const content = document.getElementById("content").value;
+            const category = document.getElementById("category").value;
+
+            try {
+                await addDoc(collection(db, "news"), { 
+                    title, 
+                    content, 
+                    category, 
+                    createdAt: new Date() 
+                });
+                alert("ዜናው በተሳካ ሁኔታ ተለጥፏል!");
+                document.getElementById("newsForm").reset();
+            } catch (err) {
+                console.error("ስህተት:", err);
+                alert("ማስገባት አልተቻለም፣ እባክዎ እንደገና ይሞክሩ።");
+            }
+        });
+    </script>
+</body>
+</html>
