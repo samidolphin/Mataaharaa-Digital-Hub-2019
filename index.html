@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mataaharaa Digital Hub 2019</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        /* ጽሁፍ እንዳይመረጥ እና ራይት ክሊክ እንዳይደረግ መከላከል */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
         body { background-color: #f4f7f6; color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
 
         header { display: flex; justify-content: space-between; align-items: center; padding: 12px 4%; background: #ffffff; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); flex-wrap: wrap; gap: 10px; }
@@ -64,15 +65,22 @@
         .submit-btn { background: #ff6600; color: white; border: none; padding: 11px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; }
 
         .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 20px; }
-        .news-card { background: white; border-radius: 8px; padding: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.06); transition: transform 0.3s; display: flex; flex-direction: column; justify-content: space-between; }
+        .news-card { background: white; border-radius: 8px; padding: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.06); transition: transform 0.3s; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
         .news-card:hover { transform: translateY(-3px); }
         .news-card img, .news-card iframe { width: 100%; height: 190px; object-fit: cover; border-radius: 6px; margin-bottom: 12px; }
         .cat { color: #ff6600; font-size: 0.72rem; font-weight: bold; text-transform: uppercase; }
         .news-card h3 { font-size: 1.15rem; margin: 8px 0; color: #222; }
         .news-card p { font-size: 0.9rem; color: #555; margin-bottom: 12px; }
         
-        .read-more-btn { background: transparent; color: #ff6600; border: 1px solid #ff6600; padding: 6px 12px; border-radius: 4px; font-size: 0.82rem; font-weight: bold; cursor: pointer; text-align: center; transition: all 0.3s; align-self: flex-start; }
+        .card-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+        .read-more-btn { background: transparent; color: #ff6600; border: 1px solid #ff6600; padding: 6px 12px; border-radius: 4px; font-size: 0.82rem; font-weight: bold; cursor: pointer; text-align: center; transition: all 0.3s; }
         .read-more-btn:hover { background: #ff6600; color: white; }
+
+        /* ለአድሚን ብቻ የሚታዩ የማስተካከያ እና መሰረዢያ ቁልፎች */
+        .admin-controls { display: none; gap: 5px; }
+        .admin-controls.active { display: flex; }
+        .edit-btn { background: #3498db; color: white; border: none; padding: 5px 10px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; font-weight: bold; }
+        .delete-btn { background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; font-weight: bold; }
 
         footer { background: #222; color: #ccc; padding: 40px 5% 20px; margin-top: 50px; font-size: 0.88rem; }
         .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; max-width: 1300px; margin: 0 auto; padding-bottom: 25px; border-bottom: 1px solid #444; }
@@ -91,7 +99,7 @@
         .footer-bottom { text-align: center; padding-top: 20px; font-size: 0.8rem; color: #888; }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;"> <!-- ራይት ክሊክ እንዳይደረግ መከላከል -->
 
     <header>
         <div class="logo-area">
@@ -134,11 +142,10 @@
         </div>
     </div>
 
-    <!-- የሙሉ ዜና ማሳያ ፖፕ-አፕ (Read More Detail Modal) -->
+    <!-- የሙሉ ዜና ማሳያ ፖፕ-አፕ -->
     <div class="detail-modal" id="detailModal">
         <div class="detail-content" id="detailModalContent">
             <button class="close-detail-btn" onclick="closeDetailModal()">✖ ዝጋ</button>
-            <!-- መረጃው እዚህ በጃቫስክሪፕት ይጫናል -->
         </div>
     </div>
 
@@ -154,10 +161,11 @@
     <div class="main-container">
         <div class="admin-section" id="adminSection">
             <div class="admin-header-flex">
-                <h2>መረጃ መጫኛ (Admin Panel) - ለሶስቱም ቋንቋዎች</h2>
+                <h2 id="formPanelTitle">መረጃ መጫኛ (Admin Panel)</h2>
                 <button type="button" class="close-admin-btn" onclick="closeAdminPanel()">❌ ከአድሚን ውጣ</button>
             </div>
             <form id="newsForm">
+                <input type="hidden" id="editPostId" value="">
                 <div class="form-group">
                     <select id="newsCategory">
                         <option value="News">ዜና (News)</option>
@@ -188,7 +196,7 @@
                 <div class="form-group"><input type="text" id="titleEN" placeholder="English Title"></div>
                 <div class="form-group"><textarea id="contentEN" placeholder="English Content"></textarea></div>
 
-                <button type="submit" class="submit-btn">በሶስቱም ቋንቋዎች ለጥፍ</button>
+                <button type="submit" class="submit-btn" id="formSubmitBtn">በሶስቱም ቋንቋዎች ለጥፍ</button>
             </form>
         </div>
 
@@ -226,7 +234,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = { 
             apiKey: "AIzaSy...", 
@@ -242,6 +250,7 @@
         let currentCat = 'All';
         let currentLang = 'AM';
         let allPosts = [];
+        let isAdminLoggedIn = false;
 
         const translations = {
             'AM': {
@@ -331,6 +340,7 @@
         async function render() {
             const container = document.getElementById("newsContainer");
             container.innerHTML = "";
+            
             const filtered = allPosts.filter(p => 
                 (currentCat === 'All' || p.category === currentCat) && 
                 (p.lang === currentLang)
@@ -341,7 +351,7 @@
                 return;
             }
 
-            filtered.forEach((p, index) => {
+            filtered.forEach((p) => {
                 let mediaHtml = '';
                 if(p.media) {
                     if(p.media.includes('youtube') || p.media.includes('youtu.be')) {
@@ -352,8 +362,8 @@
                     }
                 }
 
-                // ጽሁፉን በአጭሩ (Excerpt) ለመቁረጥ (ለምሳሌ እስከ 120 ፊደላት)
                 let shortContent = p.content.length > 120 ? p.content.substring(0, 120) + "..." : p.content;
+                let adminControlsClass = isAdminLoggedIn ? "admin-controls active" : "admin-controls";
 
                 container.innerHTML += `
                     <div class="news-card">
@@ -363,18 +373,19 @@
                             <h3>${p.title}</h3>
                             <p>${shortContent}</p>
                         </div>
-                        <button class="read-more-btn" onclick="openDetailModal(${index})">${translations[currentLang].readMore}</button>
+                        <div class="card-actions">
+                            <button class="read-more-btn" onclick="openDetailModal('${p.id}')">${translations[currentLang].readMore}</button>
+                            <div class="${adminControlsClass}">
+                                <button class="edit-btn" onclick="editPost('${p.id}')">አስተካክል</button>
+                                <button class="delete-btn" onclick="deletePost('${p.id}')">ሰርዝ</button>
+                            </div>
+                        </div>
                     </div>`;
             });
         }
 
-        // ሙሉውን ዜና ማሳያ ፖፕ-አፕ መክፈቻ
-        window.openDetailModal = (index) => {
-            const filtered = allPosts.filter(p => 
-                (currentCat === 'All' || p.category === currentCat) && 
-                (p.lang === currentLang)
-            );
-            const p = filtered[index];
+        window.openDetailModal = (id) => {
+            const p = allPosts.find(item => item.id === id);
             if(!p) return;
 
             let mediaHtml = '';
@@ -412,20 +423,68 @@
         window.verifyPassword = () => {
             const pass = document.getElementById("adminPasswordInput").value;
             if(pass === "sami2all@8080") { 
+                isAdminLoggedIn = true;
                 document.getElementById("passwordModal").classList.remove("active");
                 document.getElementById("adminSection").classList.add("active");
                 document.getElementById("adminPasswordInput").value = "";
+                render();
             } else {
                 alert("የገባው የለፍ ቃል ስህተት ነው!");
             }
         }
 
         window.closeAdminPanel = () => {
+            isAdminLoggedIn = false;
             document.getElementById("adminSection").classList.remove("active");
+            document.getElementById("newsForm").reset();
+            document.getElementById("editPostId").value = "";
+            document.getElementById("formSubmitBtn").innerText = "በሶስቱም ቋንቋዎች ለጥፍ";
+            render();
+        }
+
+        // ፖስት ለማስተካከል (Edit) መረጃዎቹን ወደ ፎርሙ መጫን
+        window.editPost = (id) => {
+            const p = allPosts.find(item => item.id === id);
+            if(!p) return;
+
+            // ተዛማጅ ቋንቋዎችን ለማግኘት (በዚህ ግሩፕ ውስጥ ያሉትን ፖስቶች መፈለግ)
+            document.getElementById("editPostId").value = p.id;
+            document.getElementById("newsCategory").value = p.category;
+            document.getElementById("mediaUrl").value = p.media || "";
+            
+            // የአሁኑን ቋንቋ መረጃ መሙላት
+            if(p.lang === 'AM') {
+                document.getElementById("titleAM").value = p.title;
+                document.getElementById("contentAM").value = p.content;
+            } else if(p.lang === 'OR') {
+                document.getElementById("titleOR").value = p.title;
+                document.getElementById("contentOR").value = p.content;
+            } else if(p.lang === 'EN') {
+                document.getElementById("titleEN").value = p.title;
+                document.getElementById("contentEN").value = p.content;
+            }
+
+            document.getElementById("formSubmitBtn").innerText = "አስተካክሎ ፕረስ (Update)";
+            document.getElementById("adminSection").scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ፖስት ለመሰረዝ (Delete)
+        window.deletePost = async (id) => {
+            if(confirm("ይህን መረጃ በእርግጥ መሰረዝ ትፈልጋለህ?")) {
+                try {
+                    await deleteDoc(doc(db, "news", id));
+                    alert("መረጃው በተሳካ ሁኔታ ተሰርዟል!");
+                    loadData();
+                } catch(err) {
+                    console.error(err);
+                    alert("እባክዎ እንደገና ይሞክሩ ስህተት ተፈጥሯል።");
+                }
+            }
         }
 
         document.getElementById("newsForm").addEventListener("submit", async (e) => {
             e.preventDefault();
+            const editId = document.getElementById("editPostId").value;
             const category = document.getElementById("newsCategory").value;
             const media = document.getElementById("mediaUrl").value;
 
@@ -436,19 +495,38 @@
             ];
 
             try {
-                for(let p of posts) {
-                    if(p.title && p.content) {
-                        await addDoc(collection(db, "news"), {
+                if(editId) {
+                    // የማስተካከል ስራ ከሆነ
+                    const p = allPosts.find(item => item.id === editId);
+                    if(p) {
+                        await updateDoc(doc(db, "news", editId), {
                             category,
                             media,
-                            lang: p.lang,
-                            title: p.title,
-                            content: p.content
+                            title: document.getElementById("title" + p.lang).value,
+                            content: document.getElementById("content" + p.lang).value
                         });
+                        alert("መረጃው በተሳካ ሁኔታ ተስተካክሏል!");
                     }
+                } else {
+                    // አዲስ የመጫን ስራ ከሆነ (አዲስ የገባው ከላይ እንዲሆን በሰዓት ወይም በቅደም ተከተል ይያዛል)
+                    for(let p of posts) {
+                        if(p.title && p.content) {
+                            await addDoc(collection(db, "news"), {
+                                category,
+                                media,
+                                lang: p.lang,
+                                title: p.title,
+                                content: p.content,
+                                createdAt: Date.now()
+                            });
+                        }
+                    }
+                    alert("መረጃው በሶስቱም ቋንቋዎች በተሳካ ሁኔታ ተለጠፈ!");
                 }
-                alert("መረጃው በሶስቱም ቋንቋዎች በተሳካ ሁኔታ ተለጠፈ!");
+                
                 document.getElementById("newsForm").reset();
+                document.getElementById("editPostId").value = "";
+                document.getElementById("formSubmitBtn").innerText = "በሶስቱም ቋንቋዎች ለጥፍ";
                 loadData();
             } catch(err) {
                 console.error(err);
@@ -461,6 +539,10 @@
                 const snap = await getDocs(collection(db, "news"));
                 allPosts = [];
                 snap.forEach(d => allPosts.push({id: d.id, ...d.data()}));
+                
+                // አዳዲስ የተለቀቁት መረጃዎች ከላይ እንዲሆኑ በቅደም ተከተል ማስተካከል (Descending order based on createdAt)
+                allPosts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
                 render();
             } catch(err) {
                 console.error(err);
