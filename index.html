@@ -45,6 +45,10 @@
 
         .admin-section { display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 40px; border: 2px dashed #ff6600; }
         .admin-section.active { display: block; }
+        .admin-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .close-admin-btn { background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.8rem; }
+        .close-admin-btn:hover { background: #c0392b; }
+
         .form-group { margin-bottom: 14px; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 0.92rem; }
         .form-group textarea { height: 95px; resize: vertical; }
@@ -129,7 +133,10 @@
 
     <div class="main-container">
         <div class="admin-section" id="adminSection">
-            <h2>መረጃ መጫኛ (Admin Panel) - ለሶስቱም ቋንቋዎች</h2>
+            <div class="admin-header-flex">
+                <h2>መረጃ መጫኛ (Admin Panel) - ለሶስቱም ቋንቋዎች</h2>
+                <button type="button" class="close-admin-btn" onclick="closeAdminPanel()">❌ ከአድሚን ውጣ</button>
+            </div>
             <form id="newsForm">
                 <div class="form-group">
                     <select id="newsCategory">
@@ -144,7 +151,7 @@
                 </div>
                 
                 <div class="form-group">
-                    <input type="text" id="mediaUrl" placeholder="የፎቶ ወይም የዩቲዩብ ቪዲዮ ሊንክ (Image/Video URL) ያስገቡ">
+                    <input type="text" id="mediaUrl" placeholder="የፎቶ ሊንክ፣ የዩቲዩብ ቪዲዮ ሊንክ ወይም የምስል ዩአርኤል (Image/Video URL) ያስገቡ">
                 </div>
 
                 <hr style="margin: 15px 0; border: 0; border-top: 1px solid #ddd;">
@@ -342,11 +349,15 @@
             const pass = document.getElementById("adminPasswordInput").value;
             if(pass === "sami2all@8080") { 
                 document.getElementById("passwordModal").classList.remove("active");
-                document.getElementById("adminSection").classList.toggle("active");
+                document.getElementById("adminSection").classList.add("active");
                 document.getElementById("adminPasswordInput").value = "";
             } else {
                 alert("የገባው የለፍ ቃል ስህተት ነው!");
             }
+        }
+
+        window.closeAdminPanel = () => {
+            document.getElementById("adminSection").classList.remove("active");
         }
 
         document.getElementById("newsForm").addEventListener("submit", async (e) => {
