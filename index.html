@@ -58,11 +58,12 @@
         .submit-btn { background: #ff6600; color: white; border: none; padding: 10px 20px; font-size: 0.95rem; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; }
         .submit-btn:hover { background: #e55b00; }
 
-        /* News Display Section */
+        /* News & Media Display Section */
         .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .news-card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); padding: 20px; position: relative; }
-        .news-card span.cat { background: #fff3ed; color: #ff6600; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
-        .news-card h3 { margin: 12px 0 8px; font-size: 1.1rem; }
+        .news-card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); padding: 15px; position: relative; }
+        .news-card img, .news-card iframe { width: 100%; height: 180px; object-fit: cover; border-radius: 6px; margin-bottom: 10px; }
+        .news-card span.cat { background: #fff3ed; color: #ff6600; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; display: inline-block; margin-bottom: 8px; }
+        .news-card h3 { margin: 8px 0 6px; font-size: 1.1rem; }
         .news-card p { color: #666; font-size: 0.9rem; margin-bottom: 15px; }
         .card-actions { display: flex; gap: 10px; border-top: 1px solid #eee; padding-top: 10px; }
         .card-actions button { background: #eee; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
@@ -134,9 +135,9 @@
 
     <div class="container">
         
-        <!-- ADMIN SECTION: POST/EDIT NEWS -->
+        <!-- ADMIN SECTION: POST/EDIT NEWS & MEDIA -->
         <div class="admin-section" id="adminSection">
-            <h2 class="section-title" style="border-color: #ff6600;" id="adminTitle">አዲስ መረጃ መጫኛ (አድሚን ፓነል)</h2>
+            <h2 class="section-title" style="border-color: #ff6600;" id="adminTitle">አዲስ መረጃ ወይም ፎቶ/ቪዲዮ መጫኛ</h2>
             <form id="newsForm">
                 <input type="hidden" id="editDocId">
                 <div class="form-group">
@@ -152,6 +153,9 @@
                         <option value="Video">ቪዲዮ ጋለሪ / Video Gallery</option>
                         <option value="Photo">ፎቶ ጋለሪ / Photo Gallery</option>
                     </select>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="mediaUrl" placeholder="የፎቶ ወይም የቪዲዮ ሊንክ (Image / Video URL)">
                 </div>
                 <div class="form-group">
                     <textarea id="newsContent" placeholder="የመረጃውን ዝርዝር ይዘት እዚህ ይጻፍ..." required></textarea>
@@ -244,18 +248,19 @@
             const editId = document.getElementById("editDocId").value;
             const title = document.getElementById("newsTitle").value;
             const category = document.getElementById("newsCategory").value;
+            const mediaUrl = document.getElementById("mediaUrl").value;
             const content = document.getElementById("newsContent").value;
 
             try {
                 if(editId) {
                     // Update existing post
-                    await updateDoc(doc(db, "news", editId), { title, category, content });
+                    await updateDoc(doc(db, "news", editId), { title, category, mediaUrl, content });
                     alert("መረጃው በተሳካ ሁኔታ ተሻሽሏል (Updated)!");
                     document.getElementById("editDocId").value = "";
                     document.getElementById("publishBtn").innerText = "መረጃውን ለጥፍ (Publish)";
                 } else {
                     // Add new post
-                    await addDoc(collection(db, "news"), { title, category, content, createdAt: new Date() });
+                    await addDoc(collection(db, "news"), { title, category, mediaUrl, content, createdAt: new Date() });
                     alert("መረጃው በተሳካ ሁኔታ ተለጥፏል!");
                 }
                 newsForm.reset();
@@ -298,17 +303,32 @@
                 const card = document.createElement("div");
                 card.className = "news-card";
                 
+                let mediaElement = '';
+                if(data.mediaUrl) {
+                    if(data.category === 'Video' || data.mediaUrl.includes('youtube') || data.mediaUrl.includes('youtu.be')) {
+                        // YouTube embed helper conversion if needed, or direct iframe/video
+                        let embedUrl = data.mediaUrl;
+                        if(embedUrl.includes('watch?v=')) {
+                            embedUrl = embedUrl.replace('watch?v=', 'embed/');
+                        }
+                        mediaElement = `<iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe>`;
+                    } else {
+                        mediaElement = `<img src="${data.mediaUrl}" alt="Media">`;
+                    }
+                }
+
                 let adminActions = '';
                 if(isAdminLoggedIn) {
                     adminActions = `
                         <div class="card-actions">
-                            <button class="edit-btn" onclick="editPost('${data.id}', '${encodeURIComponent(data.title)}', '${data.category}', '${encodeURIComponent(data.content)}')">አስተካክል (Edit)</button>
+                            <button class="edit-btn" onclick="editPost('${data.id}', '${encodeURIComponent(data.title)}', '${data.category}', '${encodeURIComponent(data.mediaUrl || '')}', '${encodeURIComponent(data.content)}')">አስተካክል (Edit)</button>
                             <button class="del-btn" onclick="deletePost('${data.id}')">አጥፋ (Delete)</button>
                         </div>
                     `;
                 }
 
                 card.innerHTML = `
+                    ${mediaElement}
                     <span class="cat">${data.category}</span>
                     <h3>${data.title}</h3>
                     <p>${data.content}</p>
@@ -337,10 +357,11 @@
             }
         }
 
-        window.editPost = function(id, title, category, content) {
+        window.editPost = function(id, title, category, mediaUrl, content) {
             document.getElementById("editDocId").value = id;
             document.getElementById("newsTitle").value = decodeURIComponent(title);
             document.getElementById("newsCategory").value = category;
+            document.getElementById("mediaUrl").value = decodeURIComponent(mediaUrl);
             document.getElementById("newsContent").value = decodeURIComponent(content);
             document.getElementById("publishBtn").innerText = "መረጃውን አሻሽል (Update)";
             
@@ -360,7 +381,7 @@
                 navNews: "ዜና", navTourism: "ቱሪዝም", navCulture: "ባህል", navPhilosophy: "ፍልስፍና", navLit: "ፅነ-ፅሁፍ", navVideo: "ቪዲዮ ጋለሪ", navPhoto: "ፎቶ ጋለሪ", navAdmin: "አድሚን",
                 heroHeading: "ማታሃራ", heroSub: "ፀሐይ የማትጠልቅባት ከተማ",
                 latestNewsTitle: "የመረጃ ማዕከል",
-                adminTitle: "አዲስ መረጃ መጫኛ (አድሚን ፓነል)",
+                adminTitle: "አዲስ መረጃ ወይም ፎቶ/ቪዲዮ መጫኛ",
                 publishBtn: "መረጃውን ለጥፍ (Publish)",
                 modalTitle: "የአድሚን መግቢያ ቁልፍ ያስገቡ",
                 loginBtn: "ግባ (Login)"
@@ -370,7 +391,7 @@
                 navNews: "Oduu", navTourism: "Tuuriizimii", navCulture: "Aadaa", navPhilosophy: "Filoosofii", navLit: "Ogbarruu", navVideo: "Viidiyoo Gaalarii", navPhoto: "Suuraa Gaalarii", navAdmin: "Admin",
                 heroHeading: "MATAAHARAA", heroSub: "Magaalaa Addeenyi Hin Dhaanne",
                 latestNewsTitle: "Giddugala Odeeffannoo",
-                adminTitle: "Oduu Haaraa Galchuu (Admin)",
+                adminTitle: "Oduu ykn Suuraa/Viidiyoo Galchuu",
                 publishBtn: "Oduu Maxxansi (Publish)",
                 modalTitle: "Jecha Darbii Admin Galchaa",
                 loginBtn: "Seenii (Login)"
@@ -380,7 +401,7 @@
                 navNews: "News", navTourism: "Tourism", navCulture: "Culture", navPhilosophy: "Philosophy", navLit: "Literature", navVideo: "Video Gallery", navPhoto: "Photo Gallery", navAdmin: "Admin",
                 heroHeading: "MATAAHARAA", heroSub: "The City Where the Sun Never Sets",
                 latestNewsTitle: "Information Center",
-                adminTitle: "Post New Content (Admin Panel)",
+                adminTitle: "Post New Content or Photo/Video",
                 publishBtn: "Publish Content",
                 modalTitle: "Enter Admin Password",
                 loginBtn: "Login"
