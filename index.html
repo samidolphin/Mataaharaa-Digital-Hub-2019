@@ -205,7 +205,7 @@
         
         <div class="footer-col">
             <h4 id="subTitleHeading">ለአዳዲስ መረጃዎች ይመዝገቡ</h4>
-            <p id="subDescText">አዳዲስ ዜናዎች እንዲደርሱዎት ኢሜይል አድራሻዎን ያስገቡ፡</p>
+            <p id="subDescText">ኢሜይል አድራሻዎን ያስገቡ</p>
             <form id="subscribeForm">
                 <input type="email" id="subscriberEmail" placeholder="ኢሜይል አድራሻዎን ያስገቡ" style="padding:8px; width:80%; border-radius:4px; border:none; margin-bottom:5px;" required>
                 <button type="submit" id="subBtn" style="padding:8px; background:#ff6600; border:none; color:white; cursor:pointer; border-radius:4px;">ይመዝገቡ</button>
@@ -244,48 +244,7 @@
     let allPosts = [];
     let isAdminLoggedIn = false;
 
-    let mockPosts = [
-        {
-            id: 'mock-1',
-            category: 'Video',
-            lang: 'AM',
-            media: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-            title: 'Metahara green legacy - Sami Tube',
-            content: 'የልምዓት ስራዎች እና የአረንጓዴ አሻራ መርሃ ግብር በመታሃራ ከተማ አስተዳደር ዙሪያ በድምቀት እየተከናወነ ይገኛል።'
-        },
-        {
-            id: 'mock-2',
-            category: 'News',
-            lang: 'AM',
-            media: 'https://images.unsplash.com/photo-1592417817098-8f3d691a4bf5?w=600',
-            title: 'የልጅነትን ዕድል በንጥር ዓይን ማየት! ከተማችንን ይበልጥ ለማስፋፋት ትልቅ ዕቅድ ተነድፎ ስራ ተጀምሯል።',
-            content: 'መታሃራ፡ የልጅነትን ዕድል በንጥር ዓይን ማየት! ከተማችንን ይበልጥ ለማስፋፋት ትልቅ ዕቅድ ተነድፎ ወደ ስራ ተገብቷል።'
-        },
-        {
-            id: 'mock-3',
-            category: 'News',
-            lang: 'AM',
-            media: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=600',
-            title: 'የክልሉ ከፍተኛ የስራ ሃላፊዎች ከተማችንን በመጎብኘት የተከናወኑ የልማት ስራዎችን አድንቀዋል',
-            content: 'የክልሉ ከፍተኛ የስራ ሃላፊዎች ከተማችንን በመጎብኘት የተከናወኑ የልማት ስራዎችን አድንቀዋል።'
-        },
-        {
-            id: 'mock-4',
-            category: 'News',
-            lang: 'OR',
-            media: 'https://images.unsplash.com/photo-1592417817098-8f3d691a4bf5?w=600',
-            title: 'Mataaharaa: Misooma Magaalattii fi Hojiiwwan Kyara Green Legacy',
-            content: 'Hojiiwwan misoomsaa fi invastimantii magaalicha keessatti gaggeeffamaa jiran ilaalchisee odeeffannoo...'
-        },
-        {
-            id: 'mock-5',
-            category: 'News',
-            lang: 'EN',
-            media: 'https://images.unsplash.com/photo-1592417817098-8f3d691a4bf5?w=600',
-            title: 'Mataaharaa City Development and Green Legacy Updates',
-            content: 'Comprehensive overview of recent infrastructural developments and community orchard initiatives in Mataaharaa.'
-        }
-    ];
+    // የሙከራ ዜናዎች ሙሉ በሙሉ ታግደዋል/ተወግደዋል (Mock posts removed completely)
 
     const translations = {
         'AM': {
@@ -534,9 +493,7 @@
     window.deletePost = async (id) => {
         if(confirm("ይህን መረጃ በእርግጥ መሰረዝ ትፈልጋለህ?")) {
             try {
-                if(!id.startsWith('mock-')) {
-                    await deleteDoc(doc(db, "news", id));
-                }
+                await deleteDoc(doc(db, "news", id));
                 allPosts = allPosts.filter(item => item.id !== id);
                 alert("መረጃው በተሳካ ሁኔታ ተሰርዟል!");
                 render();
@@ -567,36 +524,29 @@
                     p.media = media;
                     p.title = document.getElementById("title" + p.lang).value;
                     p.content = document.getElementById("content" + p.lang).value;
-                    if(!editId.startsWith('mock-')) {
-                        await updateDoc(doc(db, "news", editId), { category, media, title: p.title, content: p.content });
-                    }
+                    await updateDoc(doc(db, "news", editId), { category, media, title: p.title, content: p.content });
                     alert("መረጃው በተሳካ ሁኔታ ተስተካክሏል!");
                 }
             } else {
                 for(let p of posts) {
                     if(p.title && p.content) {
-                        const newDoc = {
-                            id: 'custom-' + Date.now() + Math.random(),
+                        const docRef = await addDoc(collection(db, "news"), {
                             category,
                             media,
                             lang: p.lang,
                             title: p.title,
                             content: p.content,
                             createdAt: Date.now()
-                        };
-                        allPosts.unshift(newDoc);
-                        try {
-                            await addDoc(collection(db, "news"), {
-                                category,
-                                media,
-                                lang: p.lang,
-                                title: p.title,
-                                content: p.content,
-                                createdAt: Date.now()
-                            });
-                        } catch(fbErr) {
-                            console.log("Firebase sync note:", fbErr);
-                        }
+                        });
+                        allPosts.unshift({
+                            id: docRef.id,
+                            category,
+                            media,
+                            lang: p.lang,
+                            title: p.title,
+                            content: p.content,
+                            createdAt: Date.now()
+                        });
                     }
                 }
                 alert("መረጃው በሶስቱም ቋንቋዎች በተሳካ ሁኔታ ተለጠፈ!");
@@ -618,16 +568,12 @@
             let firestorePosts = [];
             snap.forEach(d => firestorePosts.push({id: d.id, ...d.data()}));
             
-            if(firestorePosts.length > 0) {
-                allPosts = [...firestorePosts, ...mockPosts];
-            } else {
-                allPosts = [...mockPosts];
-            }
+            allPosts = firestorePosts;
             allPosts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
             render();
         } catch(err) {
             console.error(err);
-            allPosts = [...mockPosts];
+            allPosts = [];
             render();
         }
     }
