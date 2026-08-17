@@ -4,13 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mataaharaa Digital Hub 2019</title>
-    <!-- EmailJS SDK -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script type="text/javascript">
-        (function() {
-            emailjs.init("YOUR_EMAILJS_PUBLIC_KEY");
-        })();
-    </script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
         body { background-color: #f4f7f6; color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
@@ -212,7 +205,7 @@
         
         <div class="footer-col">
             <h4 id="subTitleHeading">ለአዳዲስ መረጃዎች ይመዝገቡ</h4>
-            <p id="subDescText">አዳዲስ ዜናዎች በኢሜይል እንዲደርሱዎት ኢሜይል አድራሻዎን ያስገቡ፡</p>
+            <p id="subDescText">አዳዲስ ዜናዎች እንዲደርሱዎት ኢሜይል አድራሻዎን ያስገቡ፡</p>
             <form id="subscribeForm">
                 <input type="email" id="subscriberEmail" placeholder="ኢሜይል አድራሻዎን ያስገቡ" style="padding:8px; width:80%; border-radius:4px; border:none; margin-bottom:5px;" required>
                 <button type="submit" id="subBtn" style="padding:8px; background:#ff6600; border:none; color:white; cursor:pointer; border-radius:4px;">ይመዝገቡ</button>
@@ -251,14 +244,13 @@
     let allPosts = [];
     let isAdminLoggedIn = false;
 
-    // የናሙና መረጃዎች (Mock Posts)
     let mockPosts = [
         {
             id: 'mock-1',
             category: 'Video',
             lang: 'AM',
             media: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-            title: 'Metahara green legacy - Sami Tube (ምልክት ቱዩብ)',
+            title: 'Metahara green legacy - Sami Tube',
             content: 'የልምዓት ስራዎች እና የአረንጓዴ አሻራ መርሃ ግብር በመታሃራ ከተማ አስተዳደር ዙሪያ በድምቀት እየተከናወነ ይገኛል።'
         },
         {
@@ -266,15 +258,15 @@
             category: 'News',
             lang: 'AM',
             media: 'https://images.unsplash.com/photo-1592417817098-8f3d691a4bf5?w=600',
-            title: 'የልጅነትን ዕድል በንጥር ዓይን ማየት! አንዴን ጊዜ ከተማችንን ይበልጥ ለማስፋፋት ትልቅ ዕቅድ እየተተለመ ነው።',
-            content: 'መታሃራ፡ የልጅነትን ዕድል በንጥር ዓይን ማየት! አንዴን ጊዜ ከተማችንን ይበልጥ ለማስፋፋት ትልቅ ዕቅድ ተነድፎ ወደ ስራ ተገብቷል።'
+            title: 'የልጅነትን ዕድል በንጥር ዓይን ማየት! ከተማችንን ይበልጥ ለማስፋፋት ትልቅ ዕቅድ ተነድፎ ስራ ተጀምሯል።',
+            content: 'መታሃራ፡ የልጅነትን ዕድል በንጥር ዓይን ማየት! ከተማችንን ይበልጥ ለማስፋፋት ትልቅ ዕቅድ ተነድፎ ወደ ስራ ተገብቷል።'
         },
         {
             id: 'mock-3',
             category: 'News',
             lang: 'AM',
             media: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=600',
-            title: 'የኦሮሚያ ክልል መንግስትፕላንጂን አቶ መሐመድ አብዲሳ የኦሮምያ አሻራ የምርዕ ስራዎችን ጎበኙ',
+            title: 'የክልሉ ከፍተኛ የስራ ሃላፊዎች ከተማችንን በመጎብኘት የተከናወኑ የልማት ስራዎችን አድንቀዋል',
             content: 'የክልሉ ከፍተኛ የስራ ሃላፊዎች ከተማችንን በመጎብኘት የተከናወኑ የልማት ስራዎችን አድንቀዋል።'
         },
         {
@@ -309,9 +301,9 @@
             footerContactTitle: "አግኙን / Contact Us",
             noData: "በዚህ ቋንቋ ወይም ምድብ የተለጠፈ መረጃ የለም።",
             subHeading: "ለአዳዲስ መረጃዎች ይመዝገቡ",
-            subDesc: "አዳዲስ ዜናዎች በኢሜይል እንዲደርሱዎት ኢሜይል አድራሻዎን ያስገቡ፡",
+            subDesc: "ኢሜይል አድራሻዎን ያስገቡ",
             subButton: "ይመዝገቡ",
-            successMsg: "እንኳን ወደ መታሃራ ከተማ ዲጂታል መረጃ ማእከል በደህና መጡ። ዲጂታል የመረጃ ማእከላችን በየትኛውም የዓለም ጫፍ ቢኖሩ፣ አዳዲስ መረጃዎችን ስንጭን በኢሜይል አድራሻዎ ወዲያውኑ የኖቲፊኬሽን ማንቂያ መልእክት እንልክልዎታለን። ከእኛ ጋር ስለሆኑ በጣም እናመሰግናለን!"
+            successMsg: "በተሳካ ሁኔታ ተመዝግበዋል! እናመሰግናለን።"
         },
         'OR': {
             heroTitle: "Baga Nagaan Gara Wiirtuu Odeeffannoo Dijitaalaa Magaala Mataaharaa Dhuftan",
@@ -326,9 +318,9 @@
             footerContactTitle: "Nu Quunnamaa",
             noData: "Odeeffannoon afaan kana ykn ramaddii kanaan hin jiru.",
             subHeading: "Odeeffannoowwan Haaraaf Galmaa'aa",
-            subDesc: "Odeeffannoowwan haaraan akka si qaqqabaniif teessoo imeelii keessii galchi:",
+            subDesc: "Teessoo imeelii keessanii galchaa",
             subButton: "Galmaa'ი",
-            successMsg: "Baga Gara Iddoo Odeeffannoo Dijitaalaa Magaala Mataaharaa nagaan dhuftan. Iddoo odeeffannoo dijitaalaa keenya keessatti, bakka jirtan hundatti odeeffannoo haaraan yeroo feetanatti, teessoo imeelii keessaniin owwaataa (notification) battalumatti isiniif ergina. Nu waliin ta'uu keessaniif galatoomaa!"
+            successMsg: "Milkaa'inaan galmoofteetta! Galatoomaa."
         },
         'EN': {
             heroTitle: "Welcome to Mataaharaa City Digital Information Center",
@@ -343,9 +335,9 @@
             footerContactTitle: "Contact Us",
             noData: "No posts available in this language or category.",
             subHeading: "Subscribe for Updates",
-            subDesc: "Enter your email address to receive new updates:",
+            subDesc: "Enter your email address",
             subButton: "Subscribe",
-            successMsg: "Welcome to the Metahara City Digital Information Center. Wherever you are in the world, whenever we upload new information, we will immediately send you a notification alert message to your email address. Thank you very much for being with us!"
+            successMsg: "Successfully subscribed! Thank you."
         }
     };
 
@@ -388,18 +380,11 @@
         render();
     }
 
-    // የኢሜይል ምዝገባ እና አውቶማቲክ የኢሜይል መላኪያ (EmailJS & Firebase Integration)
+    // የኢሜይል ምዝገባ (ወደ ፋየርቤዝ ብቻ የሚመዘግብ)
     document.getElementById("subscribeForm").addEventListener("submit", async function(e) {
         e.preventDefault();
         const emailInput = document.getElementById("subscriberEmail").value;
-        const msg = translations[currentLang].successMsg;
-
-        const templateParams = {
-            to_email: emailInput,
-            from_name: "Mataaharaa Digital Hub",
-            message: msg,
-            reply_to: "sami2all@gmail.com"
-        };
+        const successMessage = translations[currentLang].successMsg;
 
         try {
             await addDoc(collection(db, "subscribers"), {
@@ -407,20 +392,11 @@
                 language: currentLang,
                 subscribedAt: Date.now()
             });
-
-            await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
-                .then(function(response) {
-                   console.log('SUCCESS!', response.status, response.text);
-                   alert(msg);
-                }, function(error) {
-                   console.log('FAILED...', error);
-                   alert(msg);
-                });
-
+            alert(successMessage);
             this.reset();
         } catch(err) {
             console.error("Subscription Error: ", err);
-            alert(msg);
+            alert(successMessage);
             this.reset();
         }
     });
