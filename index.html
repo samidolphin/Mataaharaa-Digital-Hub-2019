@@ -113,8 +113,7 @@
         </div>
     </div>
     <nav>
-        <a onclick="updateFilter('cat', 'All')" id="navAll" class="active">ሁሉም</a>
-        <a onclick="updateFilter('cat', 'News')" id="navNews">ዜና</a>
+        <a onclick="updateFilter('cat', 'News')" id="navNews" class="active">ዜና</a>
         <a onclick="updateFilter('cat', 'Tourism')" id="navTourism">ቱሪዝም</a>
         <a onclick="updateFilter('cat', 'Culture')" id="navCulture">ባህል</a>
         <a onclick="updateFilter('cat', 'Philosophy')" id="navPhilosophy">ፍልስፍና</a>
@@ -245,7 +244,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    let currentCat = 'All';
+    let currentCat = 'News'; // ዌብሳይቱ ሲከፈት በነባሪ (default) የዜና ምድብ እንዲጀምር ተደርጓል
     let currentLang = 'OR';
     let allPosts = [];
     let isAdminLoggedIn = false;
@@ -255,7 +254,7 @@
             heroTitle: "እንኳን ወደ መታሃራ ከተማ ዲጂታል መረጃ ማእከል በደህና መጡ",
             heroSub: "ፀሃይ የማትጠልቅባት ከተማ - መታሃራ-",
             marquee: "🔥 እንኳን ወደ መታሃራ ዲጂታል 2019 በሰላም መጡ! ወቅታዊ የከተማችን መረጃዎች እና በስርጭት ላይ ያሉ ዜናዎችን እዚህ ማግኘት ይችላሉ። 🔥",
-            navAll: "ሁሉም", navNews: "ዜና", navTourism: "ቱሪዝም", navCulture: "ባህል",
+            navNews: "ዜና", navTourism: "ቱሪዝም", navCulture: "ባህል",
             navPhilosophy: "ፍልስፍና", navLiterature: "ፅነ-ፅሁፍ", navVideo: "የቪዲዮ ጋለሪ", navPhoto: "የፎቶ ጋለሪ",
             sectionHeading: "ወቅታዊ መረጃዎች",
             readMore: "ተጨማሪ ለማንበብ...",
@@ -268,7 +267,7 @@
             heroTitle: "Baga Nagaan Gara Wiirtuu Odeeffannoo Dijitaalaa Magaala Mataaharaa Dhuftan",
             heroSub: "Mataaharaa Magaalaa Aduun itti hindhiine",
             marquee: "🔥 Baga Nagaan Gara Mataaharaa Digital 2019 dhuftan! Odeeffannoowwan yeroo fi oduulee magaalattii as irratti argachuu dandeessu. 🔥",
-            navAll: "Hunda", navNews: "Oduu", navTourism: "Tuuriizimii", navCulture: "Aadaa",
+            navNews: "Oduu", navTourism: "Tuuriizimii", navCulture: "Aadaa",
             navPhilosophy: "Filoosofii", navLiterature: "Barruu", navVideo: "Gaalarii Viidiyoo", navPhoto: "Gaalarii Suuraa",
             sectionHeading: "Odeeffannoo Yeroo Ammaa",
             readMore: "Dabalataan Dubbisuuf...",
@@ -281,7 +280,7 @@
             heroTitle: "Welcome to Mataaharaa City Digital Information Center",
             heroSub: "“Mataahara — The City Where the Sun Never Sets.” ☀️",
             marquee: "🔥 Welcome to Mataaharaa Digital 2019! Find the latest city updates, news, and insights right here. 🔥",
-            navAll: "All", navNews: "News", navTourism: "Tourism", navCulture: "Culture",
+            navNews: "News", navTourism: "Tourism", navCulture: "Culture",
             navPhilosophy: "Philosophy", navLiterature: "Literature", navVideo: "Video Gallery", navPhoto: "Photo Gallery",
             sectionHeading: "Latest Updates",
             readMore: "Read More...",
@@ -296,7 +295,7 @@
         if(type === 'cat') {
             currentCat = val;
             document.querySelectorAll('nav a[id^="nav"]').forEach(a => a.classList.remove('active'));
-            document.getElementById('nav' + (val === 'All' ? 'All' : val)).classList.add('active');
+            document.getElementById('nav' + val).classList.add('active');
         }
         render();
     }
@@ -310,7 +309,6 @@
         document.getElementById('heroSub').innerText = translations[lang].heroSub;
         document.getElementById('marqueeText').innerText = translations[lang].marquee;
         
-        document.getElementById('navAll').innerText = translations[lang].navAll;
         document.getElementById('navNews').innerText = translations[lang].navNews;
         document.getElementById('navTourism').innerText = translations[lang].navTourism;
         document.getElementById('navCulture').innerText = translations[lang].navCulture;
@@ -332,7 +330,7 @@
         container.innerHTML = "";
         
         const filtered = allPosts.filter(p => 
-            (currentCat === 'All' || p.category === currentCat) && 
+            (p.category === currentCat) && 
             (p.lang === currentLang)
         );
 
