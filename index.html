@@ -6,8 +6,7 @@
     <title>Mataaharaa Digital Hub 2019</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
-        body { background-color: #f4f7f6; color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
-        
+        body { background-color: #f4f7f6; color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }    
         header { display: flex; justify-content: space-between; align-items: center; padding: 12px 4%; background: #ffffff; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); flex-wrap: wrap; gap: 10px; }
         .logo-area { display: flex; align-items: center; gap: 10px; }
         .logo-area img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
@@ -100,309 +99,372 @@
 </head>
 <body>
 
-<header>
-    <div class="logo-area">
-        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" alt="Logo">
-        <div class="logo-text">
-            <h1 id="brandTitle">Mataaharaa / መታሃራ / Metehara</h1>
+    <!-- Header -->
+    <header>
+        <div class="logo-area">
+            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" alt="Logo">
+            <div class="logo-text"><h1>Mataaharaa / መታሃራ / Metehara</h1></div>
+        </div>
+        <nav>
+            <a id="navNews" class="active" onclick="updateFilter('cat', 'News')">ዜና</a>
+            <a id="navTourism" onclick="updateFilter('cat', 'Tourism')">ቱሪዝም</a>
+            <a id="navCulture" onclick="updateFilter('cat', 'Culture')">ባህል</a>
+            <a id="navPhilosophy" onclick="updateFilter('cat', 'Philosophy')">ፍልስፍና</a>
+            <a id="navLiterature" onclick="updateFilter('cat', 'Literature')">ፅነ-ፅሁፍ</a>
+            <a id="navVideo" onclick="updateFilter('cat', 'Video')">የቪዲዮ ጋለሪ</a>
+            <a id="navPhoto" onclick="updateFilter('cat', 'Photo')">የፎቶ ጋለሪ</a>
+            
+            <div class="lang-container">
+                <button class="lang-btn" id="btnOR" onclick="updateLanguage('OR')">Oro</button>
+                <button class="lang-btn active" id="btnAM" onclick="updateLanguage('AM')">Am</button>
+                <button class="lang-btn" id="btnEN" onclick="updateLanguage('EN')">Eng</button>
+            </div>
+
+            <button class="admin-btn" onclick="checkPassword()">አድሚን</button>
+        </nav>
+    </header>
+
+    <!-- Admin Password Modal -->
+    <div class="modal" id="passwordModal">
+        <div class="modal-content">
+            <h3>የአድሚን የለፍ ቃል ያስገቡ</h3>
+            <input type="password" id="adminPasswordInput" placeholder="Password">
+            <button onclick="verifyPassword()">ግባ</button>
+            <button style="background:#e74c3c; margin-top:8px;" onclick="closeModal()">ሰርዝ</button>
         </div>
     </div>
-    <nav>
-        <a onclick="updateFilter('cat', 'News')" id="navNews" class="active">ዜና</a>
-        <a onclick="updateFilter('cat', 'Tourism')" id="navTourism">ቱሪዝም</a>
-        <a onclick="updateFilter('cat', 'Culture')" id="navCulture">ባህል</a>
-        <a onclick="updateFilter('cat', 'Philosophy')" id="navPhilosophy">ፍልስፍና</a>
-        <a onclick="updateFilter('cat', 'Literature')" id="navLiterature">ፅነ-ፅሁፍ</a>
-        <a onclick="updateFilter('cat', 'Video')" id="navVideo">የቪዲዮ ጋለሪ</a>
-        <a onclick="updateFilter('cat', 'Photo')" id="navPhoto">የፎቶ ጋለሪ</a>
+
+    <!-- Detail View Modal -->
+    <div class="detail-modal" id="detailModal">
+        <div class="detail-content" id="detailModalContent">
+            <button class="close-detail-btn" onclick="closeDetailModal()">✖ ዝጋ</button>
+        </div>
+    </div>
+
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+        <h2 id="heroTitle">እንኳን ወደ መታሃራ ከተማ ዲጂታል መረጃ ማእከል በደህና መጡ</h2>
+        <p id="heroSub">ፀሃይ የማትጠልቅባት ከተማ - መታሃራ-</p>
+    </section>
+
+    <div class="marquee-container">
+        <marquee id="marqueeText">🔥 እንኳን ወደ መታሃራ ዲጂታል 2019 በሰላም መጡ! ወቅታዊ የከተማችን መረጃዎች እና በስርጭት ላይ ያሉ ዜናዎችን እዚህ ማግኘት ይችላሉ። 🔥</marquee>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
         
-        <div class="lang-container">
-            <button class="lang-btn active" id="btnOR" onclick="updateLanguage('OR')">Oro</button>
-            <button class="lang-btn" id="btnAM" onclick="updateLanguage('AM')">Am</button>
-            <button class="lang-btn" id="btnEN" onclick="updateLanguage('EN')">Eng</button>
-        </div>
-
-        <button class="admin-btn" onclick="checkPassword()">አድሚን</button>
-    </nav>
-</header>
-
-<div class="modal" id="passwordModal">
-    <div class="modal-content">
-        <h3>የአድሚን የለፍ ቃል ያስገቡ</h3>
-        <input type="password" id="adminPasswordInput" placeholder="የለፍ ቃል (Password)">
-        <button onclick="verifyPassword()">ግባ</button>
-        <button onclick="closeModal()" style="margin-top:8px; background-color:#777;">ሰርዝ</button>
-    </div>
-</div>
-
-<div class="detail-modal" id="detailModal">
-    <div class="detail-content" id="detailModalContent">
-        <button class="close-detail-btn" onclick="closeDetailModal()">✖ ዝጋ</button>
-    </div>
-</div>
-
-<div class="hero-banner">
-    <h2 id="heroTitle">እንኳን ወደ መታሃራ ከተማ ዲጂታል መረጃ ማእከል በደህና መጡ</h2>
-    <p id="heroSub">ፀሃይ የማትጠልቅባት ከተማ - መታሃራ-</p>
-</div>
-
-<div class="marquee-container">
-    <marquee behavior="scroll" direction="left" id="marqueeText">🔥 እንኳን ወደ መታሃራ ዲጂታል 2019 በሰላም መጡ! ወቅታዊ የከተማችን መረጃዎች እና በስርጭት ላይ ያሉ ዜናዎችን እዚህ ማግኘት ይችላሉ። 🔥</marquee>
-</div>
-
-<div class="main-container">
-    <div class="admin-section" id="adminSection">
-        <div class="admin-header-flex">
-            <h2 id="formPanelTitle">መረጃ መጫኛ (Admin Panel)</h2>
-            <button type="button" class="close-admin-btn" onclick="closeAdminPanel()">❌ ከአድሚን ውጣ</button>
-        </div>
-        <form id="newsForm">
-            <input type="hidden" id="editPostId" value="">
-            <div class="form-group">
-                <select id="newsCategory">
-                    <option value="News">ዜና (News)</option>
-                    <option value="Tourism">ቱሪዝም (Tourism)</option>
-                    <option value="Culture">ባህል (Culture)</option>
-                    <option value="Philosophy">ፍልስፍና (Philosophy)</option>
-                    <option value="Literature">ፅነ-ፅሁፍ (Literature)</option>
-                    <option value="Video">የቪዲዮ ጋለሪ (Video)</option>
-                    <option value="Photo">የፎቶ ጋለሪ (Photo)</option>
-                </select>
+        <!-- Admin Panel Section -->
+        <div class="admin-section" id="adminSection">
+            <div class="admin-header-flex">
+                <h3 style="color: #ff6600;">መረጃ መጫኛ (Admin Panel)</h3>
+                <button class="close-admin-btn" onclick="closeAdminPanel()">❌ ከአድሚን ውጣ</button>
             </div>
             
-            <div class="form-group">
-                <input type="text" id="mediaUrl" placeholder="የፎቶ ሊንክ፣ የዩቲዩብ ቪዲዮ ሊንክ ወይም የምስል ዩአርኤል (Image/Video URL) ያስገቡ">
-            </div>
+            <form id="newsForm">
+                <input type="hidden" id="editPostId">
+                <div class="form-group">
+                    <select id="newsCategory">
+                        <option value="News">ዜና (News)</option>
+                        <option value="Tourism">ቱሪዝም (Tourism)</option>
+                        <option value="Culture">ባህል (Culture)</option>
+                        <option value="Philosophy">ፍልስፍና (Philosophy)</option>
+                        <option value="Literature">ፅነ-ፅሁፍ (Literature)</option>
+                        <option value="Video">የቪዲዮ ጋለሪ (Video)</option>
+                        <option value="Photo">የፎቶ ጋለሪ (Photo)</option>
+                    </select>
+                </div>
 
-            <hr style="margin: 15px 0; border: 0; border-top: 1px solid #ddd;">
+                <div class="form-group">
+                    <input type="text" id="mediaUrl" placeholder="የፎቶ ሊንክ፣ የዩቲዩብ ቪዲዮ ሊንክ ወይም የምስል ዩአርኤል (Image/Video URL) ያስገቡ">
+                </div>
 
-            <h4>አማርኛ (Amharic)</h4>
-            <div class="form-group"><input type="text" id="titleAM" placeholder="የአማርኛ ርዕስ"></div>
-            <div class="form-group"><textarea id="contentAM" placeholder="የአማርኛ ይዘት"></textarea></div>
+                <hr style="margin: 15px 0; border: 0; border-top: 1px solid #ddd;">
 
-            <h4>ኦሮምኛ (Afaan Oromoo)</h4>
-            <div class="form-group"><input type="text" id="titleOR" placeholder="Mata Duree (Oro)"></div>
-            <div class="form-group"><textarea id="contentOR" placeholder="Qabiyyee (Oro)"></textarea></div>
+                <h4>አማርኛ (Amharic)</h4>
+                <div class="form-group"><input type="text" id="titleAM" placeholder="የአማርኛ ርዕስ"></div>
+                <div class="form-group"><textarea id="contentAM" placeholder="የአማርኛ ይዘት"></textarea></div>
 
-            <h4>እንግሊዝኛ (English)</h4>
-            <div class="form-group"><input type="text" id="titleEN" placeholder="English Title"></div>
-            <div class="form-group"><textarea id="contentEN" placeholder="English Content"></textarea></div>
+                <h4>ኦሮምኛ (Afaan Oromoo)</h4>
+                <div class="form-group"><input type="text" id="titleOR" placeholder="Mata Duree (Oro)"></div>
+                <div class="form-group"><textarea id="contentOR" placeholder="Qabiyyee (Oro)"></textarea></div>
 
-            <button type="submit" class="submit-btn" id="formSubmitBtn">በሶስቱም ቋንቋዎች ለጥፍ</button>
-        </form>
-    </div>
+                <h4>እንግሊዝኛ (English)</h4>
+                <div class="form-group"><input type="text" id="titleEN" placeholder="English Title"></div>
+                <div class="form-group"><textarea id="contentEN" placeholder="English Content"></textarea></div>
 
-    <h3 id="sectionHeading" style="margin-bottom: 15px; color: #333; border-bottom: 2px solid #ff6600; display: inline-block; padding-bottom: 5px;">ወቅታዊ መረጃዎች</h3>
-    <div class="news-grid" id="newsContainer"></div>
-</div>
-
-<footer>
-    <div class="footer-content">
-        <div class="footer-col">
-            <h4 id="footerAboutTitle">ስለ መታሃራ ዲጂታል 2019</h4>
-            <p id="footerAboutText">መታሃራ ዲጂታል 2019 የከተማችንን ቱሪዝም፣ ባህል፣ ልማት እና ወቅታዊ መረጃዎች በሶስት ቋንቋዎች ለህብረተሰቡ የሚያደርስ መድረክ ነው።</p>
-        </div>
-        
-        <div class="footer-col">
-            <h4 id="subTitleHeading">ለአዳዲስ መረጃዎች ይመዝገቡ</h4>
-            <p id="subDescText">ኢሜይል አድራሻዎን ያስገቡ</p>
-            <form id="subscribeForm">
-                <input type="email" id="subscriberEmail" placeholder="ኢሜይል አድራሻዎን ያስገቡ" style="padding:8px; width:80%; border-radius:4px; border:none; margin-bottom:5px;" required>
-                <button type="submit" id="subBtn" style="padding:8px; background:#ff6600; border:none; color:white; cursor:pointer; border-radius:4px;">ይመዝገቡ</button>
+                <button type="submit" class="submit-btn" id="formSubmitBtn">በሶስቱም ቋንቋዎች ለጥፍ</button>
             </form>
         </div>
 
-        <div class="footer-col">
-            <h4 id="footerContactTitle">አግኙን / Contact Us</h4>
-            <p>📍 Mataaharaa, Oromia, Ethiopia</p>
-            <p>📧 sami2all@gmail.com</p>
-            <p>📞 +251 911 926976</p>
+        <h3 id="sectionHeading" style="margin-bottom: 15px; color: #333; border-bottom: 2px solid #ff6600; display: inline-block; padding-bottom: 5px;">ወቅታዊ መረጃዎች</h3>
+        <div class="news-grid" id="newsContainer"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4 id="footerAboutTitle">ስለ መታሃራ ዲጂታል 2019</h4>
+                <p id="footerAboutText">መታሃራ ዲጂታል 2019 የከተማችንን ቱሪዝም፣ ባህል፣ ልማት እና ወቅታዊ መረጃዎች በሶስት ቋንቋዎች ለህብረተሰቡ የሚያደርስ መድረክ ነው።</p>
+            </div>
+            <div class="footer-col">
+                <h4 id="subTitleHeading">ለአዳዲስ መረጃዎች ይመዝገቡ</h4>
+                <p id="subDescText">ኢሜይል አድራሻዎን ያስገቡ</p>
+                <form id="subscribeForm">
+                    <input type="email" id="subscriberEmail" placeholder="ኢሜይል አድራሻዎን ያስገቡ" style="padding:8px; width:80%; border-radius:4px; border:none; margin-bottom:5px;" required>
+                    <button type="submit" id="subBtn" style="padding:8px; background:#ff6600; border:none; color:white; cursor:pointer; border-radius:4px;">ይመዝገቡ</button>
+                </form>
+            </div>
+            <div class="footer-col">
+                <h4 id="footerContactTitle">አግኙን / Contact Us</h4>
+                <p>📍 Mataaharaa, Oromia, Ethiopia</p>
+                <p>📧 sami2all@gmail.com</p>
+                <p>📞 +251 911 926976</p>
+            </div>
         </div>
-    </div>
-    <div class="footer-bottom">
-        <p>&copy; 2019 Mataaharaa Digital Hub. Designed by Sami Online Advert & Promotion.</p>
-    </div>
-</footer>
+        <div class="footer-bottom">
+            <p>&copy; 2019 Mataaharaa Digital Hub. Designed by Sami Online Advert & Promotion.</p>
+        </div>
+    </footer>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    <!-- Firebase & Custom Script -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    const firebaseConfig = { 
-        apiKey: "AIzaSy...", 
-        authDomain: "mataaharaa-hub-2019.firebaseapp.com",
-        projectId: "mataaharaa-hub-2019",
-        storageBucket: "mataaharaa-hub-2019.appspot.com",
-        messagingSenderId: "538021472549",
-        appId: "1:538021472549:web:dae14f2a677582b9e6d2cc"
-    };
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+        const firebaseConfig = { 
+            apiKey: "AIzaSy...", 
+            authDomain: "mataaharaa-hub-2019.firebaseapp.com",
+            projectId: "mataaharaa-hub-2019",
+            storageBucket: "mataaharaa-hub-2019.appspot.com",
+            messagingSenderId: "538021472549",
+            appId: "1:538021472549:web:dae14f2a677582b9e6d2cc"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-    let currentCat = 'News';
-    let currentLang = 'OR';
-    let allPosts = [];
-    let isAdminLoggedIn = false;
+        let currentCat = 'News';
+        let currentLang = 'AM';
+        let allPosts = [];
+        let isAdminLoggedIn = false;
 
-    // የእውነተኛ ዜናዎች የመጀመሪያ ቋሚ መረጃዎች (Default Real Static Posts)
-    const defaultStaticPosts = [
-        {
-            id: 'default_1',
-            category: 'News',
-            lang: 'OR',
-            title: 'Yeroo tokko tokko magaalaa tokko caalaati bareechuuf baajata guddaa qofa qabaachun hin ga\'u.',
-            content: 'Yeroo tokko tokko magaalaa tokko caalaati bareechuuf baajata guddaa qofa qabaachun hin ga\'u. Waan jiru karaa addatiin ilaaluun, carraa hin mul\'anne adda baasuun, boru yaadanii har\'a hojjechuu danda\'uun "ija risaa" barbaada.',
-            media: '',
-            createdAt: 1770000000000
-        },
-        {
-            id: 'default_2',
-            category: 'News',
-            lang: 'AM',
-            title: 'የእኛን ድል በንጥር ዓይን ማየት! ከተሞቻችንን ይበልጥ ለማንቃት ታላቅ ዕቅድ ተዘርግቶ ስራ ተጀምሯል።',
-            content: 'የእኛን ድል በንጥር ዓይን ማየት! ከተሞቻችንን ይበልጥ ለማንቃት ታላቅ ዕቅድ ተዘርግቶ ስራ ተጀምሯል። መታሃራ፣ የእኛን ድል በንጥር ዓይን ማየት! ከተሞቻችንን ይበልጥ ለማንቃት ታላቅ ዕቅድ ተዘርግቶ ስራ ተጀምሯል።',
-            media: '',
-            createdAt: 1769990000000
-        },
-        {
-            id: 'default_3',
-            category: 'News',
-            lang: 'OR',
-            title: 'Oromiyaa Obbo Shimallis Abdiisaa Burtukaana Ashaaraa Magariisaa Daawwatan!',
-            content: 'Oromiyaa Obbo Shimallis Abdiisaa Burtukaana Ashaaraa Magariisaa Daawwatan! Har\'a, Pirezedaantiin Mootummaa Naannoo Oromiyaa, Obbo Shimallis Abdiisaa, Godina Shawaa Bahaa Magaalaa Mataaharaatti argamuun, biqiltuu burtukaana sagantaa Ashaaraa Magariisaatiin bara darbe dhaabbate daawwataniiru.',
-            media: '',
-            createdAt: 1769980000000
+        const defaultStaticPosts = [
+            {
+                id: 'default_1',
+                category: 'News',
+                lang: 'OR',
+                title: 'Yeroo tokko tokko magaalaa tokko caalaati bareechuuf baajata guddaa qofa qabaachun hin ga\'u.',
+                content: 'Yeroo tokko tokko magaalaa tokko caalaati bareechuuf baajata guddaa qofa qabaachun hin ga\'u. Waan jiru karaa addatiin ilaaluun, carraa hin mul\'anne adda baasuun, boru yaadanii har\'a hojjechuu danda\'uun "ija risaa" barbaada.',
+                media: '',
+                createdAt: 1770000000000
+            },
+            {
+                id: 'default_2',
+                category: 'News',
+                lang: 'AM',
+                title: 'የእኛን ድል በንጥር ዓይን ማየት! ከተሞቻችንን ይበልጥ ለማንቃት ታላቅ ዕቅድ ተዘርግቶ ስራ ተጀምሯል።',
+                content: 'የእኛን ድል በንጥር ዓይን ማየት! ከተሞቻችንን ይበልጥ ለማንቃት ታላቅ ዕቅድ ተዘርግቶ ስራ ተጀምሯል። መታሃራ፣ የእኛን ድል በንጥር ዓይን ማየት! ከተሞቻችንን ይበልጥ ለማንቃት ታላቅ ዕቅድ ተዘርግቶ ስራ ተጀምሯል።',
+                media: '',
+                createdAt: 1769990000000
+            },
+            {
+                id: 'default_3',
+                category: 'News',
+                lang: 'OR',
+                title: 'Oromiyaa Obbo Shimallis Abdiisaa Burtukaana Ashaaraa Magariisaa Daawwatan!',
+                content: 'Oromiyaa Obbo Shimallis Abdiisaa Burtukaana Ashaaraa Magariisaa Daawwatan! Har\'a, Pirezedaantiin Mootummaa Naannoo Oromiyaa, Obbo Shimallis Abdiisaa, Godina Shawaa Bahaa Magaalaa Mataaharaatti argamuun, biqiltuu burtukaana sagantaa Ashaaraa Magariisaatiin bara darbe dhaabbate daawwataniiru.',
+                media: '',
+                createdAt: 1769980000000
+            }
+        ];
+
+        const translations = {
+            'AM': {
+                heroTitle: "እንኳን ወደ መታሃራ ከተማ ዲጂታል መረጃ ማእከል በደህና መጡ",
+                heroSub: "ፀሃይ የማትጠልቅባት ከተማ - መታሃራ-",
+                marquee: "🔥 እንኳን ወደ መታሃራ ዲጂታል 2019 በሰላም መጡ! ወቅታዊ የከተማችን መረጃዎች እና በስርጭት ላይ ያሉ ዜናዎችን እዚህ ማግኘት ይችላሉ። 🔥",
+                navNews: "ዜና", navTourism: "ቱሪዝም", navCulture: "ባህል",
+                navPhilosophy: "ፍልስፍና", navLiterature: "ፅነ-ፅሁፍ", navVideo: "የቪዲዮ ጋለሪ", navPhoto: "የፎቶ ጋለሪ",
+                sectionHeading: "ወቅታዊ መረጃዎች",
+                readMore: "ተጨማሪ ለማንበብ...",
+                footerAboutTitle: "ስለ መታሃራ ዲጂታል 2019",
+                footerAboutText: "መታሃራ ዲጂታል 2019 የከተማችንን ቱሪዝም፣ ባህል፣ ልማት እና ወቅታዊ መረጃዎች በሶስት ቋንቋዎች ለህብረተሰቡ የሚያደርስ መድረክ ነው።",
+                footerContactTitle: "አግኙን / Contact Us",
+                noData: "በዚህ ቋንቋ ወይም ምድብ የተለጠፈ መረጃ የለም።",
+                subHeading: "ለአዳዲስ መረጃዎች ይመዝገቡ",
+                subDesc: "ኢሜይል አድራሻዎን ያስገቡ",
+                subButton: "ይመዝገቡ",
+                successMsg: "በተሳካ ሁኔታ ተመዝግበዋል! እናመሰግናለን።"
+            },
+            'OR': {
+                heroTitle: "Baga Nagaan Gara Wiirtuu Odeeffannoo Dijitaalaa Magaala Mataaharaa Dhuftan",
+                heroSub: "Mataaharaa Magaalaa Aduun itti hindhiine",
+                marquee: "🔥 Baga Nagaan Gara Mataaharaa Digital 2019 dhuftan! Odeeffannoowwan yeroo fi oduulee magaalattii as irratti argachuu dandeessu. 🔥",
+                navNews: "Oduu", navTourism: "Tuuriizimii", navCulture: "Aadaa",
+                navPhilosophy: "Filoosofii", navLiterature: "Barruu", navVideo: "Gaalarii Viidiyoo", navPhoto: "Gaalarii Suuraa",
+                sectionHeading: "Odeeffannoo Yeroo Ammaa",
+                readMore: "Dabalataan Dubbisuuf...",
+                footerAboutTitle: "Waa'ee Mataaharaa Digital 2019",
+                footerAboutText: "Mataaharaa Digital 2019 wiirtuu odeeffannoo tuuriizimii, aadaa fi misiyoonsii magaalattii afaan sadiin dhiyeessuudha.",
+                footerContactTitle: "Nu Quunnamaa",
+                noData: "Odeeffannoon afaan kana ykn ramaddii kanaan hin jiru.",
+                subHeading: "Odeeffannoowwan Haaraaf Galmaa'aa",
+                subDesc: "Teessoo imeelii keessanii galchaa",
+                subButton: "Galmaa'ი",
+                successMsg: "Milkaa'inaan galmoofteetta! Galatoomaa."
+            },
+            'EN': {
+                heroTitle: "Welcome to Mataaharaa City Digital Information Center",
+                heroSub: "“Mataahara — The City Where the Sun Never Sets.” ☀️",
+                marquee: "🔥 Welcome to Mataaharaa Digital 2019! Find the latest city updates, news, and insights right here. 🔥",
+                navNews: "News", navTourism: "Tourism", navCulture: "Culture",
+                navPhilosophy: "Philosophy", navLiterature: "Literature", navVideo: "Video Gallery", navPhoto: "Photo Gallery",
+                sectionHeading: "Latest Updates",
+                readMore: "Read More...",
+                footerAboutTitle: "About Mataaharaa Digital 2019",
+                footerAboutText: "Mataaharaa Digital 2019 is a comprehensive platform sharing tourism, culture, development, and news in three languages.",
+                footerContactTitle: "Contact Us",
+                noData: "No posts available in this language or category.",
+                subHeading: "Subscribe for Updates",
+                subDesc: "Enter your email address",
+                subButton: "Subscribe",
+                successMsg: "Successfully subscribed! Thank you."
+            }
+        };
+
+        window.updateFilter = (type, val) => {
+            if(type === 'cat') {
+                currentCat = val;
+                document.querySelectorAll('nav a[id^="nav"]').forEach(a => a.classList.remove('active'));
+                document.getElementById('nav' + val).classList.add('active');
+            }
+            render();
         }
-    ];
 
-    const translations = {
-        'AM': {
-            heroTitle: "እንኳን ወደ መታሃራ ከተማ ዲጂታል መረጃ ማእከል በደህና መጡ",
-            heroSub: "ፀሃይ የማትጠልቅባት ከተማ - መታሃራ-",
-            marquee: "🔥 እንኳን ወደ መታሃራ ዲጂታል 2019 በሰላም መጡ! ወቅታዊ የከተማችን መረጃዎች እና በስርጭት ላይ ያሉ ዜናዎችን እዚህ ማግኘት ይችላሉ። 🔥",
-            navNews: "ዜና", navTourism: "ቱሪዝም", navCulture: "ባህል",
-            navPhilosophy: "ፍልስፍና", navLiterature: "ፅነ-ፅሁፍ", navVideo: "የቪዲዮ ጋለሪ", navPhoto: "የፎቶ ጋለሪ",
-            sectionHeading: "ወቅታዊ መረጃዎች",
-            readMore: "ተጨማሪ ለማንበብ...",
-            footerAboutTitle: "ስለ መታሃራ ዲጂታል 2019",
-            footerAboutText: "መታሃራ ዲጂታል 2019 የከተማችንን ቱሪዝም፣ ባህል፣ ልማት እና ወቅታዊ መረጃዎች በሶስት ቋንቋዎች ለህብረተሰቡ የሚያደርስ መድረክ ነው።",
-            footerContactTitle: "አግኙን / Contact Us",
-            noData: "በዚህ ቋንቋ ወይም ምድብ የተለጠፈ መረጃ የለም።",
-            subHeading: "ለአዳዲስ መረጃዎች ይመዝገቡ",
-            subDesc: "ኢሜይል አድራሻዎን ያስገቡ",
-            subButton: "ይመዝገቡ",
-            successMsg: "በተሳካ ሁኔታ ተመዝግበዋል! እናመሰግናለን።"
-        },
-        'OR': {
-            heroTitle: "Baga Nagaan Gara Wiirtuu Odeeffannoo Dijitaalaa Magaala Mataaharaa Dhuftan",
-            heroSub: "Mataaharaa Magaalaa Aduun itti hindhiine",
-            marquee: "🔥 Baga Nagaan Gara Mataaharaa Digital 2019 dhuftan! Odeeffannoowwan yeroo fi oduulee magaalattii as irratti argachuu dandeessu. 🔥",
-            navNews: "Oduu", navTourism: "Tuuriizimii", navCulture: "Aadaa",
-            navPhilosophy: "Filoosofii", navLiterature: "Barruu", navVideo: "Gaalarii Viidiyoo", navPhoto: "Gaalarii Suuraa",
-            sectionHeading: "Odeeffannoo Yeroo Ammaa",
-            readMore: "Dabalataan Dubbisuuf...",
-            footerAboutTitle: "Waa'ee Mataaharaa Digital 2019",
-            footerAboutText: "Mataaharaa Digital 2019 wiirtuu odeeffannoo tuuriizimii, aadaa fi misiyoonsii magaalattii afaan sadiin dhiyeessuudha.",
-            footerContactTitle: "Nu Quunnamaa",
-            noData: "Odeeffannoon afaan kana ykn ramaddii kanaan hin jiru.",
-            subHeading: "Odeeffannoowwan Haaraaf Galmaa'aa",
-            subDesc: "Teessoo imeelii keessanii galchaa",
-            subButton: "Galmaa'ი",
-            successMsg: "Milkaa'inaan galmoofteetta! Galatoomaa."
-        },
-        'EN': {
-            heroTitle: "Welcome to Mataaharaa City Digital Information Center",
-            heroSub: "“Mataahara — The City Where the Sun Never Sets.” ☀️",
-            marquee: "🔥 Welcome to Mataaharaa Digital 2019! Find the latest city updates, news, and insights right here. 🔥",
-            navNews: "News", navTourism: "Tourism", navCulture: "Culture",
-            navPhilosophy: "Philosophy", navLiterature: "Literature", navVideo: "Video Gallery", navPhoto: "Photo Gallery",
-            sectionHeading: "Latest Updates",
-            readMore: "Read More...",
-            footerAboutTitle: "About Mataaharaa Digital 2019",
-            footerAboutText: "Mataaharaa Digital 2019 is a comprehensive platform sharing tourism, culture, development, and news in three languages.",
-            footerContactTitle: "Contact Us",
-            noData: "No posts available in this language or category.",
-            subHeading: "Subscribe for Updates",
-            subDesc: "Enter your email address",
-            subButton: "Subscribe",
-            successMsg: "Successfully subscribed! Thank you."
+        window.updateLanguage = (lang) => {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('btn' + lang).classList.add('active');
+            
+            document.getElementById('heroTitle').innerText = translations[lang].heroTitle;
+            document.getElementById('heroSub').innerText = translations[lang].heroSub;
+            document.getElementById('marqueeText').innerText = translations[lang].marquee;
+            
+            document.getElementById('navNews').innerText = translations[lang].navNews;
+            document.getElementById('navTourism').innerText = translations[lang].navTourism;
+            document.getElementById('navCulture').innerText = translations[lang].navCulture;
+            document.getElementById('navPhilosophy').innerText = translations[lang].navPhilosophy;
+            document.getElementById('navLiterature').innerText = translations[lang].navLiterature;
+            document.getElementById('navVideo').innerText = translations[lang].navVideo;
+            document.getElementById('navPhoto').innerText = translations[lang].navPhoto;
+
+            document.getElementById('sectionHeading').innerText = translations[lang].sectionHeading;
+            document.getElementById('footerAboutTitle').innerText = translations[lang].footerAboutTitle;
+            document.getElementById('footerAboutText').innerText = translations[lang].footerAboutText;
+            document.getElementById('footerContactTitle').innerText = translations[lang].footerContactTitle;
+
+            document.getElementById('subTitleHeading').innerText = translations[lang].subHeading;
+            document.getElementById('subDescText').innerText = translations[lang].subDesc;
+            document.getElementById('subscriberEmail').placeholder = translations[lang].subDesc;
+            document.getElementById('subBtn').innerText = translations[lang].subButton;
+
+            render();
         }
-    };
 
-    window.updateFilter = (type, val) => {
-        if(type === 'cat') {
-            currentCat = val;
-            document.querySelectorAll('nav a[id^="nav"]').forEach(a => a.classList.remove('active'));
-            document.getElementById('nav' + val).classList.add('active');
+        document.getElementById("subscribeForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            const emailInput = document.getElementById("subscriberEmail").value;
+            const successMessage = translations[currentLang].successMsg;
+
+            try {
+                await addDoc(collection(db, "subscribers"), {
+                    email: emailInput,
+                    language: currentLang,
+                    subscribedAt: Date.now()
+                });
+                alert(successMessage);
+                this.reset();
+            } catch(err) {
+                console.error("Subscription Error: ", err);
+                alert(successMessage);
+                this.reset();
+            }
+        });
+
+        async function loadData() {
+            try {
+                const snap = await getDocs(collection(db, "news"));
+                let firestorePosts = [];
+                snap.forEach(d => firestorePosts.push({id: d.id, ...d.data()}));
+                
+                let deletedPosts = JSON.parse(localStorage.getItem('deletedPosts') || '[]');
+                let combinedPosts = [...defaultStaticPosts, ...firestorePosts];
+                allPosts = combinedPosts.filter(post => !deletedPosts.includes(post.id));
+                
+                allPosts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                render();
+            } catch(err) {
+                console.error(err);
+                let deletedPosts = JSON.parse(localStorage.getItem('deletedPosts') || '[]');
+                allPosts = defaultStaticPosts.filter(post => !deletedPosts.includes(post.id));
+                render();
+            }
         }
-        render();
-    }
 
-    window.updateLanguage = (lang) => {
-        currentLang = lang;
-        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('btn' + lang).classList.add('active');
-        
-        document.getElementById('heroTitle').innerText = translations[lang].heroTitle;
-        document.getElementById('heroSub').innerText = translations[lang].heroSub;
-        document.getElementById('marqueeText').innerText = translations[lang].marquee;
-        
-        document.getElementById('navNews').innerText = translations[lang].navNews;
-        document.getElementById('navTourism').innerText = translations[lang].navTourism;
-        document.getElementById('navCulture').innerText = translations[lang].navCulture;
-        document.getElementById('navPhilosophy').innerText = translations[lang].navPhilosophy;
-        document.getElementById('navLiterature').innerText = translations[lang].navLiterature;
-        document.getElementById('navVideo').innerText = translations[lang].navVideo;
-        document.getElementById('navPhoto').innerText = translations[lang].navPhoto;
+        async function render() {
+            const container = document.getElementById("newsContainer");
+            container.innerHTML = "";
+            
+            const filtered = allPosts.filter(p => 
+                (p.category === currentCat) && 
+                (p.lang === currentLang)
+            );
 
-        document.getElementById('sectionHeading').innerText = translations[lang].sectionHeading;
-        document.getElementById('footerAboutTitle').innerText = translations[lang].footerAboutTitle;
-        document.getElementById('footerAboutText').innerText = translations[lang].footerAboutText;
-        document.getElementById('footerContactTitle').innerText = translations[lang].footerContactTitle;
+            if(filtered.length === 0) {
+                container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #775; padding: 20px;">${translations[currentLang].noData}</p>`;
+                return;
+            }
 
-        document.getElementById('subTitleHeading').innerText = translations[lang].subHeading;
-        document.getElementById('subDescText').innerText = translations[lang].subDesc;
-        document.getElementById('subscriberEmail').placeholder = translations[lang].subDesc;
-        document.getElementById('subBtn').innerText = translations[lang].subButton;
+            filtered.forEach((p) => {
+                let mediaHtml = '';
+                if(p.media) {
+                    if(p.media.includes('youtube') || p.media.includes('youtu.be')) {
+                        let videoId = p.media.split('v=')[1] || p.media.split('/').pop();
+                        if(videoId && videoId.includes('&')) videoId = videoId.split('&')[0];
+                        mediaHtml = `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+                    } else {
+                        mediaHtml = `<img src="${p.media}" alt="Post Image">`;
+                    }
+                }
 
-        render();
-    }
+                let shortContent = p.content.length > 120 ? p.content.substring(0, 120) + "..." : p.content;
+                let adminControlsClass = isAdminLoggedIn ? "admin-controls active" : "admin-controls";
 
-    document.getElementById("subscribeForm").addEventListener("submit", async function(e) {
-        e.preventDefault();
-        const emailInput = document.getElementById("subscriberEmail").value;
-        const successMessage = translations[currentLang].successMsg;
-
-        try {
-            await addDoc(collection(db, "subscribers"), {
-                email: emailInput,
-                language: currentLang,
-                subscribedAt: Date.now()
+                container.innerHTML += `
+                    <div class="news-card">
+                        <div>
+                            ${mediaHtml}
+                            <span class="cat">${p.category}</span>
+                            <h3>${p.title}</h3>
+                            <p>${shortContent}</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="read-more-btn" onclick="openDetailModal('${p.id}')">${translations[currentLang].readMore}</button>
+                            <div class="${adminControlsClass}">
+                                <button class="edit-btn" onclick="editPost('${p.id}')">አስተካክል</button>
+                                <button class="delete-btn" onclick="deletePost('${p.id}')">ሰርዝ</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
             });
-            alert(successMessage);
-            this.reset();
-        } catch(err) {
-            console.error("Subscription Error: ", err);
-            alert(successMessage);
-            this.reset();
-        }
-    });
-
-    async function render() {
-        const container = document.getElementById("newsContainer");
-        container.innerHTML = "";
-        
-        const filtered = allPosts.filter(p => 
-            (p.category === currentCat) && 
-            (p.lang === currentLang)
-        );
-
-        if(filtered.length === 0) {
-            container.innerHTML = `<p style="text-align:center; color:#666; padding:30px; grid-column: 1/-1;">${translations[currentLang].noData}</p>`;
-            return;
         }
 
-        filtered.forEach((p) => {
+        window.openDetailModal = (id) => {
+            const p = allPosts.find(item => item.id === id);
+            if(!p) return;
+
             let mediaHtml = '';
             if(p.media) {
                 if(p.media.includes('youtube') || p.media.includes('youtu.be')) {
@@ -410,212 +472,154 @@
                     if(videoId && videoId.includes('&')) videoId = videoId.split('&')[0];
                     mediaHtml = `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
                 } else {
-                    mediaHtml = `<img src="${p.media}" alt="Media">`;
+                    mediaHtml = `<img src="${p.media}" alt="Detail Image">`;
                 }
             }
 
-            let shortContent = p.content.length > 120 ? p.content.substring(0, 120) + "..." : p.content;
-            let adminControlsClass = isAdminLoggedIn ? "admin-controls active" : "admin-controls";
-
-            container.innerHTML += `
-                <div class="news-card">
-                    <div>
-                        ${mediaHtml}
-                        <span class="cat">${p.category}</span>
-                        <h3>${p.title}</h3>
-                        <p>${shortContent}</p>
-                    </div>
-                    <div class="card-actions">
-                        <button class="read-more-btn" onclick="openDetailModal('${p.id}')">${translations[currentLang].readMore}</button>
-                        <div class="${adminControlsClass}">
-                            <button class="edit-btn" onclick="editPost('${p.id}')">አስተካክል</button>
-                            <button class="delete-btn" onclick="deletePost('${p.id}')">ሰርዝ</button>
-                        </div>
-                    </div>
-                </div>`;
-        });
-    }
-
-    window.openDetailModal = (id) => {
-        const p = allPosts.find(item => item.id === id);
-        if(!p) return;
-
-        let mediaHtml = '';
-        if(p.media) {
-            if(p.media.includes('youtube') || p.media.includes('youtu.be')) {
-                let videoId = p.media.split('v=')[1] || p.media.split('/').pop();
-                if(videoId && videoId.includes('&')) videoId = videoId.split('&')[0];
-                mediaHtml = `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
-            } else {
-                mediaHtml = `<img src="${p.media}" alt="Media">`;
-            }
+            const modalContent = document.getElementById("detailModalContent");
+            modalContent.innerHTML = `
+                <button class="close-detail-btn" onclick="closeDetailModal()">✖ ዝጋ</button>
+                ${mediaHtml}
+                <span class="cat">${p.category}</span>
+                <h2>${p.title}</h2>
+                <p>${p.content}</p>
+            `;
+            document.getElementById("detailModal").classList.add("active");
         }
 
-        const modalContent = document.getElementById("detailModalContent");
-        modalContent.innerHTML = `
-            <button class="close-detail-btn" onclick="closeDetailModal()">✖ ዝጋ</button>
-            ${mediaHtml}
-            <span class="cat" style="display:block; margin-bottom:5px;">${p.category}</span>
-            <h2>${p.title}</h2>
-            <p>${p.content}</p>
-        `;
-        document.getElementById("detailModal").classList.add("active");
-    }
+        window.closeDetailModal = () => {
+            document.getElementById("detailModal").classList.remove("active");
+        }
 
-    window.closeDetailModal = () => {
-        document.getElementById("detailModal").classList.remove("active");
-    }
-
-    window.checkPassword = () => {
-        document.getElementById("passwordModal").classList.add("active");
-    }
-    window.closeModal = () => {
-        document.getElementById("passwordModal").classList.remove("active");
-        document.getElementById("adminPasswordInput").value = "";
-    }
-    window.verifyPassword = () => {
-        const pass = document.getElementById("adminPasswordInput").value;
-        if(pass === "sami2all@8080") { 
-            isAdminLoggedIn = true;
+        window.checkPassword = () => {
+            document.getElementById("passwordModal").classList.add("active");
+        }
+        window.closeModal = () => {
             document.getElementById("passwordModal").classList.remove("active");
-            document.getElementById("adminSection").classList.add("active");
             document.getElementById("adminPasswordInput").value = "";
-            render();
-        } else {
-            alert("የገባው የለፍ ቃል ስህተት ነው!");
         }
-    }
-
-    window.closeAdminPanel = () => {
-        isAdminLoggedIn = false;
-        document.getElementById("adminSection").classList.remove("active");
-        document.getElementById("newsForm").reset();
-        document.getElementById("editPostId").value = "";
-        document.getElementById("formSubmitBtn").innerText = "በሶስቱም ቋንቋዎች ለጥፍ";
-        render();
-    }
-
-    window.editPost = (id) => {
-        const p = allPosts.find(item => item.id === id);
-        if(!p) return;
-
-        document.getElementById("editPostId").value = p.id;
-        document.getElementById("newsCategory").value = p.category;
-        document.getElementById("mediaUrl").value = p.media || "";
-        
-        if(p.lang === 'AM') {
-            document.getElementById("titleAM").value = p.title;
-            document.getElementById("contentAM").value = p.content;
-        } else if(p.lang === 'OR') {
-            document.getElementById("titleOR").value = p.title;
-            document.getElementById("contentOR").value = p.content;
-        } else if(p.lang === 'EN') {
-            document.getElementById("titleEN").value = p.title;
-            document.getElementById("contentEN").value = p.content;
-        }
-
-        document.getElementById("formSubmitBtn").innerText = "አስተካክሎ ፕረስ (Update)";
-        document.getElementById("adminSection").scrollIntoView({ behavior: 'smooth' });
-    }
-
-    window.deletePost = async (id) => {
-        if(id.startsWith('default_')) {
-            alert("ይህ የመጀመሪያው ቋሚ ዜና ስለሆነ በቀጥታ ከፋየርቤዝ አይደለም፤ ነገር ግን ከዚህ ዝርዝር ውስጥ ተሰርዟል።");
-            allPosts = allPosts.filter(item => item.id !== id);
-            render();
-            return;
-        }
-
-        if(confirm("ይህን መረጃ በእርግጥ መሰረዝ ትፈልጋለህ?")) {
-            try {
-                await deleteDoc(doc(db, "news", id));
-                allPosts = allPosts.filter(item => item.id !== id);
-                alert("መረጃው በተሳካ ሁኔታ ተሰርዟል!");
+        window.verifyPassword = () => {
+            const pass = document.getElementById("adminPasswordInput").value;
+            if(pass === "sami2all@8080") { 
+                isAdminLoggedIn = true;
+                document.getElementById("passwordModal").classList.remove("active");
+                document.getElementById("adminSection").classList.add("active");
+                document.getElementById("adminPasswordInput").value = "";
                 render();
-            } catch(err) {
-                console.error(err);
-                alert("እባክዎ እንደገና ይሞክሩ ስህተት ተፈጥሯል።");
+            } else {
+                alert("የገባው የለፍ ቃል ስህተት ነው!");
             }
         }
-    }
 
-    document.getElementById("newsForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const editId = document.getElementById("editPostId").value;
-        const category = document.getElementById("newsCategory").value;
-        const media = document.getElementById("mediaUrl").value;
-
-        const posts = [
-            { lang: 'AM', title: document.getElementById("titleAM").value, content: document.getElementById("contentAM").value },
-            { lang: 'OR', title: document.getElementById("titleOR").value, content: document.getElementById("contentOR").value },
-            { lang: 'EN', title: document.getElementById("titleEN").value, content: document.getElementById("contentEN").value }
-        ];
-
-        try {
-            if(editId) {
-                const p = allPosts.find(item => item.id === editId);
-                if(p) {
-                    p.category = category;
-                    p.media = media;
-                    p.title = document.getElementById("title" + p.lang).value;
-                    p.content = document.getElementById("content" + p.lang).value;
-                    if(!editId.startsWith('default_')) {
-                        await updateDoc(doc(db, "news", editId), { category, media, title: p.title, content: p.content });
-                    }
-                    alert("መረጃው በተሳካ ሁኔታ ተስተካክሏል!");
-                }
-            } else {
-                for(let p of posts) {
-                    if(p.title && p.content) {
-                        const docRef = await addDoc(collection(db, "news"), {
-                            category,
-                            media,
-                            lang: p.lang,
-                            title: p.title,
-                            content: p.content,
-                            createdAt: Date.now()
-                        });
-                        allPosts.unshift({
-                            id: docRef.id,
-                            category,
-                            media,
-                            lang: p.lang,
-                            title: p.title,
-                            content: p.content,
-                            createdAt: Date.now()
-                        });
-                    }
-                }
-                alert("መረጃው በሶስቱም ቋንቋዎች በተሳካ ሁኔታ ተለጠፈ!");
-            }
-            
+        window.closeAdminPanel = () => {
+            isAdminLoggedIn = false;
+            document.getElementById("adminSection").classList.remove("active");
             document.getElementById("newsForm").reset();
             document.getElementById("editPostId").value = "";
             document.getElementById("formSubmitBtn").innerText = "በሶስቱም ቋንቋዎች ለጥፍ";
             render();
-        } catch(err) {
-            console.error(err);
-            alert("ስህተት ተፈጥሯል እባክዎ እንደገና ይሞክሩ።");
         }
-    });
-    
-    async function loadData() {
-        try {
-            const snap = await getDocs(collection(db, "news"));
-            let firestorePosts = [];
-            snap.forEach(d => firestorePosts.push({id: d.id, ...d.data()}));
+
+        window.editPost = (id) => {
+            const p = allPosts.find(item => item.id === id);
+            if(!p) return;
+
+            document.getElementById("editPostId").value = p.id;
+            document.getElementById("newsCategory").value = p.category;
+            document.getElementById("mediaUrl").value = p.media || "";
             
-            // የመጀመሪያዎቹን እውነተኛ ዜናዎች ከፋየርቤዝ መረጃ ጋር በአንድ ላይ እናያይዛቸዋለን
-            allPosts = [...defaultStaticPosts, ...firestorePosts];
-            allPosts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-            render();
-        } catch(err) {
-            console.error(err);
-            allPosts = [...defaultStaticPosts];
-            render();
+            if(p.lang === 'AM') {
+                document.getElementById("titleAM").value = p.title;
+                document.getElementById("contentAM").value = p.content;
+            } else if(p.lang === 'OR') {
+                document.getElementById("titleOR").value = p.title;
+                document.getElementById("contentOR").value = p.content;
+            } else if(p.lang === 'EN') {
+                document.getElementById("titleEN").value = p.title;
+                document.getElementById("contentEN").value = p.content;
+            }
+
+            document.getElementById("formSubmitBtn").innerText = "አስተካክሎ ፕረስ (Update)";
+            document.getElementById("adminSection").scrollIntoView({ behavior: 'smooth' });
         }
-    }
-    loadData();
-</script>
+
+        window.deletePost = async (id) => {
+            if(confirm("ይህን መረጃ በእርግጥ መሰረዝ ትፈልጋለህ?")) {
+                let deletedPosts = JSON.parse(localStorage.getItem('deletedPosts') || '[]');
+                deletedPosts.push(id);
+                localStorage.setItem('deletedPosts', JSON.stringify(deletedPosts));
+
+                if(!id.startsWith('default_')) {
+                    try { await deleteDoc(doc(db, "news", id)); } catch(err) { console.error(err); }
+                }
+                
+                allPosts = allPosts.filter(item => item.id !== id);
+                alert("መረጃው በተሳካ ሁኔታ ተሰርዟል!");
+                render();
+            }
+        }
+
+        document.getElementById("newsForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const editId = document.getElementById("editPostId").value;
+            const category = document.getElementById("newsCategory").value;
+            const media = document.getElementById("mediaUrl").value;
+
+            const posts = [
+                { lang: 'AM', title: document.getElementById("titleAM").value, content: document.getElementById("contentAM").value },
+                { lang: 'OR', title: document.getElementById("titleOR").value, content: document.getElementById("contentOR").value },
+                { lang: 'EN', title: document.getElementById("titleEN").value, content: document.getElementById("contentEN").value }
+            ];
+
+            try {
+                if(editId) {
+                    const p = allPosts.find(item => item.id === editId);
+                    if(p) {
+                        p.category = category;
+                        p.media = media;
+                        p.title = document.getElementById("title" + p.lang).value;
+                        p.content = document.getElementById("content" + p.lang).value;
+                        if(!editId.startsWith('default_')) {
+                            await updateDoc(doc(db, "news", editId), { category, media, title: p.title, content: p.content });
+                        }
+                        alert("መረጃው በተሳካ ሁኔታ ተስተካክሏል!");
+                    }
+                } else {
+                    for(let p of posts) {
+                        if(p.title && p.content) {
+                            const docRef = await addDoc(collection(db, "news"), {
+                                category,
+                                media,
+                                lang: p.lang,
+                                title: p.title,
+                                content: p.content,
+                                createdAt: Date.now()
+                            });
+                            allPosts.unshift({
+                                id: docRef.id,
+                                category,
+                                media,
+                                lang: p.lang,
+                                title: p.title,
+                                content: p.content,
+                                createdAt: Date.now()
+                            });
+                        }
+                    }
+                    alert("መረጃው በሶስቱም ቋንቋዎች በተሳካ ሁኔታ ተለጠፈ!");
+                }
+                
+                document.getElementById("newsForm").reset();
+                document.getElementById("editPostId").value = "";
+                document.getElementById("formSubmitBtn").innerText = "በሶስቱም ቋንቋዎች ለጥፍ";
+                render();
+            } catch(err) {
+                console.error(err);
+                alert("ስህተት ተፈጥሯል እባክዎ እንደገና ይሞክሩ።");
+            }
+        });
+
+        loadData();
+    </script>
 </body>
 </html>
