@@ -209,11 +209,11 @@
         </div>
         
         <div class="footer-col">
-            <h4>ለአዳዲስ መረጃዎች ይመዝገቡ</h4>
-            <p>አዳዲስ ዜናዎች በኢሜይል እንዲደርሱዎት ኢሜይል አድራሻዎን ያስገቡ፡</p>
-            <form onsubmit="alert('ምዝገባዎ ተቀባይነት አግኝቷል! እናመሰግናለን።'); return false;">
-                <input type="email" placeholder="ኢሜይል አድራሻዎን ያስገቡ" style="padding:8px; width:80%; border-radius:4px; border:none; margin-bottom:5px;" required>
-                <button type="submit" style="padding:8px; background:#ff6600; border:none; color:white; cursor:pointer; border-radius:4px;">ይመዝገቡ</button>
+            <h4 id="subTitleHeading">ለአዳዲስ መረጃዎች ይመዝገቡ</h4>
+            <p id="subDescText">አዳዲስ ዜናዎች በኢሜይል እንዲደርሱዎት ኢሜይል አድራሻዎን ያስገቡ፡</p>
+            <form id="subscribeForm">
+                <input type="email" id="subscriberEmail" placeholder="ኢሜይል አድራሻዎን ያስገቡ" style="padding:8px; width:80%; border-radius:4px; border:none; margin-bottom:5px;" required>
+                <button type="submit" id="subBtn" style="padding:8px; background:#ff6600; border:none; color:white; cursor:pointer; border-radius:4px;">ይመዝገቡ</button>
             </form>
         </div>
 
@@ -244,7 +244,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    let currentCat = 'News'; // ዌብሳይቱ ሲከፈት በነባሪ (default) የዜና ምድብ እንዲጀምር ተደርጓል
+    let currentCat = 'News';
     let currentLang = 'OR';
     let allPosts = [];
     let isAdminLoggedIn = false;
@@ -261,7 +261,11 @@
             footerAboutTitle: "ስለ መታሃራ ዲጂታል 2019",
             footerAboutText: "መታሃራ ዲጂታል 2019 የከተማችንን ቱሪዝም፣ ባህል፣ ልማት እና ወቅታዊ መረጃዎች በሶስት ቋንቋዎች ለህብረተሰቡ የሚያደርስ መድረክ ነው።",
             footerContactTitle: "አግኙን / Contact Us",
-            noData: "በዚህ ቋንቋ ወይም ምድብ የተለጠፈ መረጃ የለም።"
+            noData: "በዚህ ቋንቋ ወይም ምድብ የተለጠፈ መረጃ የለም።",
+            subHeading: "ለአዳዲስ መረጃዎች ይመዝገቡ",
+            subDesc: "አዳዲስ ዜናዎች በኢሜይል እንዲደርሱዎት ኢሜይል አድራሻዎን ያስገቡ፡",
+            subButton: "ይመዝገቡ",
+            successMsg: "እንኳን ወደ መታሃራ ከተማ ዲጂታል መረጃ ማእከል በደህና መጡ። ዲጂታል የመረጃ ማእከላችን በየትኛውም የዓለም ጫፍ ቢኖሩ፣ አዳዲስ መረጃዎችን ስንጭን በኢሜይል አድራሻዎ ወዲያውኑ የኖቲፊኬሽን ማንቂያ መልእክት እንልክልዎታለን። ከእኛ ጋር ስለሆኑ በጣም እናመሰግናለን!"
         },
         'OR': {
             heroTitle: "Baga Nagaan Gara Wiirtuu Odeeffannoo Dijitaalaa Magaala Mataaharaa Dhuftan",
@@ -274,7 +278,11 @@
             footerAboutTitle: "Waa'ee Mataaharaa Digital 2019",
             footerAboutText: "Mataaharaa Digital 2019 wiirtuu odeeffannoo tuuriizimii, aadaa fi misiyoonsii magaalattii afaan sadiin dhiyeessuudha.",
             footerContactTitle: "Nu Quunnamaa",
-            noData: "Odeeffannoon afaan kana ykn ramaddii kanaan hin jiru."
+            noData: "Odeeffannoon afaan kana ykn ramaddii kanaan hin jiru.",
+            subHeading: "Odeeffannoowwan Haaraaf Galmaa'aa",
+            subDesc: "Odeeffannoowwan haaraan akka si qaqqabaniif teessoo imeelii keessii galchi:",
+            subButton: "Galmaa'ი",
+            successMsg: "Baga Gara Iddoo Odeeffannoo Dijitaalaa Magaala Mataaharaa nagaan dhuftan. Iddoo odeeffannoo dijitaalaa keenya keessatti, bakka jirtan hundatti odeeffannoo haaraan yeroo feetanatti, teessoo imeelii keessaniin owwaataa (notification) battalumatti isiniif ergina. Nu waliin ta'uu keessaniif galatoomaa!"
         },
         'EN': {
             heroTitle: "Welcome to Mataaharaa City Digital Information Center",
@@ -287,7 +295,11 @@
             footerAboutTitle: "About Mataaharaa Digital 2019",
             footerAboutText: "Mataaharaa Digital 2019 is a comprehensive platform sharing tourism, culture, development, and news in three languages.",
             footerContactTitle: "Contact Us",
-            noData: "No posts available in this language or category."
+            noData: "No posts available in this language or category.",
+            subHeading: "Subscribe for Updates",
+            subDesc: "Enter your email address to receive new updates:",
+            subButton: "Subscribe",
+            successMsg: "Welcome to the Metahara City Digital Information Center. Wherever you are in the world, whenever we upload new information, we will immediately send you a notification alert message to your email address. Thank you very much for being with us!"
         }
     };
 
@@ -322,8 +334,19 @@
         document.getElementById('footerAboutText').innerText = translations[lang].footerAboutText;
         document.getElementById('footerContactTitle').innerText = translations[lang].footerContactTitle;
 
+        document.getElementById('subTitleHeading').innerText = translations[lang].subHeading;
+        document.getElementById('subDescText').innerText = translations[lang].subDesc;
+        document.getElementById('subscriberEmail').placeholder = translations[lang].subDesc;
+        document.getElementById('subBtn').innerText = translations[lang].subButton;
+
         render();
     }
+
+    document.getElementById("subscribeForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        alert(translations[currentLang].successMsg);
+        this.reset();
+    });
 
     async function render() {
         const container = document.getElementById("newsContainer");
