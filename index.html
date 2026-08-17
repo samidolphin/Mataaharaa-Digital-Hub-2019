@@ -244,7 +244,36 @@
     let allPosts = [];
     let isAdminLoggedIn = false;
 
-    // የሙከራ ዜናዎች ሙሉ በሙሉ ታግደዋል/ተወግደዋል (Mock posts removed completely)
+    // የእውነተኛ ዜናዎች የመጀመሪያ ቋሚ መረጃዎች (Default Real Static Posts)
+    const defaultStaticPosts = [
+        {
+            id: 'default_1',
+            category: 'News',
+            lang: 'OR',
+            title: 'Yeroo tokko tokko magaalaa tokko caalaati bareechuuf baajata guddaa qofa qabaachun hin ga\'u.',
+            content: 'Yeroo tokko tokko magaalaa tokko caalaati bareechuuf baajata guddaa qofa qabaachun hin ga\'u. Waan jiru karaa addatiin ilaaluun, carraa hin mul\'anne adda baasuun, boru yaadanii har\'a hojjechuu danda\'uun "ija risaa" barbaada.',
+            media: '',
+            createdAt: 1770000000000
+        },
+        {
+            id: 'default_2',
+            category: 'News',
+            lang: 'AM',
+            title: 'የእኛን ድል በንጥር ዓይን ማየት! ከተሞቻችንን ይበልጥ ለማንቃት ታላቅ ዕቅድ ተዘርግቶ ስራ ተጀምሯል።',
+            content: 'የእኛን ድል በንጥር ዓይን ማየት! ከተሞቻችንን ይበልጥ ለማንቃት ታላቅ ዕቅድ ተዘርግቶ ስራ ተጀምሯል። መታሃራ፣ የእኛን ድል በንጥር ዓይን ማየት! ከተሞቻችንን ይበልጥ ለማንቃት ታላቅ ዕቅድ ተዘርግቶ ስራ ተጀምሯል።',
+            media: '',
+            createdAt: 1769990000000
+        },
+        {
+            id: 'default_3',
+            category: 'News',
+            lang: 'OR',
+            title: 'Oromiyaa Obbo Shimallis Abdiisaa Burtukaana Ashaaraa Magariisaa Daawwatan!',
+            content: 'Oromiyaa Obbo Shimallis Abdiisaa Burtukaana Ashaaraa Magariisaa Daawwatan! Har\'a, Pirezedaantiin Mootummaa Naannoo Oromiyaa, Obbo Shimallis Abdiisaa, Godina Shawaa Bahaa Magaalaa Mataaharaatti argamuun, biqiltuu burtukaana sagantaa Ashaaraa Magariisaatiin bara darbe dhaabbate daawwataniiru.',
+            media: '',
+            createdAt: 1769980000000
+        }
+    ];
 
     const translations = {
         'AM': {
@@ -339,7 +368,6 @@
         render();
     }
 
-    // የኢሜይል ምዝገባ (ወደ ፋየርቤዝ ብቻ የሚመዘግብ)
     document.getElementById("subscribeForm").addEventListener("submit", async function(e) {
         e.preventDefault();
         const emailInput = document.getElementById("subscriberEmail").value;
@@ -491,6 +519,13 @@
     }
 
     window.deletePost = async (id) => {
+        if(id.startsWith('default_')) {
+            alert("ይህ የመጀመሪያው ቋሚ ዜና ስለሆነ በቀጥታ ከፋየርቤዝ አይደለም፤ ነገር ግን ከዚህ ዝርዝር ውስጥ ተሰርዟል።");
+            allPosts = allPosts.filter(item => item.id !== id);
+            render();
+            return;
+        }
+
         if(confirm("ይህን መረጃ በእርግጥ መሰረዝ ትፈልጋለህ?")) {
             try {
                 await deleteDoc(doc(db, "news", id));
@@ -524,7 +559,9 @@
                     p.media = media;
                     p.title = document.getElementById("title" + p.lang).value;
                     p.content = document.getElementById("content" + p.lang).value;
-                    await updateDoc(doc(db, "news", editId), { category, media, title: p.title, content: p.content });
+                    if(!editId.startsWith('default_')) {
+                        await updateDoc(doc(db, "news", editId), { category, media, title: p.title, content: p.content });
+                    }
                     alert("መረጃው በተሳካ ሁኔታ ተስተካክሏል!");
                 }
             } else {
@@ -568,12 +605,13 @@
             let firestorePosts = [];
             snap.forEach(d => firestorePosts.push({id: d.id, ...d.data()}));
             
-            allPosts = firestorePosts;
+            // የመጀመሪያዎቹን እውነተኛ ዜናዎች ከፋየርቤዝ መረጃ ጋር በአንድ ላይ እናያይዛቸዋለን
+            allPosts = [...defaultStaticPosts, ...firestorePosts];
             allPosts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
             render();
         } catch(err) {
             console.error(err);
-            allPosts = [];
+            allPosts = [...defaultStaticPosts];
             render();
         }
     }
