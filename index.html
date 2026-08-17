@@ -8,7 +8,6 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
         (function() {
-            // እዚህጋ የራስዎን የ EmailJS Public Key ያስገቡ (ለምሳሌ: "user_xxxxxx")
             emailjs.init("YOUR_EMAILJS_PUBLIC_KEY");
         })();
     </script>
@@ -255,6 +254,51 @@
     let allPosts = [];
     let isAdminLoggedIn = false;
 
+    // የቅድሙ የናሙና መረጃዎች (Mock Posts - ከምስሉ ላይ እንደታዩት)
+    let mockPosts = [
+        {
+            id: 'mock-1',
+            category: 'Video',
+            lang: 'AM',
+            media: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+            title: 'Metahara green legacy - Sami Tube (ምልክት ቱዩብ)',
+            content: 'የልምዓት ስራዎች እና የአረንጓዴ አሻራ መርሃ ግብር በመታሃራ ከተማ አስተዳደር ዙሪያ በድምቀት እየተከናወነ ይገኛል።'
+        },
+        {
+            id: 'mock-2',
+            category: 'News',
+            lang: 'AM',
+            media: 'https://images.unsplash.com/photo-1592417817098-8f3d691a4bf5?w=600',
+            title: 'የልጅነትን ዕድል በንጥር ዓይን ማየት! አንዴን ጊዜ ከተማችንን ይበልጥ ለማስፋፋት ትልቅ ዕቅድ እየተተለመ ነው።',
+            content: 'መታሃራ፡ የልጅነትን ዕድል በንጥር ዓይን ማየት! አንዴን ጊዜ ከተማችንን ይበልጥ ለማስፋፋት ትልቅ ዕቅድ ተነድፎ ወደ ስራ ተገብቷል።'
+        },
+        {
+            id: 'mock-3',
+            category: 'News',
+            lang: 'AM',
+            media: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=600',
+            title: 'የኦሮሚያ ክልል መንግስትፕላንጂን አቶ መሐመድ አብዲሳ የኦሮምያ አሻራ የምርዕ ስራዎችን ጎበኙ',
+            content: 'የክልሉ ከፍተኛ የስራ ሃላፊዎች ከተማችንን በመጎብኘት የተከናወኑ የልማት ስራዎችን አድንቀዋል።'
+        },
+        // ለኦሮምኛ (OR) እና እንግሊዝኛ (EN) ናሙናዎችም እንዲኖሩ
+        {
+            id: 'mock-4',
+            category: 'News',
+            lang: 'OR',
+            media: 'https://images.unsplash.com/photo-1592417817098-8f3d691a4bf5?w=600',
+            title: 'Mataaharaa: Misooma Magaalattii fi Hojiiwwan Kyara Green Legacy',
+            content: 'Hojiiwwan misoomsaa fi invastimantii magaalicha keessatti gaggeeffamaa jiran ilaalchisee odeeffannoo...'
+        },
+        {
+            id: 'mock-5',
+            category: 'News',
+            lang: 'EN',
+            media: 'https://images.unsplash.com/photo-1592417817098-8f3d691a4bf5?w=600',
+            title: 'Mataaharaa City Development and Green Legacy Updates',
+            content: 'Comprehensive overview of recent infrastructural developments and community orchard initiatives in Mataaharaa.'
+        }
+    ];
+
     const translations = {
         'AM': {
             heroTitle: "እንኳን ወደ መታሃራ ከተማ ዲጂታል መረጃ ማእከል በደህና መጡ",
@@ -355,15 +399,12 @@
         const msg = translations[currentLang].successMsg;
 
         try {
-            // 1. ኢሜይሉን በፋየርቤዝ ዳታቤዝ ውስጥ ማስቀመጥ
             await addDoc(collection(db, "subscribers"), {
                 email: emailInput,
                 language: currentLang,
                 subscribedAt: Date.now()
             });
 
-            // 2. በ EmailJS በኩል አውቶማቲክ 웰컴 ኢሜይል ወደ ተጠቃሚው መላክ
-            // (ማስታወሻ: በ EmailJS አካውንትዎ Service ID እና Template ID ማስተካከል ይኖርብዎታል)
             const templateParams = {
                 user_email: emailInput,
                 message: msg,
@@ -376,7 +417,6 @@
             this.reset();
         } catch(err) {
             console.error("Subscription Error: ", err);
-            // ዳታቤዝ ወይም ኢሜይል ሲላክ ችግር ቢፈጠርም ተጠቃሚው መልእክቱን እንዲያየው ይደረጋል
             alert(msg);
             this.reset();
         }
@@ -401,6 +441,7 @@
             if(p.media) {
                 if(p.media.includes('youtube') || p.media.includes('youtu.be')) {
                     let videoId = p.media.split('v=')[1] || p.media.split('/').pop();
+                    if(videoId && videoId.includes('&')) videoId = videoId.split('&')[0];
                     mediaHtml = `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
                 } else {
                     mediaHtml = `<img src="${p.media}" alt="Media">`;
@@ -437,6 +478,7 @@
         if(p.media) {
             if(p.media.includes('youtube') || p.media.includes('youtu.be')) {
                 let videoId = p.media.split('v=')[1] || p.media.split('/').pop();
+                if(videoId && videoId.includes('&')) videoId = videoId.split('&')[0];
                 mediaHtml = `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
             } else {
                 mediaHtml = `<img src="${p.media}" alt="Media">`;
@@ -513,9 +555,12 @@
     window.deletePost = async (id) => {
         if(confirm("ይህን መረጃ በእርግጥ መሰረዝ ትፈልጋለህ?")) {
             try {
-                await deleteDoc(doc(db, "news", id));
+                if(!id.startsWith('mock-')) {
+                    await deleteDoc(doc(db, "news", id));
+                }
+                allPosts = allPosts.filter(item => item.id !== id);
                 alert("መረጃው በተሳካ ሁኔታ ተሰርዟል!");
-                loadData();
+                render();
             } catch(err) {
                 console.error(err);
                 alert("እባክዎ እንደገና ይሞክሩ ስህተት ተፈጥሯል።");
@@ -539,25 +584,40 @@
             if(editId) {
                 const p = allPosts.find(item => item.id === editId);
                 if(p) {
-                    await updateDoc(doc(db, "news", editId), {
-                        category,
-                        media,
-                        title: document.getElementById("title" + p.lang).value,
-                        content: document.getElementById("content" + p.lang).value
-                    });
+                    p.category = category;
+                    p.media = media;
+                    p.title = document.getElementById("title" + p.lang).value;
+                    p.content = document.getElementById("content" + p.lang).value;
+                    if(!editId.startsWith('mock-')) {
+                        await updateDoc(doc(db, "news", editId), { category, media, title: p.title, content: p.content });
+                    }
                     alert("መረጃው በተሳካ ሁኔታ ተስተካክሏል!");
                 }
             } else {
                 for(let p of posts) {
                     if(p.title && p.content) {
-                        await addDoc(collection(db, "news"), {
+                        const newDoc = {
+                            id: 'custom-' + Date.now() + Math.random(),
                             category,
                             media,
                             lang: p.lang,
                             title: p.title,
                             content: p.content,
                             createdAt: Date.now()
-                        });
+                        };
+                        allPosts.unshift(newDoc);
+                        try {
+                            await addDoc(collection(db, "news"), {
+                                category,
+                                media,
+                                lang: p.lang,
+                                title: p.title,
+                                content: p.content,
+                                createdAt: Date.now()
+                            });
+                        } catch(fbErr) {
+                            console.log("Firebase sync note:", fbErr);
+                        }
                     }
                 }
                 alert("መረጃው በሶስቱም ቋንቋዎች በተሳካ ሁኔታ ተለጠፈ!");
@@ -566,7 +626,7 @@
             document.getElementById("newsForm").reset();
             document.getElementById("editPostId").value = "";
             document.getElementById("formSubmitBtn").innerText = "በሶስቱም ቋንቋዎች ለጥፍ";
-            loadData();
+            render();
         } catch(err) {
             console.error(err);
             alert("ስህተት ተፈጥሯል እባክዎ እንደገና ይሞክሩ።");
@@ -576,12 +636,21 @@
     async function loadData() {
         try {
             const snap = await getDocs(collection(db, "news"));
-            allPosts = [];
-            snap.forEach(d => allPosts.push({id: d.id, ...d.data()}));
+            let firestorePosts = [];
+            snap.forEach(d => firestorePosts.push({id: d.id, ...d.data()}));
+            
+            // የናሙና መረጃዎችን እና ከፋየርቤዝ የመጡትን አንድ ላይ ማዋሃድ
+            if(firestorePosts.length > 0) {
+                allPosts = [...firestorePosts, ...mockPosts];
+            } else {
+                allPosts = [...mockPosts];
+            }
             allPosts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
             render();
         } catch(err) {
             console.error(err);
+            allPosts = [...mockPosts];
+            render();
         }
     }
     loadData();
