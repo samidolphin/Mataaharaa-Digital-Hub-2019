@@ -249,31 +249,31 @@
         let allPosts = [];
         let isAdminLoggedIn = false;
 
-        // የተስተካከሉ ትክክለኛ ርዕሶች እና ይዘቶች (የተደራረበው ስህተት ታርሟል)
+        // የጸዱ እና ትክክለኛ አርዕስት እና ይዘት ያላቸው ቋሚ ማስታወሻዎች
         const defaultStaticPosts = [
             {
-                id: 'default_am_1',
+                id: 'clean_v2_am_1',
                 category: 'News',
                 lang: 'AM',
-                title: 'የእኛን ድል በንጥር ዓይን ማየት!',
-                content: 'የእኛን ድል በንጥር ዓይን ማየት! ከተሞቻችንን ይበልጥ ለማንቃት ታላቅ ዕቅድ ተዘርግቶ ስራ ተጀምሯል። መታሃራን የልማት ማዕከል ለማድረግ በርካታ ስራዎች እየተከናወኑ ይገኛሉ።',
+                title: 'የመታሃራ ከተማ የልማት ስራዎች በልዩ ትኩረት እየተከናወኑ ይገኛሉ',
+                content: 'ከተማችንን ይበልጥ ማራኪና ኑሮ የተሳለጠባት ለማድረግ ታላቅ ዕቅድ ተዘርግቶ ስራ ተጀምሯል። የህብረተሰቡን ተሳትፎ ማጠናከር እና የከተማዋን መሠረተ ልማት ማሻሻል ዋናው የትኩረት አቅጣጫችን ነው።',
                 media: '',
                 createdAt: 1769990000000
             },
             {
-                id: 'default_or_1',
+                id: 'clean_v2_or_1',
                 category: 'News',
                 lang: 'OR',
-                title: 'Magaala keenya caalaatti bareechuuf hojiin eegaleera.',
-                content: 'Yeroo tokko tokko magaalaa tokko caalaati bareechuuf baajata guddaa qofa qabaachun hin ga\'u. Waan jiru karaa addatiin ilaaluun, carraa hin mul\'anne adda baasuun, boru yaadanii har\'a hojjechuu danda\'uun barbaada.',
+                title: 'Magaala Mataaharaa misoomsuuf hojiin bal\'aan eegaleera',
+                content: 'Magaala keenya caalaatti bareechuuf baajata qofa qabaachun hin ga\'u. Waan jiru karaa addatiin ilaaluun, carraa hin mul\'anne adda baasuun, boru yaadanii har\'a hojjechuu danda\'uun barbaada.',
                 media: '',
                 createdAt: 1769985000000
             },
             {
-                id: 'default_en_1',
+                id: 'clean_v2_en_1',
                 category: 'News',
                 lang: 'EN',
-                title: 'Welcome to Mataaharaa Digital Hub',
+                title: 'Welcome to Mataaharaa City Digital Information Center',
                 content: 'Welcome to Mataaharaa Digital Hub: Shaping the Future of Our City Together! Discover our latest updates, community initiatives, and developmental projects designed to empower citizens.',
                 media: '',
                 createdAt: 1769980000000
@@ -312,7 +312,7 @@
                 noData: "Odeeffannoon afaan kana ykn ramaddii kanaan hin jiru.",
                 subHeading: "Odeeffannoowwan Haaraaf Galmaa'aa",
                 subDesc: "Teessoo imeelii keessanii galchaa",
-                subButton: "Galmaa'ი",
+                subButton: "Galmaa'i",
                 successMsg: "Milkaa'inaan galmoofteetta! Galatoomaa."
             },
             'EN': {
@@ -397,18 +397,30 @@
             try {
                 const snap = await getDocs(collection(db, "news"));
                 let firestorePosts = [];
-                snap.forEach(d => firestorePosts.push({id: d.id, ...d.data()}));
+                snap.forEach(d => {
+                    let data = d.data();
+                    // ያረጀና የተደራረበ ዳታ ካለ እዚያው እያጣራን እናርመዋለን (Clean check)
+                    if(data.title === data.content) {
+                        data.content = "ይህ መረጃ የተስተካከለ ማጠቃለያ ይዘት አለው። ሙሉውን ለማየት ተጨማሪ የሚለውን ይጫኑ።";
+                    }
+                    firestorePosts.push({id: d.id, ...data});
+                });
                 
-                let deletedPosts = JSON.parse(localStorage.getItem('deletedPosts') || '[]');
                 let combinedPosts = [...defaultStaticPosts, ...firestorePosts];
-                allPosts = combinedPosts.filter(post => !deletedPosts.includes(post.id));
+                
+                // ልዩ ማጣሪያ፡ ርዕሱ እና ይዘቱ አንድ አይነት የሆኑ የተበላሹ ፖስቶች እንዳይወጡ በኮድ ደረጃ እንከልክላቸው
+                allPosts = combinedPosts.filter(post => {
+                    let t = (post.title || "").trim();
+                    let c = (post.content || "").trim();
+                    if(t === c && !post.id.startsWith('clean_v2_')) return false;
+                    return true;
+                });
                 
                 allPosts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
                 render();
             } catch(err) {
                 console.error(err);
-                let deletedPosts = JSON.parse(localStorage.getItem('deletedPosts') || '[]');
-                allPosts = defaultStaticPosts.filter(post => !deletedPosts.includes(post.id));
+                allPosts = defaultStaticPosts;
                 render();
             }
         }
@@ -440,7 +452,12 @@
                     }
                 }
 
+                // ርዕስ እና ይዘት ፈጽሞ እንዳይመሳሰሉ እና ይዘቱ አጠር ብሎ እንዲወጣ የሚደረግ ማጣሪያ
+                let titleText = p.title || '';
                 let fullContent = p.content || '';
+                if(titleText === fullContent) {
+                    fullContent = "ሙሉ መረጃውን ለማንበብ ከታች ያለውን ተጨማሪ የሚለውን ይጫኑ።";
+                }
                 let shortContent = fullContent.length > 90 ? fullContent.substring(0, 90) + "..." : fullContent;
                 let adminControlsClass = isAdminLoggedIn ? "admin-controls active" : "admin-controls";
 
@@ -449,7 +466,7 @@
                         <div>
                             ${mediaHtml}
                             <span class="cat">${p.category}</span>
-                            <h3>${p.title}</h3>
+                            <h3>${titleText}</h3>
                             <p>${shortContent}</p>
                         </div>
                         <div class="card-actions">
@@ -548,11 +565,7 @@
 
         window.deletePost = async (id) => {
             if(confirm("ይህን መረጃ በእርግጥ መሰረዝ ትፈልጋለህ?")) {
-                let deletedPosts = JSON.parse(localStorage.getItem('deletedPosts') || '[]');
-                deletedPosts.push(id);
-                localStorage.setItem('deletedPosts', JSON.stringify(deletedPosts));
-
-                if(!id.startsWith('default_')) {
+                if(!id.startsWith('clean_v2_')) {
                     try { await deleteDoc(doc(db, "news", id)); } catch(err) { console.error(err); }
                 }
                 
@@ -582,7 +595,7 @@
                         p.media = media;
                         p.title = document.getElementById("title" + p.lang).value;
                         p.content = document.getElementById("content" + p.lang).value;
-                        if(!editId.startsWith('default_')) {
+                        if(!editId.startsWith('clean_v2_')) {
                             await updateDoc(doc(db, "news", editId), { category, media, title: p.title, content: p.content });
                         }
                         alert("መረጃው በተሳካ ሁኔታ ተስተካክሏል!");
