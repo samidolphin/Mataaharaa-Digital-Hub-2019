@@ -22,8 +22,32 @@
             position: relative;
             overflow: hidden;
         }
+
+        /* Fireworks Styling for Left and Right */
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            box-shadow: 0 0 #fff;
+            animation: 1s infinite linear;
+            z-index: 10;
+        }
+        .firework-left { left: 10%; top: 30%; }
+        .firework-right { right: 10%; top: 30%; }
+
+        @keyframes firework-anim {
+            0% { transform: scale(1); opacity: 1; box-shadow: 0 0 0px #ff6600, 0 0 0px #ffcc00, 0 0 0px #ff3300; }
+            50% { opacity: 0.8; }
+            100% { transform: scale(25); opacity: 0; box-shadow: -20px -20px 10px #ff0055, 20px -20px 10px #00ffcc, -20px 20px 10px #ffff00, 20px 20px 10px #ff6600, 0 -30px 10px #ffcc00, 0 30px 10px #33ccff; }
+        }
+        .firework { animation: firework-anim 1.2s infinite ease-out; }
+        .firework:nth-child(2) { animation-delay: 0.6s; top: 60%; }
+
         .brand-display {
             margin-bottom: 20px;
+            position: relative;
+            z-index: 15;
         }
         .brand-display .main-title {
             font-size: 2.2rem;
@@ -50,9 +74,11 @@
             margin-bottom: 18px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.4);
             border: 1px solid #ffe600;
+            position: relative;
+            z-index: 15;
         }
-        .hero-banner h2 { font-size: 1.6rem; margin-bottom: 10px; font-weight: bold; text-shadow: 2px 2px 5px rgba(0,0,0,0.7); color: #fff; }
-        .hero-banner p { font-size: 1.05rem; opacity: 0.95; font-weight: 500; text-shadow: 1px 1px 3px rgba(0,0,0,0.7); color: #ffd700; }
+        .hero-banner h2 { font-size: 1.6rem; margin-bottom: 10px; font-weight: bold; text-shadow: 2px 2px 5px rgba(0,0,0,0.7); color: #fff; position: relative; z-index: 15; }
+        .hero-banner p { font-size: 1.05rem; opacity: 0.95; font-weight: 500; text-shadow: 1px 1px 3px rgba(0,0,0,0.7); color: #ffd700; position: relative; z-index: 15; }
 
         .marquee-container { background: #ff6600; color: white; padding: 9px 0; font-size: 0.90rem; font-weight: bold; overflow: hidden; white-space: nowrap; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .marquee-container marquee { width: 100%; }
@@ -176,8 +202,14 @@
         </div>
     </div>
 
-    <!-- Hero Banner with Styled Branding & New Year Display -->
+    <!-- Hero Banner with Fireworks & Styled Branding -->
     <section class="hero-banner">
+        <!-- Fireworks Elements on Left and Right -->
+        <div class="firework firework-left"></div>
+        <div class="firework firework-left" style="top: 65%; animation-delay: 0.5s;"></div>
+        <div class="firework firework-right"></div>
+        <div class="firework firework-right" style="top: 65%; animation-delay: 0.7s;"></div>
+
         <div class="brand-display">
             <div class="main-title">Mataaharaa Digital Hub</div>
             <div class="sub-title">መታሃራ - Metehara</div>
