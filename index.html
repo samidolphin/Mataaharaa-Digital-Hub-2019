@@ -249,16 +249,34 @@
         let allPosts = [];
         let isAdminLoggedIn = false;
 
-        // አላስፈላጊዎቹ የኦሮምኛ ቋንቋ ቋሚ ፖስቶች ሙሉ በሙሉ ከዚህ ተወግደዋል (አሁን ትክክለኛው የአማርኛ ፖስት ብቻ ይቀራል)
+        // የቋንቋ ማጣሪያው በሞባይልም ሆነ በኮምፒውተር ልክ እንዲሆን እያንዳንዱ ቋንቋ (AM, OR, EN) በግልጽ ተሰጥቷል
         const defaultStaticPosts = [
             {
-                id: 'default_2',
+                id: 'default_am_1',
                 category: 'News',
                 lang: 'AM',
                 title: 'የእኛን ድል በንጥር ዓይን ማየት! ከተሞቻችንን ይበልጥ ለማንቃት ታላቅ ዕቅድ ተዘርግቶ ስራ ተጀምሯል።',
                 content: 'የእኛን ድል በንጥር ዓይን ማየት! ከተሞቻችንን ይበልጥ ለማንቃት ታላቅ ዕቅድ ተዘርግቶ ስራ ተጀምሯል። መታሃራ፣ የእኛን ድል በንጥር ዓይን ማየት! ከተሞቻችንን ይበልጥ ለማንቃት ታላቅ ዕቅድ ተዘርግቶ ስራ ተጀምሯል።',
                 media: '',
                 createdAt: 1769990000000
+            },
+            {
+                id: 'default_or_1',
+                category: 'News',
+                lang: 'OR',
+                title: 'Yeroo tokko tokko magaalaa tokko caalaati bareechuuf baajata guddaa qofa qabaachun hin ga\'u.',
+                content: 'Yeroo tokko tokko magaalaa tokko caalaati bareechuuf baajata guddaa qofa qabaachun hin ga\'u. Waan jiru karaa addatiin ilaaluun, carraa hin mul\'anne adda baasuun, boru yaadanii har\'a hojjechuu danda\'uun "ija risaa" barbaada.',
+                media: '',
+                createdAt: 1769985000000
+            },
+            {
+                id: 'default_en_1',
+                category: 'News',
+                lang: 'EN',
+                title: 'Welcome to Mataaharaa Digital Hub: Shaping the Future of Our City Together!',
+                content: 'Welcome to Mataaharaa Digital Hub: Shaping the Future of Our City Together! Discover our latest updates, community initiatives, and developmental projects designed to empower citizens.',
+                media: '',
+                createdAt: 1769980000000
             }
         ];
 
@@ -399,6 +417,7 @@
             const container = document.getElementById("newsContainer");
             container.innerHTML = "";
             
+            // የሞባይል ብራውዘር ማጣሪያው በንጹህ Uppercase እና Trim እንዲመሳሰል ተደረገ
             const filtered = allPosts.filter(p => {
                 let pLang = p.lang ? p.lang.trim().toUpperCase() : 'AM';
                 let cLang = currentLang.trim().toUpperCase();
@@ -547,7 +566,7 @@
             e.preventDefault();
             const editId = document.getElementById("editPostId").value;
             const category = document.getElementById("newsCategory").value;
-            const media = document.getElementById("mediaUrl".value);
+            const media = document.getElementById("mediaUrl").value;
 
             const posts = [
                 { lang: 'AM', title: document.getElementById("titleAM").value, content: document.getElementById("contentAM").value },
