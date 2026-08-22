@@ -249,36 +249,45 @@
         let allPosts = [];
         let isAdminLoggedIn = false;
 
-        // LocalStorageን በመጠቀም የዲፎልት ፖስቶቹ እንዳይመለሱ መቆጣጠሪያ
         let deletedStaticIds = JSON.parse(localStorage.getItem('deletedStaticIds') || '[]');
 
+        // ልክ በስክሪንሾቱ ላይ የሚታዩት ትክክለኛ አራቱ ዜናዎች (በማያ ገጹ ላይ እንዳሉት በቅደም ተከተል)
         const defaultStaticPosts = [
             {
-                id: 'clean_v4_am_1',
+                id: 'ss_news_1',
                 category: 'News',
                 lang: 'AM',
-                title: 'የመታሃራ ከተማ የልማት ስራዎች በልዩ ትኩረት እየተከናወኑ ይገኛሉ',
-                content: 'የመታሃራ ከተማ የልማት ስራዎች በልዩ ትኩረት እየተከናወኑ ይገኛሉ፡፡ ከተማችንን ይበልጥ ማራኪና ኑሮ የተሳለጠባት ለማድረግ የተለያዩ የኢንፍራክስትራክቸር እና የህዝብ ተሳትፎ ስራዎች ተጀምረዋል።',
-                media: '',
-                createdAt: 1769990000000
+                title: 'ከሰ 1 ቢሊዮን ብር በላይ ወጪ የሚደረግበት የመታሃራ የመጠጥ',
+                content: 'ከሰ 1 ቢሊዮን ብር በላይ ወጪ የሚደረግበት የመታሃራ የመጠጥ ውሃ ፕሮጀክት ስራ በልዩ ትኩረት እየተከናወነ ይገኛል።',
+                media: 'https://images.unsplash.com/photo-1577495508048-b635879837f1?w=600',
+                createdAt: 1770000000000
             },
             {
-                id: 'clean_v4_or_1',
+                id: 'ss_news_2',
                 category: 'News',
-                lang: 'OR',
-                title: 'Hojiin misooma magaala Mataaharaa xiyyeeffannoo addaatiin hojjetamaa jira',
-                content: 'Hojiin misooma magaala Mataaharaa xiyyeeffannoo addaatiin hojjetamaa jira. Magaala keenya qindeessuuf fi jireenya hawaasaa fooyyessuuf hojiileen bal\'aan eegalaniiru.',
-                media: '',
-                createdAt: 1769985000000
+                lang: 'AM',
+                title: 'የልማቱን ዕድል በእጅጉ ግንባታ ወቅት! አንዳንድ ጊዜ ከተማን',
+                content: 'የልማቱን ዕድል በእጅጉ ግንባታ ወቅት! አንዳንድ ጊዜ ከተማን እና ህብረተሰቡን የሚጠቅሙ ስራዎች በቅንጅት እየተሰሩ ናቸው።',
+                media: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+                createdAt: 1769999000000
             },
             {
-                id: 'clean_v4_en_1',
+                id: 'ss_news_3',
                 category: 'News',
-                lang: 'EN',
-                title: 'Mataaharaa City Development Activities are Being Carried Out with Special Attention',
-                content: 'Mataaharaa City Development Activities are Being Carried Out with Special Attention. We are committed to shaping the future of our city through continuous community and infrastructural improvements.',
-                media: '',
-                createdAt: 1769980000000
+                lang: 'AM',
+                title: 'መታሃራ፡- የልማቱን ዕድል በእጅጉ ግንባታ ወቅት! አንዳንድ',
+                content: 'መታሃራ፡- የልማቱን ዕድል በእጅጉ ግንባታ ወቅት! አንዳንድ አካባቢዎች ላይ የሚከናወኑ የጽዳትና የзеና ስራዎች በስኬት እየተጠናቀቁ ይገኛሉ።',
+                media: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600',
+                createdAt: 1769998000000
+            },
+            {
+                id: 'ss_news_4',
+                category: 'News',
+                lang: 'AM',
+                title: 'የኦሮሚያ ክልል መንግስት ጠቅላይ ሚኒስትር አብይ አህመድ',
+                content: 'የኦሮሚያ ክልል መንግስት እና የፌዴራል የስራ ሃላፊዎች የከተማውን ልማት ለመጎብኘት መታሃራ መጥተዋል።',
+                media: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600',
+                createdAt: 1769997000000
             }
         ].filter(p => !deletedStaticIds.includes(p.id));
 
@@ -404,37 +413,7 @@
                     firestorePosts.push({id: d.id, ...data});
                 });
                 
-                let activeStatic = [
-                    {
-                        id: 'clean_v4_am_1',
-                        category: 'News',
-                        lang: 'AM',
-                        title: 'የመታሃራ ከተማ የልማት ስራዎች በልዩ ትኩረት እየተከናወኑ ይገኛሉ',
-                        content: 'የመታሃራ ከተማ የልማት ስራዎች በልዩ ትኩረት እየተከናወኑ ይገኛሉ፡፡ ከተማችንን ይበልጥ ማራኪና ኑሮ የተሳለጠባት ለማድረግ የተለያዩ የኢንፍራክስትራክቸር እና የህዝብ ተሳትፎ ስራዎች ተጀምረዋል።',
-                        media: '',
-                        createdAt: 1769990000000
-                    },
-                    {
-                        id: 'clean_v4_or_1',
-                        category: 'News',
-                        lang: 'OR',
-                        title: 'Hojiin misooma magaala Mataaharaa xiyyeeffannoo addaatiin hojjetamaa jira',
-                        content: 'Hojiin misooma magaala Mataaharaa xiyyeeffannoo addaatiin hojjetamaa jira. Magaala keenya qindeessuuf fi jireenya hawaasaa fooyyessuuf hojiileen bal\'aan eegalaniiru.',
-                        media: '',
-                        createdAt: 1769985000000
-                    },
-                    {
-                        id: 'clean_v4_en_1',
-                        category: 'News',
-                        lang: 'EN',
-                        title: 'Mataaharaa City Development Activities are Being Carried Out with Special Attention',
-                        content: 'Mataaharaa City Development Activities are Being Carried Out with Special Attention. We are committed to shaping the future of our city through continuous community and infrastructural improvements.',
-                        media: '',
-                        createdAt: 1769980000000
-                    }
-                ].filter(p => !deletedStaticIds.includes(p.id));
-
-                let combinedPosts = [...activeStatic, ...firestorePosts];
+                let combinedPosts = [...defaultStaticPosts, ...firestorePosts];
                 
                 allPosts = combinedPosts.map(post => {
                     let title = (post.title || "").trim();
@@ -585,7 +564,7 @@
 
         window.deletePost = async (id) => {
             if(confirm("ይህን መረጃ በእርግጥ መሰረዝ ትፈልጋለህ?")) {
-                if(id.startsWith('clean_v4_')) {
+                if(id.startsWith('ss_news_')) {
                     deletedStaticIds.push(id);
                     localStorage.setItem('deletedStaticIds', JSON.stringify(deletedStaticIds));
                 } else {
@@ -618,7 +597,7 @@
                         p.media = media;
                         p.title = document.getElementById("title" + p.lang).value;
                         p.content = document.getElementById("content" + p.lang).value;
-                        if(!editId.startsWith('clean_v4_')) {
+                        if(!editId.startsWith('ss_news_')) {
                             await updateDoc(doc(db, "news", editId), { category, media, title: p.title, content: p.content });
                         }
                         alert("መረጃው በተሳካ ሁኔታ ተስተካክሏል!");
@@ -640,7 +619,7 @@
                 }
                 
                 document.getElementById("newsForm").reset();
-                document.getElementById("editPostId`").value = "";
+                document.getElementById("editPostId").value = "";
                 document.getElementById("formSubmitBtn").innerText = "በሶስቱም ቋንቋዎች ለጥፍ";
                 loadData();
             } catch(err) {
