@@ -249,10 +249,9 @@
         let allPosts = [];
         let isAdminLoggedIn = false;
 
-        // የጸዱ እና ትክክለኛ አርዕስት እና ይዘት ያላቸው ቋሚ ማስታወሻዎች
         const defaultStaticPosts = [
             {
-                id: 'clean_v2_am_1',
+                id: 'clean_v3_am_1',
                 category: 'News',
                 lang: 'AM',
                 title: 'የመታሃራ ከተማ የልማት ስራዎች በልዩ ትኩረት እየተከናወኑ ይገኛሉ',
@@ -261,7 +260,7 @@
                 createdAt: 1769990000000
             },
             {
-                id: 'clean_v2_or_1',
+                id: 'clean_v3_or_1',
                 category: 'News',
                 lang: 'OR',
                 title: 'Magaala Mataaharaa misoomsuuf hojiin bal\'aan eegaleera',
@@ -270,7 +269,7 @@
                 createdAt: 1769985000000
             },
             {
-                id: 'clean_v2_en_1',
+                id: 'clean_v3_en_1',
                 category: 'News',
                 lang: 'EN',
                 title: 'Welcome to Mataaharaa City Digital Information Center',
@@ -363,7 +362,7 @@
             document.getElementById('sectionHeading').innerText = translations[lang].sectionHeading;
             document.getElementById('footerAboutTitle').innerText = translations[lang].footerAboutTitle;
             document.getElementById('footerAboutText').innerText = translations[lang].footerAboutText;
-            document.getElementById('footerContactTitle').innerText = translations[lang].footerContactTitle;
+            document.getElementById('footerContactTitle').innerText, translations[lang].footerContactTitle;
 
             document.getElementById('subTitleHeading').innerText = translations[lang].subHeading;
             document.getElementById('subDescText').innerText = translations[lang].subDesc;
@@ -399,21 +398,24 @@
                 let firestorePosts = [];
                 snap.forEach(d => {
                     let data = d.data();
-                    // ያረጀና የተደራረበ ዳታ ካለ እዚያው እያጣራን እናርመዋለን (Clean check)
-                    if(data.title === data.content) {
-                        data.content = "ይህ መረጃ የተስተካከለ ማጠቃለያ ይዘት አለው። ሙሉውን ለማየት ተጨማሪ የሚለውን ይጫኑ።";
-                    }
                     firestorePosts.push({id: d.id, ...data});
                 });
                 
                 let combinedPosts = [...defaultStaticPosts, ...firestorePosts];
                 
-                // ልዩ ማጣሪያ፡ ርዕሱ እና ይዘቱ አንድ አይነት የሆኑ የተበላሹ ፖስቶች እንዳይወጡ በኮድ ደረጃ እንከልክላቸው
-                allPosts = combinedPosts.filter(post => {
-                    let t = (post.title || "").trim();
-                    let c = (post.content || "").trim();
-                    if(t === c && !post.id.startsWith('clean_v2_')) return false;
-                    return true;
+                // የተደራረቡና የተበላሹ ጽሑፎችን በጠንካራ ሁኔታ ማጽዳት (Clean & Sanitize)
+                allPosts = combinedPosts.map(post => {
+                    let title = (post.title || "").trim();
+                    let content = (post.content || "").trim();
+                    
+                    // ይዘቱ ከርዕሱ ጋር ተመሳስሎ ወይም ተደራርቦ ከገባ ይዘቱን አስተካክለን አጭር ማጠቃለያ እናደርገዋለን
+                    if(content.startsWith(title) && content.length > title.length) {
+                        content = content.replace(title, "").trim();
+                    }
+                    if(title === content || !content) {
+                        content = "ሙሉ መረጃውን ለማንበብ ከታች ያለውን ተጨማሪ የሚለውን ይጫኑ።";
+                    }
+                    return { ...post, title, content };
                 });
                 
                 allPosts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
@@ -452,13 +454,7 @@
                     }
                 }
 
-                // ርዕስ እና ይዘት ፈጽሞ እንዳይመሳሰሉ እና ይዘቱ አጠር ብሎ እንዲወጣ የሚደረግ ማጣሪያ
-                let titleText = p.title || '';
-                let fullContent = p.content || '';
-                if(titleText === fullContent) {
-                    fullContent = "ሙሉ መረጃውን ለማንበብ ከታች ያለውን ተጨማሪ የሚለውን ይጫኑ።";
-                }
-                let shortContent = fullContent.length > 90 ? fullContent.substring(0, 90) + "..." : fullContent;
+                let shortContent = p.content.length > 90 ? p.content.substring(0, 90) + "..." : p.content;
                 let adminControlsClass = isAdminLoggedIn ? "admin-controls active" : "admin-controls";
 
                 container.innerHTML += `
@@ -466,7 +462,7 @@
                         <div>
                             ${mediaHtml}
                             <span class="cat">${p.category}</span>
-                            <h3>${titleText}</h3>
+                            <h3>${p.title}</h3>
                             <p>${shortContent}</p>
                         </div>
                         <div class="card-actions">
@@ -565,7 +561,7 @@
 
         window.deletePost = async (id) => {
             if(confirm("ይህን መረጃ በእርግጥ መሰረዝ ትፈልጋለህ?")) {
-                if(!id.startsWith('clean_v2_')) {
+                if(!id.startsWith('clean_v3_')) {
                     try { await deleteDoc(doc(db, "news", id)); } catch(err) { console.error(err); }
                 }
                 
@@ -595,7 +591,7 @@
                         p.media = media;
                         p.title = document.getElementById("title" + p.lang).value;
                         p.content = document.getElementById("content" + p.lang).value;
-                        if(!editId.startsWith('clean_v2_')) {
+                        if(!editId.startsWith('clean_v3_')) {
                             await updateDoc(doc(db, "news", editId), { category, media, title: p.title, content: p.content });
                         }
                         alert("መረጃው በተሳካ ሁኔታ ተስተካክሏል!");
@@ -603,16 +599,7 @@
                 } else {
                     for(let p of posts) {
                         if(p.title && p.content) {
-                            const docRef = await addDoc(collection(db, "news"), {
-                                category,
-                                media,
-                                lang: p.lang,
-                                title: p.title,
-                                content: p.content,
-                                createdAt: Date.now()
-                            });
-                            allPosts.unshift({
-                                id: docRef.id,
+                            const docRef = addDoc(collection(db, "news"), {
                                 category,
                                 media,
                                 lang: p.lang,
@@ -628,7 +615,7 @@
                 document.getElementById("newsForm").reset();
                 document.getElementById("editPostId").value = "";
                 document.getElementById("formSubmitBtn").innerText = "በሶስቱም ቋንቋዎች ለጥፍ";
-                render();
+                loadData();
             } catch(err) {
                 console.error(err);
                 alert("ስህተት ተፈጥሯል እባክዎ እንደገና ይሞክሩ።");
