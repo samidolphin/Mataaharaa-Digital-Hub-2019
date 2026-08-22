@@ -416,10 +416,12 @@
             const container = document.getElementById("newsContainer");
             container.innerHTML = "";
             
-            const filtered = allPosts.filter(p => 
-                (p.category === currentCat) && 
-                (p.lang === currentLang)
-            );
+            // የቋንቋ እና የምድብ ማጣሪያው በሞባይልም ሆነ በኮምፒውተር ልክ እንዲሆን ጥብቅ ማጣሪያ ተደረገ
+            const filtered = allPosts.filter(p => {
+                let pLang = p.lang ? p.lang.trim().toUpperCase() : 'AM';
+                let cLang = currentLang.trim().toUpperCase();
+                return (p.category === currentCat) && (pLang === cLang);
+            });
 
             if(filtered.length === 0) {
                 container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #775; padding: 20px;">${translations[currentLang].noData}</p>`;
@@ -438,7 +440,7 @@
                     }
                 }
 
-                let shortContent = p.content.length > 120 ? p.content.substring(0, 120) + "..." : p.content;
+                let shortContent = p.content && p.content.length > 120 ? p.content.substring(0, 120) + "..." : (p.content || '');
                 let adminControlsClass = isAdminLoggedIn ? "admin-controls active" : "admin-controls";
 
                 container.innerHTML += `
