@@ -12,35 +12,14 @@
         .logo-area img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
         .logo-text h1 { font-size: 1.05rem; color: #ff6600; font-weight: bold; white-space: nowrap; }
 
-        /* New Year Festive Hero Banner */
         .hero-banner { 
-            background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('https://images.unsplash.com/photo-1509114397022-ed747cca3f65?w=1200') no-repeat center center/cover; 
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200') no-repeat center center/cover; 
             color: white; 
-            padding: 70px 20px; 
+            padding: 60px 20px; 
             text-align: center; 
-            border-bottom: 5px solid #ffd700;
-            position: relative;
-            overflow: hidden;
         }
-        .adey-badge {
-            display: inline-block;
-            background: #ffd700;
-            color: #222;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            margin-bottom: 12px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        .hero-banner h2 { font-size: 1.8rem; margin-bottom: 10px; font-weight: bold; text-shadow: 2px 2px 5px rgba(0,0,0,0.7); }
-        .hero-banner p { font-size: 1.1rem; opacity: 0.95; font-weight: 500; text-shadow: 1px 1px 3px rgba(0,0,0,0.7); color: #ffe600; }
+        .hero-banner h2 { font-size: 1.8rem; margin-bottom: 12px; font-weight: bold; text-shadow: 2px 2px 5px rgba(0,0,0,0.6); }
+        .hero-banner p { font-size: 1.05rem; opacity: 0.95; font-weight: 500; text-shadow: 1px 1px 3px rgba(0,0,0,0.6); }
 
         .marquee-container { background: #ff6600; color: white; padding: 9px 0; font-size: 0.90rem; font-weight: bold; overflow: hidden; white-space: nowrap; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .marquee-container marquee { width: 100%; }
@@ -162,15 +141,14 @@
         </div>
     </div>
 
-    <!-- Hero Banner with New Year / Adey Abeba Theme -->
+    <!-- Hero Banner -->
     <section class="hero-banner">
-        <div class="adey-badge" id="badgeText">🌼እንኳን አደረሳችሁ! - መስከረም 1፣ 2019 ዓ.ም🌼</div>
         <h2 id="heroTitle">እንኳን ወደ መታሃራ ከተማ ዲጂታል መረጃ ማእከል በደህና መጡ</h2>
-        <p id="heroSub">መልካም አዲስ ዓመት! ፀሃይ የማትጠልቅባት ከተማ - መታሃራ-</p>
+        <p id="heroSub">ፀሃይ የማትጠልቅባት ከተማ - መታሃራ-</p>
     </section>
 
     <div class="marquee-container">
-        <marquee id="marqueeText">🌼 እንኳን ለ2019 አዲስ ዓመት በሰላም አደረሳችሁ! እንኳን ወደ መታሃራ ዲጂታል መረጃ ማእከል በደህና መጡ። 🌼</marquee>
+        <marquee id="marqueeText">🔥 እንኳን ወደ መታሃራ ዲጂታል 2019 በሰላም መጡ! ወቅታዊ የከተማችን መረጃዎች እና በስርጭት ላይ ያሉ ዜናዎችን እዚህ ማግኘት ይችላሉ። 🔥</marquee>
     </div>
 
     <!-- Main Container -->
@@ -275,10 +253,9 @@
 
         const translations = {
             'AM': {
-                badgeText: "🌼 መልካም አዲስ ዓመት 2019 ዓ.ም - አደይ አበባ 🌼",
                 heroTitle: "እንኳን ወደ መታሃራ ከተማ ዲጂታል መረጃ ማእከል በደህና መጡ",
-                heroSub: "መልካም አዲስ ዓመት! ፀሃይ የማትጠልቅባት ከተማ - መታሃራ-",
-                marquee: "🌼 እንኳን ለ2019 ዓ.ም አዲስ ዓመት በሰላም አደረሳችሁ! ወቅታዊ የከተማችን መረጃዎች እና መልካም ምኞቶቻችንን እዚህ ማግኘት ይችላሉ። 🌼",
+                heroSub: "ፀሃይ የማትጠልቅባት ከተማ - መታሃራ-",
+                marquee: "🔥 እንኳን ወደ መታሃራ ዲጂታል 2019 በሰላም መጡ! ወቅታዊ የከተማችን መረጃዎች እና በስርጭት ላይ ያሉ ዜናዎችን እዚህ ማግኘት ይችላሉ። 🔥",
                 navNews: "ዜና", navTourism: "ቱሪዝም", navCulture: "ባህል",
                 navPhilosophy: "ፍልስፍና", navLiterature: "ፅነ-ፅሁፍ", navVideo: "የቪዲዮ ጋለሪ", navPhoto: "የፎቶ ጋለሪ",
                 sectionHeading: "ወቅታዊ መረጃዎች",
@@ -293,10 +270,9 @@
                 successMsg: "በተሳካ ሁኔታ ተመዝግበዋል! እናመሰግናለን።"
             },
             'OR': {
-                badgeText: "🌼 Baga Ayyaana Bara Haaraa 2017/2019 Geessan - Adey Abeba 🌼",
                 heroTitle: "Baga Nagaan Gara Wiirtuu Odeeffannoo Dijitaalaa Magaala Mataaharaa Dhuftan",
-                heroSub: "Baga Bara Haaraan Isin Gahe! Mataaharaa Magaalaa Aduun itti hindhiine",
-                marquee: "🌼 Baga Ayyaana Bara Haaraatiin Isin Gahe! Odeeffannoowwan yeroo fi hawwii gaarii magaalattii as irratti argachuu dandeessu. 🌼",
+                heroSub: "Mataaharaa Magaalaa Aduun itti hindhiine",
+                marquee: "🔥 Baga Nagaan Gara Mataaharaa Digital 2019 dhuftan! Odeeffannoowwan yeroo fi oduulee magaalattii as irratti argachuu dandeessu. 🔥",
                 navNews: "Oduu", navTourism: "Tuuriizimii", navCulture: "Aadaa",
                 navPhilosophy: "Filoosofii", navLiterature: "Barruu", navVideo: "Gaalarii Viidiyoo", navPhoto: "Gaalarii Suuraa",
                 sectionHeading: "Odeeffannoo Yeroo Ammaa",
@@ -311,10 +287,9 @@
                 successMsg: "Milkaa'inaan galmoofteetta! Galatoomaa."
             },
             'EN': {
-                badgeText: "🌼 Happy Ethiopian New Year 2019 - Adey Abeba 🌼",
                 heroTitle: "Welcome to Mataaharaa City Digital Information Center",
-                heroSub: "Happy New Year! “Mataahara — The City Where the Sun Never Sets.” ☀️",
-                marquee: "🔥 Happy Ethiopian New Year 2019! Find the latest city updates, festive wishes, and news right here. 🔥",
+                heroSub: "“Mataahara — The City Where the Sun Never Sets.” ☀️",
+                marquee: "🔥 Welcome to Mataaharaa Digital 2019! Find the latest city updates, news, and insights right here. 🔥",
                 navNews: "News", navTourism: "Tourism", navCulture: "Culture",
                 navPhilosophy: "Philosophy", navLiterature: "Literature", navVideo: "Video Gallery", navPhoto: "Photo Gallery",
                 sectionHeading: "Latest Updates",
@@ -344,7 +319,6 @@
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('btn' + lang).classList.add('active');
             
-            document.getElementById('badgeText').innerText = translations[lang].badgeText;
             document.getElementById('heroTitle').innerText = translations[lang].heroTitle;
             document.getElementById('heroSub').innerText = translations[lang].heroSub;
             document.getElementById('marqueeText').innerText = translations[lang].marquee;
@@ -404,8 +378,8 @@
                         id: 'clean_v4_am_1',
                         category: 'News',
                         lang: 'AM',
-                        title: 'እንኳን አደረሳችሁ! - የመታሃራ ከተማ የዘመን መለወጫ በዓል ዝግጅቶች',
-                        content: 'እንኳን ለ2019 ዓ.ም የዘመን መለወጫ በዓል በሰላም አደረሳችሁ! የመታሃራ ከተማ አስተዳደር ህብረተሰቡ በዓሉን በድምቀት እንዲያከብርና የልማት ስራዎች ተጠናክረው እንዲቀጥሉ ጥሪ አቅርቧል።',
+                        title: 'የመታሃራ ከተማ የልማት ስራዎች በልዩ ትኩረት እየተከናወኑ ይገኛሉ',
+                        content: 'የመታሃራ ከተማ የልማት ስራዎች በልዩ ትኩረት እየተከናወኑ ይገኛሉ፡፡ ከተማችንን ይበልጥ ማራኪና ኑሮ የተሳለጠባት ለማድረግ የተለያዩ የኢንፍራክስትራክቸር እና የህዝብ ተሳትፎ ስራዎች ተጀምረዋል።',
                         media: '',
                         createdAt: 1769990000000
                     },
@@ -413,8 +387,8 @@
                         id: 'clean_v4_or_1',
                         category: 'News',
                         lang: 'OR',
-                        title: 'Baga Bara Haaraa 2019 Geessan! Hojiin Misooma Magaalichaa Itti Fufa',
-                        content: 'Baga Ayyaana Bara Haaraa 2019n nagaan isin gahe! Bulchiinsi magaala Mataaharaa hawaasni ayyaana kana akka kabajuuf fi hojiileen misoomaa akka ciman dhaameera.',
+                        title: 'Hojiin misooma magaala Mataaharaa xiyyeeffannoo addaatiin hojjetamaa jira',
+                        content: 'Hojiin misooma magaala Mataaharaa xiyyeeffannoo addaatiin hojjetamaa jira. Magaala keenya qindeessuuf fi jireenya hawaasaa fooyyessuuf hojiileen bal\'aan eegalaniiru.',
                         media: '',
                         createdAt: 1769985000000
                     },
@@ -422,8 +396,8 @@
                         id: 'clean_v4_en_1',
                         category: 'News',
                         lang: 'EN',
-                        title: 'Happy Ethiopian New Year 2019! Mataaharaa City Festive Greetings',
-                        content: 'Happy Ethiopian New Year 2019 to all residents and visitors! The Mataaharaa City Administration extends warm wishes for peace, prosperity, and continuous development.',
+                        title: 'Mataaharaa City Development Activities are Being Carried Out with Special Attention',
+                        content: 'Mataaharaa City Development Activities are Being Carried Out with Special Attention. We are committed to shaping the future of our city through continuous community and infrastructural improvements.',
                         media: '',
                         createdAt: 1769980000000
                     }
@@ -631,7 +605,7 @@
                 postsToProcess.push({ lang: 'EN', title: titleEN, content: contentEN });
             }
 
-            if(postsToProcess.length ===0) {
+            if(postsToProcess.length === 0) {
                 alert("እባክዎ ቢያንስ የአንድ ቋንቋ ርዕስ እና ይዘት ያስገቡ!");
                 return;
             }
@@ -651,7 +625,6 @@
                             createdAt: Date.now()
                         });
                     } else {
-                        (document)
                         const docRef = doc(db, "news", editId);
                         await updateDoc(docRef, {
                             category,
