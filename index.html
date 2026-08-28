@@ -230,13 +230,13 @@
         </div>
         
         <nav>
-            <a id="navNews" class="active" onclick="updateFilter('cat', 'News')">ዜና</a>
-            <a id="navTourism" onclick="updateFilter('cat', 'Tourism')">ቱሪዝም</a>
-            <a id="navCulture" onclick="updateFilter('cat', 'Culture')">ባህል</a>
-            <a id="navPhilosophy" onclick="updateFilter('cat', 'Philosophy')">ፍልስፍና</a>
-            <a id="navLiterature" onclick="updateFilter('cat', 'Literature')">ፅነ-ፅሁፍ</a>
-            <a id="navVideo" onclick="updateFilter('cat', 'Video')">የቪዲዮ ጋለሪ</a>
-            <a id="navPhoto" onclick="updateFilter('cat', 'Photo')">የፎቶ ጋለሪ</a>
+            <a id="navNews" class="active" onclick="updateFilter('News')">ዜና</a>
+            <a id="navTourism" onclick="updateFilter('Tourism')">ቱሪዝም</a>
+            <a id="navCulture" onclick="updateFilter('Culture')">ባህል</a>
+            <a id="navPhilosophy" onclick="updateFilter('Philosophy')">ፍልስፍና</a>
+            <a id="navLiterature" onclick="updateFilter('Literature')">ፅነ-ፅሁፍ</a>
+            <a id="navVideo" onclick="updateFilter('Video')">የቪዲዮ ጋለሪ</a>
+            <a id="navPhoto" onclick="updateFilter('Photo')">የፎቶ ጋለሪ</a>
             
             <div class="lang-container">
                 <button class="lang-btn" id="btnOR" onclick="updateLanguage('OR')">Oro</button>
@@ -289,7 +289,7 @@
                 <button class="close-admin-btn" onclick="closeAdminPanel()">❌ ከአድሚን ውጣ</button>
             </div>
             
-            <form id="newsForm">
+            <form id="newsForm" onsubmit="handleFormSubmit(event)">
                 <input type="hidden" id="editPostId">
                 <div class="form-group">
                     <select id="newsCategory">
@@ -420,25 +420,11 @@
         </div>
     </footer>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-        const firebaseConfig = { 
-            apiKey: "AIzaSy...", 
-            authDomain: "mataaharaa-hub-2019.firebaseapp.com",
-            projectId: "mataaharaa-hub-2019",
-            storageBucket: "mataaharaa-hub-2019.appspot.com",
-            messagingSenderId: "538021472549",
-            appId: "1:538021472549:web:dae14f2a677582b9e6d2cc"
-        };
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
+    <script>
         let currentCat = 'News';
         let currentLang = 'AM';
         
-        // ናሙና ዜናዎች (ለሙከራ እንዲታዩ የተደረጉ)
+        // ናሙና መረጃዎች
         let allPosts = [
             {
                 id: '1',
@@ -530,30 +516,29 @@
             }
         };
 
-        window.updateFilter = (type, val) => {
-            if(type === 'cat') {
-                currentCat = val;
-                document.querySelectorAll('nav a[id^="nav"]').forEach(a => a.classList.remove('active'));
-                document.getElementById('nav' + val).classList.add('active');
-                
-                const flipbookSec = document.getElementById('tourismFlipbookSection');
-                const sectionHeading = document.getElementById('sectionHeading');
-                const newsContainer = document.getElementById('newsContainer');
+        function updateFilter(val) {
+            currentCat = val;
+            document.querySelectorAll('nav a[id^="nav"]').forEach(a => a.classList.remove('active'));
+            const activeNav = document.getElementById('nav' + val);
+            if(activeNav) activeNav.classList.add('active');
+            
+            const flipbookSec = document.getElementById('tourismFlipbookSection');
+            const sectionHeading = document.getElementById('sectionHeading');
+            const newsContainer = document.getElementById('newsContainer');
 
-                if(val === 'Tourism') {
-                    flipbookSec.classList.add('active');
-                    sectionHeading.style.display = 'none';
-                    newsContainer.style.display = 'none';
-                } else {
-                    flipbookSec.classList.remove('active');
-                    sectionHeading.style.display = 'inline-block';
-                    newsContainer.style.display = 'grid';
-                }
+            if(val === 'Tourism') {
+                flipbookSec.classList.add('active');
+                sectionHeading.style.display = 'none';
+                newsContainer.style.display = 'none';
+            } else {
+                flipbookSec.classList.remove('active');
+                sectionHeading.style.display = 'inline-block';
+                newsContainer.style.display = 'grid';
             }
             render();
         }
 
-        window.updateLanguage = (lang) => {
+        function updateLanguage(lang) {
             currentLang = lang;
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('btn' + lang).classList.add('active');
@@ -578,26 +563,18 @@
             document.getElementById('subTitleHeading').innerText = translations[lang].subHeading;
             document.getElementById('subDescText').innerText = translations[lang].subDesc;
             document.getElementById('subBtn').innerText = translations[lang].subButton;
-            subscriberEmail.placeholder = translations[lang].subDesc;
+            document.getElementById('subscriberEmail').placeholder = translations[lang].subDesc;
 
             document.getElementById('flipbookHeading').innerText = translations[lang].flipbookHead;
             document.getElementById('flipbookSub').innerText = translations[lang].flipbookSubText;
 
             // Flipbook language texts switch
             document.querySelectorAll('.lang-text').forEach(el => {
-                if(el.classList.contains(lang.toLowerCase())) {
-                    el.style.display = 'block';
-                } else {
-                    el.style.display = 'none';
-                }
+                el.style.display = el.classList.contains(lang.toLowerCase()) ? 'block' : 'none';
             });
 
             document.querySelectorAll('.lang-desc').forEach(el => {
-                if(el.classList.contains(lang.toLowerCase())) {
-                    el.style.display = 'block';
-                } else {
-                    el.style.display = 'none';
-                }
+                el.style.display = el.classList.contains(lang.toLowerCase()) ? 'block' : 'none';
             });
 
             render();
@@ -605,7 +582,7 @@
 
         function render() {
             const container = document.getElementById('newsContainer');
-            if(currentCat === 'Tourism') return; // Do not render news grid if tourism is active
+            if(currentCat === 'Tourism') return; 
 
             let filtered = allPosts.filter(p => p.category === currentCat && !deletedStaticIds.includes(p.id));
 
@@ -649,7 +626,7 @@
             }).join('');
         }
 
-        window.openDetail = (id) => {
+        function openDetail(id) {
             let post = allPosts.find(p => p.id === id);
             if(!post) return;
             let title = post['title' + currentLang] || post['titleAM'] || '';
@@ -673,21 +650,21 @@
             document.getElementById('detailModal').classList.add('active');
         }
 
-        window.closeDetailModal = () => {
+        function closeDetailModal() {
             document.getElementById('detailModal').classList.remove('active');
         }
 
-        window.checkPassword = () => {
+        function checkPassword() {
             document.getElementById('passwordModal').classList.add('active');
         }
 
-        window.closeModal = () => {
+        function closeModal() {
             document.getElementById('passwordModal').classList.remove('active');
             document.getElementById('adminPasswordInput').value = '';
         }
 
-        window.verifyPassword = () => {
-            let pass = document.getElementById('adminPasswordInput .value' || document.getElementById('adminPasswordInput').value);
+        function verifyPassword() {
+            let pass = document.getElementById('adminPasswordInput').value;
             if(pass === 'sami2019' || pass === 'admin123') {
                 isAdminLoggedIn = true;
                 closeModal();
@@ -698,10 +675,75 @@
             }
         }
 
-        window.closeAdminPanel = () => {
+        function closeAdminPanel() {
             isAdminLoggedIn = false;
             document.getElementById('adminSection').classList.remove('active');
             render();
+        }
+
+        function deletePost(id) {
+            if(confirm('ይህን መረጃ መሰረዝ ይፈልጋሉ?')) {
+                deletedStaticIds.push(id);
+                localStorage.setItem('deletedStaticIds', JSON.stringify(deletedStaticIds));
+                render();
+            }
+        }
+
+        function editPost(id) {
+            let post = allPosts.find(p => p.id === id);
+            if(!post) return;
+            document.getElementById('editPostId').value = post.id;
+            document.getElementById('newsCategory').value = post.category;
+            document.getElementById('mediaUrl').value = post.mediaUrl || '';
+            document.getElementById('titleAM').value = post.titleAM || '';
+            document.getElementById('contentAM').value = post.contentAM || '';
+            document.getElementById('titleOR').value = post.titleOR || '';
+            document.getElementById('contentOR').value = post.contentOR || '';
+            document.getElementById('titleEN').value = post.titleEN || '';
+            document.getElementById('contentEN').value = post.contentEN || '';
+            document.getElementById('adminSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            let editId = document.getElementById('editPostId').value;
+            let category = document.getElementById('newsCategory').value;
+            let mediaUrl = document.getElementById('mediaUrl').value;
+            let titleAM = document.getElementById('titleAM').value;
+            let contentAM = document.getElementById('contentAM').value;
+            let titleOR = document.getElementById('titleOR').value;
+            let contentOR = document.getElementById('contentOR').value;
+            let titleEN = document.getElementById('titleEN').value;
+            let contentEN = document.getElementById('contentEN').value;
+
+            if(editId) {
+                let post = allPosts.find(p => p.id === editId);
+                if(post) {
+                    post.category = category;
+                    post.mediaUrl = mediaUrl;
+                    post.titleAM = titleAM;
+                    post.contentAM = contentAM;
+                    post.titleOR = titleOR;
+                    post.contentOR = contentOR;
+                    post.titleEN = titleEN;
+                    post.contentEN = contentEN;
+                }
+                document.getElementById('editPostId').value = '';
+            } else {
+                let newPost = {
+                    id: Date.now().toString(),
+                    category,
+                    mediaUrl,
+                    titleAM, contentAM,
+                    titleOR, contentOR,
+                    titleEN, contentEN
+                };
+                allPosts.unshift(newPost);
+            }
+
+            document.getElementById('newsForm').reset();
+            updateFilter(category);
+            alert('በተሳካ ሁኔታ ተመዝግቧል!');
         }
 
         // Initialize Flipbook when Turn.js is ready & render initial posts
@@ -718,9 +760,8 @@
                 }
             }, 500);
 
-            // Default language and initial rendering
             window.updateLanguage('AM');
-            render();
+            updateFilter('News');
         });
 
         // Responsive resize for flipbook
@@ -731,4 +772,9 @@
             } else if(width <= 768) {
                 $('#flipbook').turn('size', width - 40, 320);
             } else {
-                $('#flipbook').turn('size
+                $('#flipbook').turn('size', 900, 500);
+            }
+        });
+    </script>
+</body>
+</html>
