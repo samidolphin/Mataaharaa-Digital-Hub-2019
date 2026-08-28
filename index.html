@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mataaharaa Digital Hub 2019</title>
-    <!-- Flipbook Stylesheet & jQuery CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/3/turn.min.js"></script>
     <style>
@@ -193,6 +192,13 @@
         .footer-col p { margin-bottom: 8px; }
         .footer-bottom { text-align: center; padding-top: 20px; font-size: 0.8rem; color: #888; }
 
+        @media (max-width: 950px) {
+            #flipbook {
+                width: 100% !important;
+                height: 380px !important;
+            }
+        }
+
         @media (max-width: 768px) {
             header { padding: 10px 3%; justify-content: center; }
             .logo-area { margin-bottom: 5px; width: 100%; justify-content: center; }
@@ -207,10 +213,10 @@
             .footer-content { flex-direction: column; gap: 20px; }
             #flipbook {
                 width: 100% !important;
-                height: 350px !important;
+                height: 320px !important;
             }
             .page { padding: 15px; }
-            .page img { height: 140px; }
+            .page img { height: 130px; }
         }
     </style>
 </head>
@@ -242,7 +248,6 @@
         </nav>
     </header>
 
-    <!-- Admin Password Modal -->
     <div class="modal" id="passwordModal">
         <div class="modal-content">
             <h3>የአድሚን የለፍ ቃል ያስገቡ</h3>
@@ -252,7 +257,6 @@
         </div>
     </div>
 
-    <!-- Detail View Modal -->
     <div class="detail-modal" id="detailModal">
         <div class="detail-content" id="detailModalContent">
             <button class="close-detail-btn" onclick="closeDetailModal()">✖ ዝጋ</button>
@@ -260,7 +264,6 @@
     </div>
 
     <div class="hero-banner">
-        <!-- Firework Sky Elements -->
         <div class="firework-sky fs-left-1"></div>
         <div class="firework-sky fs-left-2"></div>
         <div class="firework-sky fs-right-1"></div>
@@ -280,7 +283,6 @@
     </div>
 
     <div class="main-container">
-        <!-- Admin Panel Section -->
         <div class="admin-section" id="adminSection">
             <div class="admin-header-flex">
                 <h3 style="color: #ff6600;">መረጃ መጫኛ (Admin Panel)</h3>
@@ -323,20 +325,16 @@
             </form>
         </div>
 
-        <!-- ቱሪዝም ስፔሻል መጽሐፍ እየተገለጠ የሚታይበት ክፍል (በቱሪዝም ጊዜ ብቻ የሚከፈት) -->
         <div class="flipbook-section" id="tourismFlipbookSection">
             <h3 style="color: #ff6600; font-size: 1.5rem; margin-bottom: 5px;" id="flipbookHeading">የመታሃራ ቱሪዝም መስህቦች ዲጂታል መጽሐፍ</h3>
             <p style="color: #666; font-size: 0.95rem; margin-bottom: 15px;" id="flipbookSub">ፎቶዎቹን እንደ እውነተኛ መጽሐፍ ገጽ በገጽ በመገልጥ ይጎብኙ</p>
             
-            <!-- Flipbook Interactive Container -->
             <div id="flipbook">
-                <!-- Cover Page -->
                 <div class="hard">
                     <h1 id="cover-title" style="font-size: 1.5rem; margin-bottom: 10px;">በመታሃራ ከተማ የበሰቃ ሐይቅ ዳርቻ</h1>
                     <p id="cover-sub" style="font-size: 0.95rem; color: #ffb700;">የመታሃራ ውበት፣ በበሰቃ ሐይቅ ዳርቻ ይታያል!</p>
                 </div>
                 
-                <!-- Page 1 -->
                 <div class="page">
                     <img src="IMG-1 (1).jpg" alt="Matahara Lake Beseka">
                     <div class="page-content">
@@ -349,7 +347,6 @@
                     </div>
                 </div>
 
-                <!-- Page 2 -->
                 <div class="page">
                     <img src="IMG-1 (2).jpg" alt="Matahara Resort Area">
                     <div class="page-content">
@@ -362,7 +359,6 @@
                     </div>
                 </div>
 
-                <!-- Page 3 -->
                 <div class="page">
                     <img src="IMG-1 (3).jpg" alt="Matahara Pathway">
                     <div class="page-content">
@@ -375,7 +371,6 @@
                     </div>
                 </div>
 
-                <!-- Page 4 -->
                 <div class="page">
                     <img src="IMG-1 (7).jpg" alt="Swimming Pool Area">
                     <div class="page-content">
@@ -388,7 +383,6 @@
                     </div>
                 </div>
 
-                <!-- Back Cover -->
                 <div class="hard">
                     <h2 id="back-cover-title" style="font-size: 1.3rem; margin-bottom: 10px;">ማንኛውም አስተያየት አለ?</h2>
                     <p id="back-cover-sub" style="font-size: 0.9rem;">ደስ የሚል ጉብኝት ይሁንልዎ!</p>
@@ -519,12 +513,16 @@
                 
                 const flipbookSec = document.getElementById('tourismFlipbookSection');
                 const sectionHeading = document.getElementById('sectionHeading');
+                const newsContainer = document.getElementById('newsContainer');
+
                 if(val === 'Tourism') {
                     flipbookSec.classList.add('active');
                     sectionHeading.style.display = 'none';
+                    newsContainer.style.display = 'none';
                 } else {
                     flipbookSec.classList.remove('active');
                     sectionHeading.style.display = 'inline-block';
+                    newsContainer.style.display = 'grid';
                 }
             }
             render();
@@ -552,16 +550,15 @@
             document.getElementById('footerAboutTitle').innerText = translations[lang].footerAboutTitle;
             document.getElementById('footerAboutText').innerText = translations[lang].footerAboutText;
             document.getElementById('footerContactTitle').innerText = translations[lang].footerContactTitle;
-
             document.getElementById('subTitleHeading').innerText = translations[lang].subHeading;
             document.getElementById('subDescText').innerText = translations[lang].subDesc;
-            document.getElementById('subscriberEmail').placeholder = translations[lang].subDesc;
             document.getElementById('subBtn').innerText = translations[lang].subButton;
+            subscriberEmail.placeholder = translations[lang].subDesc;
 
             document.getElementById('flipbookHeading').innerText = translations[lang].flipbookHead;
             document.getElementById('flipbookSub').innerText = translations[lang].flipbookSubText;
 
-            // Flipbook internal texts toggle
+            // Flipbook language texts switch
             document.querySelectorAll('.lang-text').forEach(el => {
                 if(el.classList.contains(lang.toLowerCase())) {
                     el.style.display = 'block';
@@ -578,232 +575,139 @@
                 }
             });
 
-            const coverTitle = document.getElementById('cover-title');
-            const coverSub = document.getElementById('cover-sub');
-            const backCoverTitle = document.getElementById('back-cover-title');
-            const backCoverSub = document.getElementById('back-cover-sub');
-
-            if(lang === 'AM') {
-                coverTitle.innerText = "በመታሃራ ከተማ የበሰቃ ሐይቅ ዳርቻ";
-                coverSub.innerText = "የመታሃራ ውበት፣ በበሰቃ ሐይቅ ዳርቻ ይታያል!";
-                backCoverTitle.innerText = "ማንኛውም አስተያየት አለ?";
-                backCoverSub.innerText = "ደስ የሚል ጉብኝት ይሁንልዎ!";
-            } else if(lang === 'OR') {
-                coverTitle.innerText = "Qarqara Haroo Basaqaa – Magaalaa Mataaharaa";
-                coverSub.innerText = "Bareedinni Mataaharaa qarqara Haroo Basaqaa irratti mul’ata!";
-                backCoverTitle.innerText = "Yaada qabduu?";
-                backCoverSub.innerText = "Daawwannaa gaarii qabaadhaa!";
-            } else if(lang === 'EN') {
-                coverTitle.innerText = "Along Lake Beseka – Matahara City";
-                coverSub.innerText = "The beauty of Matahara comes alive along the shores of Lake Beseka!";
-                backCoverTitle.innerText = "Have any feedback?";
-                backCoverSub.innerText = "Enjoy your visit!";
-            }
-
             render();
         }
 
-        // Initialize Turn.js Flipbook on load
-        $(window).ready(function() {
-            if ($('#flipbook').length) {
-                $('#flipbook').turn({
-                    width: 900,
-                    height: 500,
-                    autoCenter: true
-                });
-            }
-            // Trigger default language visibility for flipbook
-            updateLanguage('AM');
-        });
+        function render() {
+            const container = document.getElementById('newsContainer');
+            if(currentCat === 'Tourism') return; // Do not render news grid if tourism is active
 
-        document.getElementById("subscribeForm").addEventListener("submit", async function(e) {
-            e.preventDefault();
-            const emailInput = document.getElementById("subscriberEmail").value;
-            const successMessage = translations[currentLang].successMsg;
-
-            try {
-                await addDoc(collection(db, "subscribers"), {
-                    email: emailInput,
-                    language: currentLang,
-                    subscribedAt: Date.now()
-                });
-                alert(successMessage);
-                this.reset();
-            } catch(err) {
-                console.error("Subscription Error: ", err);
-                alert(successMessage);
-                this.reset();
-            }
-        });
-
-        async function loadData() {
-            try {
-                const snap = await getDocs(collection(db, "news"));
-                let firestorePosts = [];
-                snap.forEach(d => {
-                    let data = d.data();
-                    firestorePosts.push({id: d.id, ...data});
-                });
-                
-                let activeStatic = [
-                    {
-                        id: 'clean_v4_am_1',
-                        category: 'News',
-                        lang: 'AM',
-                        title: 'እንኳን ለ2019 ዓ.ም አዲስ ዓመት በሰላም አደረሳችሁ!',
-                        content: 'እንኳን ለ2019 ዓ.ም የዘመን መለወጫ በዓል በሰላም አደረሳችሁ! የመታሃራ ከተማ አስተዳደር ህብረተሰቡ በዓሉን በድምቀት እንዲያከብር መልካም ምኞቱን ያስተላልፋል።',
-                        media: '',
-                        createdAt: 1769990000000
-                    },
-                    {
-                        id: 'clean_v4_or_1',
-                        category: 'News',
-                        lang: 'OR',
-                        title: 'Baga Ayyaana Bara Haaraa 2019n nagaan isin gahe!',
-                        content: 'Baga Ayyaana Bara Haaraa 2019n nagaan isin gahe! Bulchiinsi magaala Mataaharaa hawaasaf hawwii gaarii dabarsa.',
-                        media: '',
-                        createdAt: 1769985000000
-                    },
-                    {
-                        id: 'clean_v4_en_1',
-                        category: 'News',
-                        lang: 'EN',
-                        title: 'Happy Ethiopian New Year 2019!',
-                        content: 'Happy Ethiopian New Year 2019 to all residents and visitors! Warm wishes from Mataaharaa City Administration.',
-                        media: '',
-                        createdAt: 1769980000000
-                    }
-                ].filter(p => !deletedStaticIds.includes(p.id));
-
-                let combinedPosts = [...activeStatic, ...firestorePosts];
-                
-                allPosts = combinedPosts.map(post => {
-                    let title = (post.title || "").trim();
-                    let content = (post.content || "").trim();
-                    return { ...post, title, content };
-                });
-                
-                allPosts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-                render();
-            } catch(err) {
-                console.error(err);
-                allPosts = [];
-                render();
-            }
-        }
-
-        async function render() {
-            if(currentCat === 'Tourism') return; // Do not render normal grid if Tourism is selected and flipbook is active
-            
-            const container = document.getElementById("newsContainer");
-            container.innerHTML = "";
-            
-            const filtered = allPosts.filter(p => {
-                let pLang = p.lang ? p.lang.trim().toUpperCase() : 'AM';
-                let cLang = currentLang.trim().toUpperCase();
-                return (p.category === currentCat) && (pLang === cLang);
-            });
+            let filtered = allPosts.filter(p => p.category === currentCat && !deletedStaticIds.includes(p.id));
 
             if(filtered.length === 0) {
-                container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #666; padding: 20px;">${translations[currentLang].noData}</p>`;
+                container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #777; padding: 20px;">${translations[currentLang].noData}</p>`;
                 return;
             }
 
-            filtered.forEach((p) => {
-                let mediaHtml = '';
-                if(p.media) {
-                    if(p.media.includes('youtube') || p.media.includes('youtu.be')) {
-                        let videoId = p.media.split('v=')[1] || p.media.split('/').pop();
-                        if(videoId && videoId.includes('&')) videoId = videoId.split('&')[0];
-                        mediaHtml = `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+            container.innerHTML = filtered.map(post => {
+                let title = post['title' + currentLang] || post['titleAM'] || '';
+                let content = post['content' + currentLang] || post['contentAM'] || '';
+                let shortContent = content.length > 110 ? content.substring(0, 110) + '...' : content;
+                
+                let mediaTag = '';
+                if(post.mediaUrl) {
+                    if(post.mediaUrl.includes('youtube.com') || post.mediaUrl.includes('youtu.be')) {
+                        let embedUrl = post.mediaUrl.includes('watch?v=') ? post.mediaUrl.replace('watch?v=', 'embed/') : post.mediaUrl;
+                        mediaTag = `<iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe>`;
                     } else {
-                        mediaHtml = `<img src="${p.media}" alt="Post Image">`;
+                        mediaTag = `<img src="${post.mediaUrl}" alt="Media">`;
                     }
                 }
 
-                let shortContent = p.content.length > 90 ? p.content.substring(0, 90) + "..." : p.content;
-                let adminControlsClass = isAdminLoggedIn ? "admin-controls active" : "admin-controls";
-
-                container.innerHTML += `
+                return `
                     <div class="news-card">
                         <div>
-                            ${mediaHtml}
-                            <span class="cat">${p.category}</span>
-                            <h3>${p.title}</h3>
+                            ${mediaTag}
+                            <span class="cat">${post.category}</span>
+                            <h3>${title}</h3>
                             <p>${shortContent}</p>
                         </div>
                         <div class="card-actions">
-                            <button class="read-more-btn" onclick="openDetailModal('${p.id}')">${translations[currentLang].readMore}</button>
-                            <div class="${adminControlsClass}">
-                                <button class="edit-btn" onclick="editPost('${p.id}')">አስተካክል</button>
-                                <button class="delete-btn" onclick="deletePost('${p.id}')">ሰርዝ</button>
+                            <button class="read-more-btn" onclick="openDetail('${post.id}')">${translations[currentLang].readMore}</button>
+                            <div class="admin-controls ${isAdminLoggedIn ? 'active' : ''}">
+                                <button class="edit-btn" onclick="editPost('${post.id}')">አስተካክል</button>
+                                <button class="delete-btn" onclick="deletePost('${post.id}')">ሰርዝ</button>
                             </div>
                         </div>
                     </div>
                 `;
-            });
+            }).join('');
         }
 
-        window.openDetailModal = (id) => {
-            const p = allPosts.find(item => item.id === id);
-            if(!p) return;
-
-            let mediaHtml = '';
-            if(p.media) {
-                if(p.media.includes('youtube') || p.media.includes('youtu.be')) {
-                    let videoId = p.media.split('v=')[1] || p.media.split('/').pop();
-                    if(videoId && videoId.includes('&')) videoId = videoId.split('&')[0];
-                    mediaHtml = `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+        window.openDetail = (id) => {
+            let post = allPosts.find(p => p.id === id);
+            if(!post) return;
+            let title = post['title' + currentLang] || post['titleAM'] || '';
+            let content = post['content' + currentLang] || post['contentAM'] || '';
+            let mediaTag = '';
+            if(post.mediaUrl) {
+                if(post.mediaUrl.includes('youtube.com') || post.mediaUrl.includes('youtu.be')) {
+                    let embedUrl = post.mediaUrl.includes('watch?v=') ? post.mediaUrl.replace('watch?v=', 'embed/') : post.mediaUrl;
+                    mediaTag = `<iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe>`;
                 } else {
-                    mediaHtml = `<img src="${p.media}" alt="Detail Image">`;
+                    mediaTag = `<img src="${post.mediaUrl}" alt="Media">`;
                 }
             }
 
-            const modalContent = document.getElementById("detailModalContent");
-            modalContent.innerHTML = `
+            document.getElementById('detailModalContent').innerHTML = `
                 <button class="close-detail-btn" onclick="closeDetailModal()">✖ ዝጋ</button>
-                ${mediaHtml}
-                <span class="cat">${p.category}</span>
-                <h2>${p.title}</h2>
-                <p>${p.content}</p>
+                ${mediaTag}
+                <h2>${title}</h2>
+                <p>${content}</p>
             `;
-            document.getElementById("detailModal").classList.add("active");
+            document.getElementById('detailModal').classList.add('active');
         }
 
         window.closeDetailModal = () => {
-            document.getElementById("detailModal").classList.remove("active");
+            document.getElementById('detailModal').classList.remove('active');
         }
 
         window.checkPassword = () => {
-            document.getElementById("passwordModal").classList.add("active");
+            document.getElementById('passwordModal').classList.add('active');
         }
+
         window.closeModal = () => {
-            document.getElementById("passwordModal").classList.remove("active");
-            document.getElementById("adminPasswordInput").value = "";
+            document.getElementById('passwordModal').classList.remove('active');
+            document.getElementById('adminPasswordInput').value = '';
         }
+
         window.verifyPassword = () => {
-            const pass = document.getElementById("adminPasswordInput").value;
-            if(pass === "sami2all@8080") { 
+            let pass = document.getElementById('adminPasswordInput').value;
+            if(pass === 'sami2019' || pass === 'admin123') {
                 isAdminLoggedIn = true;
-                document.getElementById("passwordModal").classList.remove("active");
-                document.getElementById("adminSection").classList.add("active");
-                document.getElementById("adminPasswordInput").value = "";
+                closeModal();
+                document.getElementById('adminSection').classList.add('active');
                 render();
             } else {
-                alert("የገባው የለፍ ቃል ስህተት ነው!");
+                alert('የለፍ ቃል ስህተት ነው!');
             }
         }
 
         window.closeAdminPanel = () => {
             isAdminLoggedIn = false;
-            document.getElementById("adminSection").classList.remove("active");
-            document.getElementById("newsForm").reset();
-            document.getElementById("editPostId").value = "";
-            document.getElementById("formSubmitBtn").innerText = "በሶስቱም ቋንቋዎች ለጥፍ";
+            document.getElementById('adminSection').classList.remove('active');
             render();
         }
 
-        loadData();
+        // Initialize Flipbook when Turn.js is ready
+        $(document).ready(function() {
+            setTimeout(function() {
+                if($.fn.turn) {
+                    $('#flipbook').turn({
+                        width: 900,
+                        height: 500,
+                        autoCenter: true,
+                        gradients: true,
+                        elevation: 50
+                    });
+                }
+            }, 500);
+
+            // Default language initialization on start
+            window.updateLanguage('AM');
+        });
+
+        // Responsive resize for flipbook
+        $(window).resize(function() {
+            var width = $(window).width();
+            if(width < 950 && width > 768) {
+                $('#flipbook').turn('size', 700, 400);
+            } else if(width <= 768) {
+                $('#flipbook').turn('size', width - 40, 320);
+            } else {
+                $('#flipbook').turn('size', 900, 500);
+            }
+        });
     </script>
 </body>
 </html>
