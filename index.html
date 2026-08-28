@@ -437,9 +437,34 @@
 
         let currentCat = 'News';
         let currentLang = 'AM';
-        let allPosts = [];
+        
+        // ናሙና ዜናዎች (ለሙከራ እንዲታዩ የተደረጉ)
+        let allPosts = [
+            {
+                id: '1',
+                category: 'News',
+                mediaUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600',
+                titleAM: 'የመታሃራ ከተማ አዲስ የልማት ስራዎች ተጀመሩ',
+                contentAM: 'የከተማ አስተዳደሩ ህብረተሰቡን ተጠቃሚ የሚያደርጉ በርካታ የመሠረተ ልማት ስራዎችን ይፋ አድርጓል።',
+                titleOR: 'Hojiileen misoomaa haaraa Magaalaa Mataaharaa jalqabaman',
+                contentOR: 'Bulchiinsi magaalattii hojiilee buuura misoomaa hawaasa fayyadamaa godhan ibsaniiru.',
+                titleEN: 'New Development Projects Launched in Matahara',
+                contentEN: 'The city administration has officially launched multiple infrastructure projects benefiting the local community.'
+            },
+            {
+                id: '2',
+                category: 'Culture',
+                mediaUrl: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600',
+                titleAM: 'የባህል እሴቶች እና የህብረተሰባችን መገለጫዎች',
+                contentAM: 'የመታሃራ ህብረተሰብ የባህል ሃብቶች እና የጋራ ዕሴቶች በልዩ ሁኔታ እየተጠበቁ ይገኛሉ።',
+                titleOR: 'Aadaa fi duudhaawwan hawaasa keenyaa',
+                contentOR: 'Qabeenyota aadaa fi duudhaawwan waliinii hawaasa Mataaharaa kunuunfamaa jiru.',
+                titleEN: 'Cultural Values and Heritage of Our Community',
+                contentEN: 'The cultural resources and shared values of the Matahara community are being preserved exceptionally.'
+            }
+        ];
+        
         let isAdminLoggedIn = false;
-
         let deletedStaticIds = JSON.parse(localStorage.getItem('deletedStaticIds') || '[]');
 
         const translations = {
@@ -662,7 +687,7 @@
         }
 
         window.verifyPassword = () => {
-            let pass = document.getElementById('adminPasswordInput').value;
+            let pass = document.getElementById('adminPasswordInput .value' || document.getElementById('adminPasswordInput').value);
             if(pass === 'sami2019' || pass === 'admin123') {
                 isAdminLoggedIn = true;
                 closeModal();
@@ -679,7 +704,7 @@
             render();
         }
 
-        // Initialize Flipbook when Turn.js is ready
+        // Initialize Flipbook when Turn.js is ready & render initial posts
         $(document).ready(function() {
             setTimeout(function() {
                 if($.fn.turn) {
@@ -693,8 +718,9 @@
                 }
             }, 500);
 
-            // Default language initialization on start
+            // Default language and initial rendering
             window.updateLanguage('AM');
+            render();
         });
 
         // Responsive resize for flipbook
@@ -705,9 +731,4 @@
             } else if(width <= 768) {
                 $('#flipbook').turn('size', width - 40, 320);
             } else {
-                $('#flipbook').turn('size', 900, 500);
-            }
-        });
-    </script>
-</body>
-</html>
+                $('#flipbook').turn('size
