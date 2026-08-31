@@ -3,482 +3,623 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mataaharaa / መታሃራ / Metehara - Official Portal</title>
+    <title>Mataaharaa Digital Hub 2019</title>
     <style>
-        /* ===== GLOBAL STYLES & RESET ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
-            color: #333;
-            line-height: 1.6;
-        }
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-        ul {
-            list-style: none;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
+        body { background-color: #f4f7f6; color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }    
+        header { display: flex; justify-content: space-between; align-items: center; padding: 12px 4%; background: #ffffff; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); flex-wrap: wrap; gap: 10px; }
+        .logo-area { display: flex; align-items: center; gap: 10px; }
+        .logo-area img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
+        .logo-text h1 { font-size: 1.05rem; color: #ff6600; font-weight: bold; white-space: nowrap; }
 
-        /* ===== TOP UTILITY BAR ===== */
-        .top-bar {
-            background-color: #1a252f;
-            color: #ecf0f1;
-            padding: 8px 5%;
-            font-size: 13px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .hero-banner { 
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200') no-repeat center center/cover; 
+            color: white; 
+            padding: 60px 20px; 
+            text-align: center; 
         }
-        .top-bar-left {
-            display: flex;
-            gap: 20px;
-        }
-        .top-bar-right {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-        .lang-switch {
-            display: flex;
-            gap: 5px;
-        }
-        .lang-switch button {
-            background: #e67e22;
-            border: none;
-            color: white;
-            padding: 2px 6px;
-            border-radius: 3px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 11px;
-        }
-        .lang-switch button.inactive {
-            background: #4b6584;
-        }
+        .hero-banner h2 { font-size: 1.8rem; margin-bottom: 12px; font-weight: bold; text-shadow: 2px 2px 5px rgba(0,0,0,0.6); }
+        .hero-banner p { font-size: 1.05rem; opacity: 0.95; font-weight: 500; text-shadow: 1px 1px 3px rgba(0,0,0,0.6); }
 
-        /* ===== MAIN HEADER & NAVIGATION ===== */
-        header {
-            background-color: #ffffff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .header-container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo-area {
-            display: flex;
-            flex-direction: column;
-        }
-        .logo-title {
-            color: #d35400;
-            font-size: 24px;
-            font-weight: 800;
-        }
-        .logo-subtitle {
-            font-size: 11px;
-            color: #7f8c8d;
-            text-transform: uppercase;
-        }
-        .main-nav ul {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        .main-nav a {
-            font-size: 14px;
-            font-weight: 600;
-            color: #2c3e50;
-            padding: 6px 10px;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-        .main-nav a:hover, .main-nav a.active {
-            background-color: #e67e22;
-            color: white;
-        }
+        .marquee-container { background: #ff6600; color: white; padding: 9px 0; font-size: 0.90rem; font-weight: bold; overflow: hidden; white-space: nowrap; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .marquee-container marquee { width: 100%; }
 
-        /* ===== BREAKING NEWS TICKER BANNER ===== */
-        .ticker-banner {
-            background: linear-gradient(135deg, #d35400, #e67e22);
-            color: white;
-            padding: 12px 20px;
-            text-align: center;
-            font-size: 14px;
-            font-weight: 600;
-            box-shadow: inset 0 3px 6px rgba(0,0,0,0.1);
-        }
+        nav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+        nav a { text-decoration: none; color: #333; font-weight: 600; font-size: 0.78rem; transition: color 0.3s; padding: 5px 8px; border-radius: 4px; cursor: pointer; }
+        nav a:hover, nav a.active { color: #ff6600; background: #fff3ed; }
+        
+        .lang-container { display: flex; align-items: center; gap: 3px; background: #eee; padding: 3px; border-radius: 20px; }
+        .lang-btn { background: transparent; border: none; padding: 3px 8px; border-radius: 15px; cursor: pointer; font-size: 0.75rem; font-weight: bold; color: #555; display: inline-flex; align-items: center; }
+        .lang-btn.active { background: #ff6600; color: white; }
 
-        /* ===== MAIN CONTENT CONTAINER ===== */
-        .container {
-            max-width: 1300px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            border-bottom: 3px solid #e67e22;
-            padding-bottom: 8px;
-        }
-        .section-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #2c3e50;
-        }
+        .admin-btn { background: #ff6600; color: white !important; padding: 6px 14px; border-radius: 4px; font-size: 0.78rem; cursor: pointer; border: none; font-weight: bold; }
+        
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center; padding: 15px; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; padding: 25px; border-radius: 8px; width: 100%; max-width: 320px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .modal-content input { width: 100%; padding: 10px; margin: 15px 0; border: 1px solid #ccc; border-radius: 4px; }
+        .modal-content button { background: #ff6600; color: white; border: none; padding: 9px 15px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; }
 
-        /* ===== NEWS GRID CARDS SYSTEM ===== */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
-        }
-        .card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
-        .card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-        }
-        .video-box {
-            position: relative;
-            background: #111;
-            height: 180px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .video-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.75;
-        }
-        .play-btn {
-            position: absolute;
-            background: rgba(204, 0, 0, 0.95);
-            color: white;
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            font-size: 20px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-            transition: transform 0.2s;
-        }
-        .play-btn:hover {
-            transform: scale(1.1);
-            background: #cc0000;
-        }
-        .card-content {
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-        .card-category {
-            color: #e67e22;
-            font-size: 11px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-        }
-        .card-title {
-            font-size: 15px;
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 10px;
-            line-height: 1.4;
-        }
-        .card-text {
-            font-size: 13px;
-            color: #666;
-            line-height: 1.5;
-            margin-bottom: 15px;
-        }
-        .card-footer {
-            margin-top: auto;
-            font-size: 12px;
-            color: #95a5a6;
-            border-top: 1px solid #edf2f7;
-            padding-top: 10px;
-            display: flex;
-            justify-content: space-between;
-        }
+        .detail-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 3000; justify-content: center; align-items: center; padding: 15px; }
+        .detail-modal.active { display: flex; }
+        .detail-content { background: white; padding: 25px; border-radius: 10px; max-width: 700px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 5px 20px rgba(0,0,0,0.3); position: relative; }
+        .detail-content img, .detail-content iframe { width: 100%; height: 250px; object-fit: cover; border-radius: 6px; margin-bottom: 15px; }
+        .detail-content h2 { color: #222; margin-bottom: 15px; font-size: 1.35rem; }
+        .detail-content p { color: #444; font-size: 1rem; line-height: 1.7; white-space: pre-wrap; }
+        .close-detail-btn { position: absolute; top: 15px; right: 15px; background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; }
 
-        /* ===== EXTRA MODULES SECTION ===== */
-        .extra-section {
-            margin-top: 50px;
-            background: white;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
-        }
-        .features-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .feature-item {
-            background: #f8fafc;
-            padding: 18px;
-            border-radius: 8px;
-            border-left: 4px solid #e67e22;
-        }
-        .feature-item h4 {
-            font-size: 14px;
-            color: #2c3e50;
-            margin-bottom: 6px;
-        }
-        .feature-item p {
-            font-size: 12px;
-            color: #64748b;
-        }
+        .main-container { flex: 1; padding: 25px 4%; max-width: 1300px; margin: 0 auto; width: 100%; }
 
-        /* ===== FOOTER SECTION ===== */
-        footer {
-            background-color: #1a252f;
-            color: #cbd5e1;
-            padding: 40px 20px 20px;
-            margin-top: 60px;
-        }
-        .footer-content {
-            max-width: 1300px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-        .footer-col h3 {
-            color: white;
-            font-size: 16px;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #e67e22;
-            display: inline-block;
-            padding-bottom: 4px;
-        }
-        .footer-col p, .footer-col ul li {
-            font-size: 13px;
-            margin-bottom: 8px;
-        }
-        .footer-col ul li a:hover {
-            color: #e67e22;
-        }
-        .footer-bottom {
-            text-align: center;
-            border-top: 1px solid #2c3e50;
-            padding-top: 15px;
-            font-size: 12px;
-            color: #94a3b8;
-        }
+        .admin-section { display: none; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 30px; border: 2px dashed #ff6600; }
+        .admin-section.active { display: block; }
+        .admin-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .close-admin-btn { background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.8rem; }
+        
+        .form-group { margin-bottom: 14px; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 0.92rem; }
+        .form-group textarea { height: 95px; resize: vertical; }
+        .submit-btn { background: #ff6600; color: white; border: none; padding: 11px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; }
 
-        /* ===== RESPONSIVE MEDIA QUERIES ===== */
-        @media(max-width: 768px) {
-            .header-container {
-                flex-direction: column;
-                gap: 12px;
-            }
-            .main-nav ul {
-                justify-content: center;
-            }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
+        .news-card { background: white; border-radius: 8px; padding: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.06); transition: transform 0.3s; display: flex; flex-direction: column; justify-content: space-between; }
+        .news-card:hover { transform: translateY(-3px); }
+        .news-card img, .news-card iframe { width: 100%; height: 180px; object-fit: cover; border-radius: 6px; margin-bottom: 12px; }
+        .cat { color: #ff6600; font-size: 0.72rem; font-weight: bold; text-transform: uppercase; }
+        .news-card h3 { font-size: 1.1rem; margin: 8px 0; color: #222; }
+        .news-card p { font-size: 0.88rem; color: #555; margin-bottom: 12px; }
+        
+        .card-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+        .read-more-btn { background: transparent; color: #ff6600; border: 1px solid #ff6600; padding: 6px 12px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; cursor: pointer; text-align: center; transition: all 0.3s; }
+        .read-more-btn:hover { background: #ff6600; color: white; }
+
+        .admin-controls { display: none; gap: 5px; }
+        .admin-controls.active { display: flex; }
+        .edit-btn { background: #3498db; color: white; border: none; padding: 5px 10px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; font-weight: bold; }
+        .delete-btn { background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; font-weight: bold; }
+
+        footer { background: #222; color: #ccc; padding: 35px 4% 20px; margin-top: 40px; font-size: 0.88rem; }
+        .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; max-width: 1300px; margin: 0 auto; padding-bottom: 25px; border-bottom: 1px solid #444; }
+        .footer-col { flex: 1; min-width: 240px; }
+        .footer-col h4 { color: #ff6600; margin-bottom: 12px; font-size: 1.05rem; }
+        .footer-col p { margin-bottom: 8px; }
+        .footer-bottom { text-align: center; padding-top: 20px; font-size: 0.8rem; color: #888; }
+
+        @media (max-width: 768px) {
+            header { padding: 10px 3%; justify-content: center; }
+            .logo-area { margin-bottom: 5px; width: 100%; justify-content: center; }
+            nav { width: 100%; justify-content: center; gap: 4px; }
+            nav a { font-size: 0.75rem; padding: 4px 6px; }
+            .hero-banner { padding: 40px 15px; }
+            .hero-banner h2 { font-size: 1.4rem; }
+            .main-container { padding: 15px 3%; }
+            .news-grid { grid-template-columns: 1fr; }
+            .footer-content { flex-direction: column; gap: 20px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- TOP BAR -->
-    <div class="top-bar">
-        <div class="top-bar-left">
-            <span>📅 ነሐሴ 14፣ 2018 ዓ.ም</span>
-            <span>📍 መታሃራ፣ ኢትዮጵያ</span>
-        </div>
-        <div class="top-bar-right">
-            <span>Sami Online Advert & Promotion</span>
-            <div class="lang-switch">
-                <button>Oro</button>
-                <button class="active">Am</button>
-                <button class="inactive">Eng</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MAIN HEADER -->
+    <!-- Header -->
     <header>
-        <div class="header-container">
-            <div class="logo-area">
-                <div class="logo-title">Mataaharaa / መታሃራ / Metehara</div>
-                <div class="logo-subtitle">Official Town Media & Communication Portal</div>
-            </div>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="#" class="active">ዜና</a></li>
-                    <li><a href="#">ቱሪዝም</a></li>
-                    <li><a href="#">ባህል</a></li>
-                    <li><a href="#">ፋይናንስ</a></li>
-                    <li><a href="#">ዕለት-ዕለት</a></li>
-                    <li><a href="#">የዩቲዩብ ቪዲዮ ገጽ</a></li>
-                    <li><a href="#">የፎቶ ገጽ</a></li>
-                </ul>
-            </nav>
+        <div class="logo-area">
+            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" alt="Logo">
+            <div class="logo-text"><h1>Mataaharaa / መታሃራ / Metehara</h1></div>
         </div>
+        <nav>
+            <a id="navNews" class="active" onclick="updateFilter('cat', 'News')">ዜና</a>
+            <a id="navTourism" onclick="updateFilter('cat', 'Tourism')">ቱሪዝም</a>
+            <a id="navCulture" onclick="updateFilter('cat', 'Culture')">ባህል</a>
+            <a id="navPhilosophy" onclick="updateFilter('cat', 'Philosophy')">ፍልስፍና</a>
+            <a id="navLiterature" onclick="updateFilter('cat', 'Literature')">ፅነ-ፅሁፍ</a>
+            <a id="navVideo" onclick="updateFilter('cat', 'Video')">የቪዲዮ ጋለሪ</a>
+            <a id="navPhoto" onclick="updateFilter('cat', 'Photo')">የፎቶ ጋለሪ</a>
+            
+            <div class="lang-container">
+                <button class="lang-btn" id="btnOR" onclick="updateLanguage('OR')">Oro</button>
+                <button class="lang-btn active" id="btnAM" onclick="updateLanguage('AM')">Am</button>
+                <button class="lang-btn" id="btnEN" onclick="updateLanguage('EN')">Eng</button>
+            </div>
+
+            <button class="admin-btn" onclick="checkPassword()">አድሚን</button>
+        </nav>
     </header>
 
-    <!-- TICKER BANNER -->
-    <div class="ticker-banner">
-        🔥 እንኳን ወደ መታሃራ ዱርዬአል 2019 በሰላም መጡ! ወቅታዊ የከተማችን መረጃዎች እና በሥራ ላይ ያሉ ኬላዎች እዚህ ማግኘት ይችላሉ። 🔥
+    <!-- Admin Password Modal -->
+    <div class="modal" id="passwordModal">
+        <div class="modal-content">
+            <h3>የአድሚን የለፍ ቃል ያስገቡ</h3>
+            <input type="password" id="adminPasswordInput" placeholder="Password">
+            <button onclick="verifyPassword()">ግባ</button>
+            <button style="background:#e74c3c; margin-top:8px;" onclick="closeModal()">ሰርዝ</button>
+        </div>
     </div>
 
-    <!-- MAIN CONTENT CONTAINER -->
-    <div class="container">
-        <div class="section-header">
-            <div class="section-title">ወቅታዊ መረጃዎች</div>
+    <!-- Detail View Modal -->
+    <div class="detail-modal" id="detailModal">
+        <div class="detail-content" id="detailModalContent">
+            <button class="close-detail-btn" onclick="closeDetailModal()">✖ ዝጋ</button>
         </div>
+    </div>
+
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+        <h2 id="heroTitle">እንኳን ወደ መታሃራ ከተማ ዲጂታል መረጃ ማእከል በደህና መጡ</h2>
+        <p id="heroSub">ፀሃይ የማትጠልቅባት ከተማ - መታሃራ-</p>
+    </section>
+
+    <div class="marquee-container">
+        <marquee id="marqueeText">🔥 እንኳን ወደ መታሃራ ዲጂታል 2019 በሰላም መጡ! ወቅታዊ የከተማችን መረጃዎች እና በስርጭት ላይ ያሉ ዜናዎችን እዚህ ማግኘት ይችላሉ። 🔥</marquee>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
         
-        <div class="grid">
-            <!-- ዜና 1: የመጠጥ ውኃ ፕሮጀክት -->
-            <div class="card">
-                <img src="water_project.jpg" alt="የመጠጥ ውኃ ፕሮጀክት ውይይት">
-                <div class="card-content">
-                    <div class="card-category">NEWS</div>
-                    <div class="card-title">ከ1 ቢሊዮን ብር በላይ ወጪ የሚደረግበት የመታሃራ የመጠጥ ውኃ ፕሮጀክት በፋፍኃንስ እውን መሆኑን አቅጣጫ ተሰጠ</div>
-                    <div class="card-text">መታሃራ ከተማ አስተዳደር ከ1 ቢሊዮን ብር በላይ ወጪ የሚደረግበት የመታሃራ የመጠጥ ውኃ ፕሮጀክት በፋፍኃንስ እውን መሆኑን አቅጣጫ ተሰጠ።</div>
-                    <div class="card-footer">
-                        <span>ቀን፦ ነሐሴ 14፣ 2018 ዓ.ም.</span>
-                        <span>መታሃራ ከተማ አዳራሾች</span>
-                    </div>
-                </div>
+        <!-- Admin Panel Section -->
+        <div class="admin-section" id="adminSection">
+            <div class="admin-header-flex">
+                <h3 style="color: #ff6600;">መረጃ መጫኛ (Admin Panel)</h3>
+                <button class="close-admin-btn" onclick="closeAdminPanel()">❌ ከአድሚን ውጣ</button>
             </div>
+            
+            <form id="newsForm">
+                <input type="hidden" id="editPostId">
+                <div class="form-group">
+                    <select id="newsCategory">
+                        <option value="News">ዜና (News)</option>
+                        <option value="Tourism">ቱሪዝም (Tourism)</option>
+                        <option value="Culture">ባህል (Culture)</option>
+                        <option value="Philosophy">ፍልስፍና (Philosophy)</option>
+                        <option value="Literature">ፅነ-ፅሁፍ (Literature)</option>
+                        <option value="Video">የቪዲዮ ጋለሪ (Video)</option>
+                        <option value="Photo">የፎቶ ጋለሪ (Photo)</option>
+                    </select>
+                </div>
 
-            <!-- ዜና 2: ዩቲዩብ ቪዲዮ ካርድ (ሳሚ ቲዩብ) -->
-            <div class="card">
-                <div class="video-box">
-                    <img src="youtube_banner.jpg" alt="Metehara green legacy">
-                    <a href="https://www.youtube.com/watch?v=EXAMPLE_YOUTUBE_ID" target="_blank" aria-label="Play YouTube Video">
-                        <button class="play-btn">▶</button>
-                    </a>
+                <div class="form-group">
+                    <input type="text" id="mediaUrl" placeholder="የፎቶ ሊንክ፣ የዩቲዩብ ቪዲዮ ሊንክ ወይም የምስል ዩአርኤል (Image/Video URL) ያስገቡ">
                 </div>
-                <div class="card-content">
-                    <div class="card-category">NEWS</div>
-                    <div class="card-title">የዳልታዮውን ዕድል በንስር ዓይን ማየት! አንዳንድ ጊዜ ከተማን ይበልጥ ለማስፋፋት ታላቅ በጀት ብቻ አይደለም የሚገባው።</div>
-                    <div class="card-text">የዳልታዮውን ዕድል በንስር ዓይን ማየት! አንዳንድ ጊዜ ከተማን ይበልጥ ለማስፋፋት ታላቅ በጀት ብቻ አይደለም የሚገባው። ያለው ነገር በንስር ዓይን ማየት...</div>
-                    <div class="card-footer">
-                        <span>Sami Tube (ሳሚ ቲዩብ)</span>
-                        <span>ዩቲዩብ ሊንክ</span>
-                    </div>
-                </div>
-            </div>
 
-            <!-- ዜና 3: ግሪን ሌጋሲ (በንስር ዓይን ማየት) -->
-            <div class="card">
-                <img src="green_legacy.jpg" alt="ግሪን ሌጋሲ ችግኝ ተከላ">
-                <div class="card-content">
-                    <div class="card-category">NEWS</div>
-                    <div class="card-title">🌱 መታሃራ፦ የዳልታዮውን ዕድል በንስር ዓይን ማየት! 🌴 አንዳንድ ጊዜ ከተማን ይበልጥ ለማስፋፋት ታላቅ በጀት ብቻ አይደለም የሚገባው።</div>
-                    <div class="card-text">🌱 መታሃራ፦ የዳልታዮውን ዕድል በንስር ዓይን ማየት! 🌴 አንዳንድ ጊዜ ከተማን ይበልጥ ለማስፋፋት ታላቅ በጀት ብቻ አይደለም የሚገባው። ያለው ነገር በንስር ዓይን ማየት...</div>
-                    <div class="card-footer">
-                        <span>ግሪን ሌጋሲ መርሃ ግብር</span>
-                        <span>መታሃራ ዞን</span>
-                    </div>
-                </div>
-            </div>
+                <hr style="margin: 15px 0; border: 0; border-top: 1px solid #ddd;">
 
-            <!-- ዜና 4: አቶ ሽመልስ አብዲሳ የጉብኝት መርሃ ግብር -->
-            <div class="card">
-                <img src="shimelis_abdisa.jpg" alt="አቶ ሽመልስ አብዲሳ የጉብኝት መርሃ ግብር">
-                <div class="card-content">
-                    <div class="card-category">NEWS</div>
-                    <div class="card-title">የኦሮሚያ ክልል መንግስት ፕሬዚዳንት አቶ ሽመልስ አብዲሳ የኦሮሚያን አሻራ የብርሃንችን ተክለኝ ኃይኝ አደረጉ!</div>
-                    <div class="card-text">ዛሬ የኦሮሚያ ክልል መንግስት ፕሬዚዳንት አቶ ሽመልስ አብዲሳ በምረቃው ስፍራ ተገኝተው የሥራ እንቅስቃሴዎችን ጎብኝተዋል...</div>
-                    <div class="card-footer">
-                        <span>ክልላዊ ዜና</span>
-                        <span>የፕሬዚዳንት ጽ/ቤት</span>
-                    </div>
-                </div>
-            </div>
+                <h4>አማርኛ (Amharic)</h4>
+                <div class="form-group"><input type="text" id="titleAM" placeholder="የአማርኛ ርዕስ"></div>
+                <div class="form-group"><textarea id="contentAM" placeholder="የአማርኛ ይዘት"></textarea></div>
+
+                <h4>ኦሮምኛ (Afaan Oromoo)</h4>
+                <div class="form-group"><input type="text" id="titleOR" placeholder="Mata Duree (Oro)"></div>
+                <div class="form-group"><textarea id="contentOR" placeholder="Qabiyyee (Oro)"></textarea></div>
+
+                <h4>እንግሊዝኛ (English)</h4>
+                <div class="form-group"><input type="text" id="titleEN" placeholder="English Title"></div>
+                <div class="form-group"><textarea id="contentEN" placeholder="English Content"></textarea></div>
+
+                <button type="submit" class="submit-btn" id="formSubmitBtn">በሶስቱም ቋንቋዎች ለጥፍ</button>
+            </form>
         </div>
 
-        <!-- EXTENDED ADMINISTRATIVE & TOWN PROMOTION MODULE -->
-        <div class="extra-section">
-            <div class="section-header">
-                <div class="section-title">የከተማችን የልማት እና የዕድገት ማዕቀፎች</div>
-            </div>
-            <p>መታሃራ ከተማ አስተዳደር በየዘርፉ እየተከናወኑ ያሉ የኢኮኖሚ፣ የቱሪዝም እና የኢንፍራስትራክቸር ስራዎችን በዲጂታል መንገድ ለህብረተሰቡ ተደራሽ ለማድረግ የሚያስችል ዘመናዊ ስርዓት ነው።</p>
-            <div class="features-list">
-                <div class="feature-item">
-                    <h4>ዘመናዊ መዋቅር</h4>
-                    <p>የከተማውን ማህበራዊና ኢኮኖሚያዊ እንቅስቃሴዎች በቅርበት የሚከታተል አሰራር።</p>
-                </div>
-                <div class="feature-item">
-                    <h4>ፈጣን መረጃ</h4>
-                    <p>ወቅታዊ ዜናዎችን እና ማስታወቂያዎችን ያለክፍያ በሰዓቱ ማግኘት።</p>
-                </div>
-                <div class="feature-item">
-                    <h4>የቱሪዝም እምቅ አቅም</h4>
-                    <p>የአካባቢውን የተፈጥሮ ጸጋ እና የኢንቨስትመንት አማራጮች ማስተዋወቅ።</p>
-                </div>
-            </div>
-        </div>
+        <h3 id="sectionHeading" style="margin-bottom: 15px; color: #333; border-bottom: 2px solid #ff6600; display: inline-block; padding-bottom: 5px;">ወቅታዊ መረጃዎች</h3>
+        <div class="news-grid" id="newsContainer"></div>
     </div>
 
-    <!-- SITE FOOTER -->
+    <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div class="footer-col">
-                <h3>ስለ መታሃራ ፖርታል</h3>
-                <p>ይህ ድረ-ገጽ የመታሃራ ከተማ አስተዳደር ህዝብ ግንኙነት እና የሚዲያ ስራዎችን ለማስተዋወቅ የተዘጋጀ ኦፊሴላዊ መድረክ ነው።</p>
+                <h4 id="footerAboutTitle">ስለ መታሃራ ዲጂታል 2019</h4>
+                <p id="footerAboutText">መታሃራ ዲጂታል 2019 የከተማችንን ቱሪዝም፣ ባህል፣ ልማት እና ወቅታዊ መረጃዎች በሶስት ቋንቋዎች ለህብረተሰቡ የሚያደርስ መድረክ ነው።</p>
             </div>
             <div class="footer-col">
-                <h3>አቋራጭ ሊንኮች</h3>
-                <ul>
-                    <li><a href="#">ወቅታዊ ዜናዎች</a></li>
-                    <li><a href="#">የቱሪዝም መዳረሻዎች</a></li>
-                    <li><a href="#">ባህላዊ እሴቶች</a></li>
-                    <li><a href="#">የማዘጋጃ ቤት አገልግሎቶች</a></li>
-                </ul>
+                <h4 id="subTitleHeading">ለአዳዲስ መረጃዎች ይመዝገቡ</h4>
+                <p id="subDescText">ኢሜይል አድራሻዎን ያስገቡ</p>
+                <form id="subscribeForm">
+                    <input type="email" id="subscriberEmail" placeholder="ኢሜይል አድራሻዎን ያስገቡ" style="padding:8px; width:80%; border-radius:4px; border:none; margin-bottom:5px;" required>
+                    <button type="submit" id="subBtn" style="padding:8px; background:#ff6600; border:none; color:white; cursor:pointer; border-radius:4px;">ይመዝገቡ</button>
+                </form>
             </div>
             <div class="footer-col">
-                <h3>አድራሻችን</h3>
-                <p>📍 መታሃራ፣ ኦሮሚያ፣ ኢትዮጵያ</p>
-                <p>📞 ስልክ፡ +251-00-000-0000</p>
-                <p>✉️ ኢሜይል፡ info@mataaharaa.gov.et</p>
+                <h4 id="footerContactTitle">አግኙን / Contact Us</h4>
+                <p>📍 Mataaharaa, Oromia, Ethiopia</p>
+                <p>📧 sami2all@gmail.com</p>
+                <p>📞 +251 911 926976</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2018/2026 Mataaharaa / መታሃራ / Metehara. All Rights Reserved. Powered by Sami Online Advert & Promotion.</p>
+            <p>&copy; 2019 Mataaharaa Digital Hub. Designed by Sami Online Advert & Promotion.</p>
         </div>
     </footer>
 
+    <!-- Firebase & Custom Script -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = { 
+            apiKey: "AIzaSy...", 
+            authDomain: "mataaharaa-hub-2019.firebaseapp.com",
+            projectId: "mataaharaa-hub-2019",
+            storageBucket: "mataaharaa-hub-2019.appspot.com",
+            messagingSenderId: "538021472549",
+            appId: "1:538021472549:web:dae14f2a677582b9e6d2cc"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        let currentCat = 'News';
+        let currentLang = 'AM';
+        let allPosts = [];
+        let isAdminLoggedIn = false;
+
+        const defaultStaticPosts = [
+            {
+                id: 'default_1',
+                category: 'News',
+                lang: 'OR',
+                title: 'Yeroo tokko tokko magaalaa tokko caalaati bareechuuf baajata guddaa qofa qabaachun hin ga\'u.',
+                content: 'Yeroo tokko tokko magaalaa tokko caalaati bareechuuf baajata guddaa qofa qabaachun hin ga\'u. Waan jiru karaa addatiin ilaaluun, carraa hin mul\'anne adda baasuun, boru yaadanii har\'a hojjechuu danda\'uun "ija risaa" barbaada.',
+                media: '',
+                createdAt: 1770000000000
+            },
+            {
+                id: 'default_2',
+                category: 'News',
+                lang: 'AM',
+                title: 'የእኛን ድል በንጥር ዓይን ማየት! ከተሞቻችንን ይበልጥ ለማንቃት ታላቅ ዕቅድ ተዘርግቶ ስራ ተጀምሯል።',
+                content: 'የእኛን ድል በንጥር ዓይን ማየት! ከተሞቻችንን ይበልጥ ለማንቃት ታላቅ ዕቅድ ተዘርግቶ ስራ ተጀምሯል። መታሃራ፣ የእኛን ድል በንጥር ዓይን ማየት! ከተሞቻችንን ይበልጥ ለማንቃት ታላቅ ዕቅድ ተዘርግቶ ስራ ተጀምሯል።',
+                media: '',
+                createdAt: 1769990000000
+            },
+            {
+                id: 'default_3',
+                category: 'News',
+                lang: 'OR',
+                title: 'Oromiyaa Obbo Shimallis Abdiisaa Burtukaana Ashaaraa Magariisaa Daawwatan!',
+                content: 'Oromiyaa Obbo Shimallis Abdiisaa Burtukaana Ashaaraa Magariisaa Daawwatan! Har\'a, Pirezedaantiin Mootummaa Naannoo Oromiyaa, Obbo Shimallis Abdiisaa, Godina Shawaa Bahaa Magaalaa Mataaharaatti argamuun, biqiltuu burtukaana sagantaa Ashaaraa Magariisaatiin bara darbe dhaabbate daawwataniiru.',
+                media: '',
+                createdAt: 1769980000000
+            }
+        ];
+
+        const translations = {
+            'AM': {
+                heroTitle: "እንኳን ወደ መታሃራ ከተማ ዲጂታል መረጃ ማእከል በደህና መጡ",
+                heroSub: "ፀሃይ የማትጠልቅባት ከተማ - መታሃራ-",
+                marquee: "🔥 እንኳን ወደ መታሃራ ዲጂታል 2019 በሰላም መጡ! ወቅታዊ የከተማችን መረጃዎች እና በስርጭት ላይ ያሉ ዜናዎችን እዚህ ማግኘት ይችላሉ። 🔥",
+                navNews: "ዜና", navTourism: "ቱሪዝም", navCulture: "ባህል",
+                navPhilosophy: "ፍልስፍና", navLiterature: "ፅነ-ፅሁፍ", navVideo: "የቪዲዮ ጋለሪ", navPhoto: "የፎቶ ጋለሪ",
+                sectionHeading: "ወቅታዊ መረጃዎች",
+                readMore: "ተጨማሪ ለማንበብ...",
+                footerAboutTitle: "ስለ መታሃራ ዲጂታል 2019",
+                footerAboutText: "መታሃራ ዲጂታል 2019 የከተማችንን ቱሪዝም፣ ባህል፣ ልማት እና ወቅታዊ መረጃዎች በሶስት ቋንቋዎች ለህብረተሰቡ የሚያደርስ መድረክ ነው።",
+                footerContactTitle: "አግኙን / Contact Us",
+                noData: "በዚህ ቋንቋ ወይም ምድብ የተለጠፈ መረጃ የለም።",
+                subHeading: "ለአዳዲስ መረጃዎች ይመዝገቡ",
+                subDesc: "ኢሜይል አድራሻዎን ያስገቡ",
+                subButton: "ይመዝገቡ",
+                successMsg: "በተሳካ ሁኔታ ተመዝግበዋል! እናመሰግናለን።"
+            },
+            'OR': {
+                heroTitle: "Baga Nagaan Gara Wiirtuu Odeeffannoo Dijitaalaa Magaala Mataaharaa Dhuftan",
+                heroSub: "Mataaharaa Magaalaa Aduun itti hindhiine",
+                marquee: "🔥 Baga Nagaan Gara Mataaharaa Digital 2019 dhuftan! Odeeffannoowwan yeroo fi oduulee magaalattii as irratti argachuu dandeessu. 🔥",
+                navNews: "Oduu", navTourism: "Tuuriizimii", navCulture: "Aadaa",
+                navPhilosophy: "Filoosofii", navLiterature: "Barruu", navVideo: "Gaalarii Viidiyoo", navPhoto: "Gaalarii Suuraa",
+                sectionHeading: "Odeeffannoo Yeroo Ammaa",
+                readMore: "Dabalataan Dubbisuuf...",
+                footerAboutTitle: "Waa'ee Mataaharaa Digital 2019",
+                footerAboutText: "Mataaharaa Digital 2019 wiirtuu odeeffannoo tuuriizimii, aadaa fi misiyoonsii magaalattii afaan sadiin dhiyeessuudha.",
+                footerContactTitle: "Nu Quunnamaa",
+                noData: "Odeeffannoon afaan kana ykn ramaddii kanaan hin jiru.",
+                subHeading: "Odeeffannoowwan Haaraaf Galmaa'aa",
+                subDesc: "Teessoo imeelii keessanii galchaa",
+                subButton: "Galmaa'ი",
+                successMsg: "Milkaa'inaan galmoofteetta! Galatoomaa."
+            },
+            'EN': {
+                heroTitle: "Welcome to Mataaharaa City Digital Information Center",
+                heroSub: "“Mataahara — The City Where the Sun Never Sets.” ☀️",
+                marquee: "🔥 Welcome to Mataaharaa Digital 2019! Find the latest city updates, news, and insights right here. 🔥",
+                navNews: "News", navTourism: "Tourism", navCulture: "Culture",
+                navPhilosophy: "Philosophy", navLiterature: "Literature", navVideo: "Video Gallery", navPhoto: "Photo Gallery",
+                sectionHeading: "Latest Updates",
+                readMore: "Read More...",
+                footerAboutTitle: "About Mataaharaa Digital 2019",
+                footerAboutText: "Mataaharaa Digital 2019 is a comprehensive platform sharing tourism, culture, development, and news in three languages.",
+                footerContactTitle: "Contact Us",
+                noData: "No posts available in this language or category.",
+                subHeading: "Subscribe for Updates",
+                subDesc: "Enter your email address",
+                subButton: "Subscribe",
+                successMsg: "Successfully subscribed! Thank you."
+            }
+        };
+
+        window.updateFilter = (type, val) => {
+            if(type === 'cat') {
+                currentCat = val;
+                document.querySelectorAll('nav a[id^="nav"]').forEach(a => a.classList.remove('active'));
+                document.getElementById('nav' + val).classList.add('active');
+            }
+            render();
+        }
+
+        window.updateLanguage = (lang) => {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('btn' + lang).classList.add('active');
+            
+            document.getElementById('heroTitle').innerText = translations[lang].heroTitle;
+            document.getElementById('heroSub').innerText = translations[lang].heroSub;
+            document.getElementById('marqueeText').innerText = translations[lang].marquee;
+            
+            document.getElementById('navNews').innerText = translations[lang].navNews;
+            document.getElementById('navTourism').innerText = translations[lang].navTourism;
+            document.getElementById('navCulture').innerText = translations[lang].navCulture;
+            document.getElementById('navPhilosophy').innerText = translations[lang].navPhilosophy;
+            document.getElementById('navLiterature').innerText = translations[lang].navLiterature;
+            document.getElementById('navVideo').innerText = translations[lang].navVideo;
+            document.getElementById('navPhoto').innerText = translations[lang].navPhoto;
+
+            document.getElementById('sectionHeading').innerText = translations[lang].sectionHeading;
+            document.getElementById('footerAboutTitle').innerText = translations[lang].footerAboutTitle;
+            document.getElementById('footerAboutText').innerText = translations[lang].footerAboutText;
+            document.getElementById('footerContactTitle').innerText = translations[lang].footerContactTitle;
+
+            document.getElementById('subTitleHeading').innerText = translations[lang].subHeading;
+            document.getElementById('subDescText').innerText = translations[lang].subDesc;
+            document.getElementById('subscriberEmail').placeholder = translations[lang].subDesc;
+            document.getElementById('subBtn').innerText = translations[lang].subButton;
+
+            render();
+        }
+
+        document.getElementById("subscribeForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            const emailInput = document.getElementById("subscriberEmail").value;
+            const successMessage = translations[currentLang].successMsg;
+
+            try {
+                await addDoc(collection(db, "subscribers"), {
+                    email: emailInput,
+                    language: currentLang,
+                    subscribedAt: Date.now()
+                });
+                alert(successMessage);
+                this.reset();
+            } catch(err) {
+                console.error("Subscription Error: ", err);
+                alert(successMessage);
+                this.reset();
+            }
+        });
+
+        async function loadData() {
+            try {
+                const snap = await getDocs(collection(db, "news"));
+                let firestorePosts = [];
+                snap.forEach(d => firestorePosts.push({id: d.id, ...d.data()}));
+                
+                let deletedPosts = JSON.parse(localStorage.getItem('deletedPosts') || '[]');
+                let combinedPosts = [...defaultStaticPosts, ...firestorePosts];
+                allPosts = combinedPosts.filter(post => !deletedPosts.includes(post.id));
+                
+                allPosts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                render();
+            } catch(err) {
+                console.error(err);
+                let deletedPosts = JSON.parse(localStorage.getItem('deletedPosts') || '[]');
+                allPosts = defaultStaticPosts.filter(post => !deletedPosts.includes(post.id));
+                render();
+            }
+        }
+
+        async function render() {
+            const container = document.getElementById("newsContainer");
+            container.innerHTML = "";
+            
+            const filtered = allPosts.filter(p => 
+                (p.category === currentCat) && 
+                (p.lang === currentLang)
+            );
+
+            if(filtered.length === 0) {
+                container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #775; padding: 20px;">${translations[currentLang].noData}</p>`;
+                return;
+            }
+
+            filtered.forEach((p) => {
+                let mediaHtml = '';
+                if(p.media) {
+                    if(p.media.includes('youtube') || p.media.includes('youtu.be')) {
+                        let videoId = p.media.split('v=')[1] || p.media.split('/').pop();
+                        if(videoId && videoId.includes('&')) videoId = videoId.split('&')[0];
+                        mediaHtml = `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+                    } else {
+                        mediaHtml = `<img src="${p.media}" alt="Post Image">`;
+                    }
+                }
+
+                let shortContent = p.content.length > 120 ? p.content.substring(0, 120) + "..." : p.content;
+                let adminControlsClass = isAdminLoggedIn ? "admin-controls active" : "admin-controls";
+
+                container.innerHTML += `
+                    <div class="news-card">
+                        <div>
+                            ${mediaHtml}
+                            <span class="cat">${p.category}</span>
+                            <h3>${p.title}</h3>
+                            <p>${shortContent}</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="read-more-btn" onclick="openDetailModal('${p.id}')">${translations[currentLang].readMore}</button>
+                            <div class="${adminControlsClass}">
+                                <button class="edit-btn" onclick="editPost('${p.id}')">አስተካክል</button>
+                                <button class="delete-btn" onclick="deletePost('${p.id}')">ሰርዝ</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        window.openDetailModal = (id) => {
+            const p = allPosts.find(item => item.id === id);
+            if(!p) return;
+
+            let mediaHtml = '';
+            if(p.media) {
+                if(p.media.includes('youtube') || p.media.includes('youtu.be')) {
+                    let videoId = p.media.split('v=')[1] || p.media.split('/').pop();
+                    if(videoId && videoId.includes('&')) videoId = videoId.split('&')[0];
+                    mediaHtml = `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+                } else {
+                    mediaHtml = `<img src="${p.media}" alt="Detail Image">`;
+                }
+            }
+
+            const modalContent = document.getElementById("detailModalContent");
+            modalContent.innerHTML = `
+                <button class="close-detail-btn" onclick="closeDetailModal()">✖ ዝጋ</button>
+                ${mediaHtml}
+                <span class="cat">${p.category}</span>
+                <h2>${p.title}</h2>
+                <p>${p.content}</p>
+            `;
+            document.getElementById("detailModal").classList.add("active");
+        }
+
+        window.closeDetailModal = () => {
+            document.getElementById("detailModal").classList.remove("active");
+        }
+
+        window.checkPassword = () => {
+            document.getElementById("passwordModal").classList.add("active");
+        }
+        window.closeModal = () => {
+            document.getElementById("passwordModal").classList.remove("active");
+            document.getElementById("adminPasswordInput").value = "";
+        }
+        window.verifyPassword = () => {
+            const pass = document.getElementById("adminPasswordInput").value;
+            if(pass === "sami2all@8080") { 
+                isAdminLoggedIn = true;
+                document.getElementById("passwordModal").classList.remove("active");
+                document.getElementById("adminSection").classList.add("active");
+                document.getElementById("adminPasswordInput").value = "";
+                render();
+            } else {
+                alert("የገባው የለፍ ቃል ስህተት ነው!");
+            }
+        }
+
+        window.closeAdminPanel = () => {
+            isAdminLoggedIn = false;
+            document.getElementById("adminSection").classList.remove("active");
+            document.getElementById("newsForm").reset();
+            document.getElementById("editPostId").value = "";
+            document.getElementById("formSubmitBtn").innerText = "በሶስቱም ቋንቋዎች ለጥፍ";
+            render();
+        }
+
+        window.editPost = (id) => {
+            const p = allPosts.find(item => item.id === id);
+            if(!p) return;
+
+            document.getElementById("editPostId").value = p.id;
+            document.getElementById("newsCategory").value = p.category;
+            document.getElementById("mediaUrl").value = p.media || "";
+            
+            if(p.lang === 'AM') {
+                document.getElementById("titleAM").value = p.title;
+                document.getElementById("contentAM").value = p.content;
+            } else if(p.lang === 'OR') {
+                document.getElementById("titleOR").value = p.title;
+                document.getElementById("contentOR").value = p.content;
+            } else if(p.lang === 'EN') {
+                document.getElementById("titleEN").value = p.title;
+                document.getElementById("contentEN").value = p.content;
+            }
+
+            document.getElementById("formSubmitBtn").innerText = "አስተካክሎ ፕረስ (Update)";
+            document.getElementById("adminSection").scrollIntoView({ behavior: 'smooth' });
+        }
+
+        window.deletePost = async (id) => {
+            if(confirm("ይህን መረጃ በእርግጥ መሰረዝ ትፈልጋለህ?")) {
+                let deletedPosts = JSON.parse(localStorage.getItem('deletedPosts') || '[]');
+                deletedPosts.push(id);
+                localStorage.setItem('deletedPosts', JSON.stringify(deletedPosts));
+
+                if(!id.startsWith('default_')) {
+                    try { await deleteDoc(doc(db, "news", id)); } catch(err) { console.error(err); }
+                }
+                
+                allPosts = allPosts.filter(item => item.id !== id);
+                alert("መረጃው በተሳካ ሁኔታ ተሰርዟል!");
+                render();
+            }
+        }
+
+        document.getElementById("newsForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const editId = document.getElementById("editPostId").value;
+            const category = document.getElementById("newsCategory").value;
+            const media = document.getElementById("mediaUrl").value;
+
+            const posts = [
+                { lang: 'AM', title: document.getElementById("titleAM").value, content: document.getElementById("contentAM").value },
+                { lang: 'OR', title: document.getElementById("titleOR").value, content: document.getElementById("contentOR").value },
+                { lang: 'EN', title: document.getElementById("titleEN").value, content: document.getElementById("contentEN").value }
+            ];
+
+            try {
+                if(editId) {
+                    const p = allPosts.find(item => item.id === editId);
+                    if(p) {
+                        p.category = category;
+                        p.media = media;
+                        p.title = document.getElementById("title" + p.lang).value;
+                        p.content = document.getElementById("content" + p.lang).value;
+                        if(!editId.startsWith('default_')) {
+                            await updateDoc(doc(db, "news", editId), { category, media, title: p.title, content: p.content });
+                        }
+                        alert("መረጃው በተሳካ ሁኔታ ተስተካክሏል!");
+                    }
+                } else {
+                    for(let p of posts) {
+                        if(p.title && p.content) {
+                            const docRef = await addDoc(collection(db, "news"), {
+                                category,
+                                media,
+                                lang: p.lang,
+                                title: p.title,
+                                content: p.content,
+                                createdAt: Date.now()
+                            });
+                            allPosts.unshift({
+                                id: docRef.id,
+                                category,
+                                media,
+                                lang: p.lang,
+                                title: p.title,
+                                content: p.content,
+                                createdAt: Date.now()
+                            });
+                        }
+                    }
+                    alert("መረጃው በሶስቱም ቋንቋዎች በተሳካ ሁኔታ ተለጠፈ!");
+                }
+                
+                document.getElementById("newsForm").reset();
+                document.getElementById("editPostId").value = "";
+                document.getElementById("formSubmitBtn").innerText = "በሶስቱም ቋንቋዎች ለጥፍ";
+                render();
+            } catch(err) {
+                console.error(err);
+                alert("ስህተት ተፈጥሯል እባክዎ እንደገና ይሞክሩ።");
+            }
+        });
+
+        loadData();
+    </script>
 </body>
 </html>
