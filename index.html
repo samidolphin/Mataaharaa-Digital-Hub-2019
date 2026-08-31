@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mataaharaa / መታሃራ / Metehara - Official Portal</title>
     <style>
-        /* ===== GLOBAL STYLES & CSS RESET ===== */
+        /* ===== GLOBAL STYLES & RESET ===== */
         * {
             margin: 0;
             padding: 0;
@@ -25,7 +25,7 @@
             list-style: none;
         }
 
-        /* ===== TOP UTILITY & BRANDING BAR ===== */
+        /* ===== TOP UTILITY BAR ===== */
         .top-bar {
             background-color: #1a252f;
             color: #ecf0f1;
@@ -35,22 +35,31 @@
             justify-content: space-between;
             align-items: center;
         }
-        .top-bar-left span {
-            margin-right: 15px;
+        .top-bar-left {
+            display: flex;
+            gap: 20px;
         }
         .top-bar-right {
             display: flex;
             gap: 15px;
             align-items: center;
         }
+        .lang-switch {
+            display: flex;
+            gap: 5px;
+        }
         .lang-switch button {
             background: #e67e22;
             border: none;
             color: white;
-            padding: 3px 8px;
+            padding: 2px 6px;
             border-radius: 3px;
             cursor: pointer;
             font-weight: bold;
+            font-size: 11px;
+        }
+        .lang-switch button.inactive {
+            background: #4b6584;
         }
 
         /* ===== MAIN HEADER & NAVIGATION ===== */
@@ -75,24 +84,24 @@
         }
         .logo-title {
             color: #d35400;
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 800;
-            letter-spacing: 0.5px;
         }
         .logo-subtitle {
             font-size: 11px;
             color: #7f8c8d;
             text-transform: uppercase;
         }
-        main-nav ul {
+        .main-nav ul {
             display: flex;
-            gap: 20px;
+            gap: 15px;
+            flex-wrap: wrap;
         }
         .main-nav a {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             color: #2c3e50;
-            padding: 8px 12px;
+            padding: 6px 10px;
             border-radius: 4px;
             transition: all 0.3s ease;
         }
@@ -107,27 +116,27 @@
             color: white;
             padding: 12px 20px;
             text-align: center;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             box-shadow: inset 0 3px 6px rgba(0,0,0,0.1);
         }
 
-        /* ===== MAIN LAYOUT CONTAINER ===== */
+        /* ===== MAIN CONTENT CONTAINER ===== */
         .container {
             max-width: 1300px;
-            margin: 40px auto;
+            margin: 30px auto;
             padding: 0 20px;
         }
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             border-bottom: 3px solid #e67e22;
             padding-bottom: 8px;
         }
         .section-title {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
             color: #2c3e50;
         }
@@ -135,63 +144,63 @@
         /* ===== NEWS GRID CARDS SYSTEM ===== */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
         }
         .card {
             background: white;
-            border-radius: 10px;
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
             display: flex;
             flex-direction: column;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
         .card img {
             width: 100%;
-            height: 190px;
+            height: 180px;
             object-fit: cover;
         }
         .video-box {
             position: relative;
             background: #111;
-            height: 190px;
+            height: 180px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .video-box iframe, .video-box img {
+        .video-box img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            position: absolute;
+            opacity: 0.75;
         }
         .play-btn {
-            background: rgba(204, 0, 0, 0.9);
+            position: absolute;
+            background: rgba(204, 0, 0, 0.95);
             color: white;
             border: none;
-            width: 55px;
-            height: 55px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            font-size: 22px;
+            font-size: 20px;
             cursor: pointer;
-            z-index: 2;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
             transition: transform 0.2s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
         .play-btn:hover {
             transform: scale(1.1);
             background: #cc0000;
         }
         .card-content {
-            padding: 20px;
+            padding: 15px;
             display: flex;
             flex-direction: column;
             flex-grow: 1;
@@ -201,20 +210,20 @@
             font-size: 11px;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
         }
         .card-title {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
             color: #2c3e50;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             line-height: 1.4;
         }
         .card-text {
             font-size: 13px;
             color: #666;
-            line-height: 1.6;
+            line-height: 1.5;
             margin-bottom: 15px;
         }
         .card-footer {
@@ -222,17 +231,17 @@
             font-size: 12px;
             color: #95a5a6;
             border-top: 1px solid #edf2f7;
-            padding-top: 12px;
+            padding-top: 10px;
             display: flex;
             justify-content: space-between;
         }
 
-        /* ===== ADVANCED EXTRA MODULES (EXTENDED SECTIONS) ===== */
+        /* ===== EXTRA MODULES SECTION ===== */
         .extra-section {
-            margin-top: 60px;
+            margin-top: 50px;
             background: white;
-            border-radius: 12px;
-            padding: 35px;
+            border-radius: 10px;
+            padding: 30px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.04);
         }
         .features-list {
@@ -243,46 +252,46 @@
         }
         .feature-item {
             background: #f8fafc;
-            padding: 20px;
+            padding: 18px;
             border-radius: 8px;
             border-left: 4px solid #e67e22;
         }
         .feature-item h4 {
-            font-size: 15px;
+            font-size: 14px;
             color: #2c3e50;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         .feature-item p {
-            font-size: 13px;
+            font-size: 12px;
             color: #64748b;
         }
 
-        /* ===== SITE FOOTER SECTION ===== */
+        /* ===== FOOTER SECTION ===== */
         footer {
             background-color: #1a252f;
             color: #cbd5e1;
-            padding: 50px 20px 20px;
-            margin-top: 80px;
+            padding: 40px 20px 20px;
+            margin-top: 60px;
         }
         .footer-content {
             max-width: 1300px;
             margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
+            gap: 30px;
+            margin-bottom: 30px;
         }
         .footer-col h3 {
             color: white;
-            font-size: 18px;
-            margin-bottom: 20px;
+            font-size: 16px;
+            margin-bottom: 15px;
             border-bottom: 2px solid #e67e22;
             display: inline-block;
-            padding-bottom: 5px;
+            padding-bottom: 4px;
         }
         .footer-col p, .footer-col ul li {
-            font-size: 14px;
-            margin-bottom: 10px;
+            font-size: 13px;
+            margin-bottom: 8px;
         }
         .footer-col ul li a:hover {
             color: #e67e22;
@@ -290,8 +299,8 @@
         .footer-bottom {
             text-align: center;
             border-top: 1px solid #2c3e50;
-            padding-top: 20px;
-            font-size: 13px;
+            padding-top: 15px;
+            font-size: 12px;
             color: #94a3b8;
         }
 
@@ -299,10 +308,9 @@
         @media(max-width: 768px) {
             .header-container {
                 flex-direction: column;
-                gap: 15px;
+                gap: 12px;
             }
             .main-nav ul {
-                flex-wrap: wrap;
                 justify-content: center;
             }
         }
@@ -319,7 +327,9 @@
         <div class="top-bar-right">
             <span>Sami Online Advert & Promotion</span>
             <div class="lang-switch">
-                <button>Am</button>
+                <button>Oro</button>
+                <button class="active">Am</button>
+                <button class="inactive">Eng</button>
             </div>
         </div>
     </div>
@@ -338,7 +348,7 @@
                     <li><a href="#">ባህል</a></li>
                     <li><a href="#">ፋይናንስ</a></li>
                     <li><a href="#">ዕለት-ዕለት</a></li>
-                    <li><a href="#">የቪዲዮ ገጽ</a></li>
+                    <li><a href="#">የዩቲዩብ ቪዲዮ ገጽ</a></li>
                     <li><a href="#">የፎቶ ገጽ</a></li>
                 </ul>
             </nav>
@@ -371,21 +381,21 @@
                 </div>
             </div>
 
-            <!-- ዜና 2: ዩቲዩብ ቪዲዮ ካርድ -->
+            <!-- ዜና 2: ዩቲዩብ ቪዲዮ ካርድ (ሳሚ ቲዩብ) -->
             <div class="card">
                 <div class="video-box">
-                    <img src="youtube_banner_bg.jpg" alt="Metehara green legacy">
+                    <img src="youtube_banner.jpg" alt="Metehara green legacy">
                     <a href="https://www.youtube.com/watch?v=EXAMPLE_YOUTUBE_ID" target="_blank" aria-label="Play YouTube Video">
                         <button class="play-btn">▶</button>
                     </a>
                 </div>
                 <div class="card-content">
-                    <div class="card-category">YOUTUBE MEDIA / NEWS</div>
-                    <div class="card-title">Metehara green legacy | Sami Tube (ሳሚ ቲዩብ) - ያልታየውን ዕድል በንስር ዓይን ማየት!</div>
-                    <div class="card-text">ያልታየውን ዕድል በንስር ዓይን ማየት! አንዳንድ ጊዜ ከተማን ይበልጥ ለማስፋፋት ታላቅ በጀት ብቻ አይደለም የሚገባው። ያለው ነገር በንስር ዓይን ማየት...</div>
+                    <div class="card-category">NEWS</div>
+                    <div class="card-title">የዳልታዮውን ዕድል በንስር ዓይን ማየት! አንዳንድ ጊዜ ከተማን ይበልጥ ለማስፋፋት ታላቅ በጀት ብቻ አይደለም የሚገባው።</div>
+                    <div class="card-text">የዳልታዮውን ዕድል በንስር ዓይን ማየት! አንዳንድ ጊዜ ከተማን ይበልጥ ለማስፋፋት ታላቅ በጀት ብቻ አይደለም የሚገባው። ያለው ነገር በንስር ዓይን ማየት...</div>
                     <div class="card-footer">
-                        <span>ዩቲዩብ ሊንክ ተያይዟል</span>
-                        <span>Sami Tube</span>
+                        <span>Sami Tube (ሳሚ ቲዩብ)</span>
+                        <span>ዩቲዩብ ሊንክ</span>
                     </div>
                 </div>
             </div>
@@ -395,8 +405,8 @@
                 <img src="green_legacy.jpg" alt="ግሪን ሌጋሲ ችግኝ ተከላ">
                 <div class="card-content">
                     <div class="card-category">NEWS</div>
-                    <div class="card-title">🌱 መታሃራ፦ ያልታየውን ዕድል በንስር ዓይን ማየት! 🌴 አንዳንድ ጊዜ ከተማን ይበልጥ ለማስፋፋት ታላቅ በጀት ብቻ አይደለም የሚገባው።</div>
-                    <div class="card-text">🌱 መታሃራ፦ ያልታየውን ዕድል በንስር ዓይን ማየት! 🌴 አንዳንድ ጊዜ ከተማን ይበልጥ ለማስፋፋት ታላቅ በጀት ብቻ አይደለም የሚገባው። ያለው ነገር በንስር ዓይን ማየት...</div>
+                    <div class="card-title">🌱 መታሃራ፦ የዳልታዮውን ዕድል በንስር ዓይን ማየት! 🌴 አንዳንድ ጊዜ ከተማን ይበልጥ ለማስፋፋት ታላቅ በጀት ብቻ አይደለም የሚገባው።</div>
+                    <div class="card-text">🌱 መታሃራ፦ የዳልታዮውን ዕድል በንስር ዓይን ማየት! 🌴 አንዳንድ ጊዜ ከተማን ይበልጥ ለማስፋፋት ታላቅ በጀት ብቻ አይደለም የሚገባው። ያለው ነገር በንስር ዓይን ማየት...</div>
                     <div class="card-footer">
                         <span>ግሪን ሌጋሲ መርሃ ግብር</span>
                         <span>መታሃራ ዞን</span>
@@ -424,7 +434,7 @@
             <div class="section-header">
                 <div class="section-title">የከተማችን የልማት እና የዕድገት ማዕቀፎች</div>
             </div>
-            <p>መታሃራ ከተማ አስተዳደር በየዘርፉ እየተከናወኑ ያሉ የኢኮኖሚ፣ የቱሪዝም እና የinfrastructure ስራዎችን በዲጂታል መንገድ ለህብረተሰቡ ተደራሽ ለማድረግ የሚያስችል ዘመናዊ ስርዓት ነው።</p>
+            <p>መታሃራ ከተማ አስተዳደር በየዘርፉ እየተከናወኑ ያሉ የኢኮኖሚ፣ የቱሪዝም እና የኢንፍራስትራክቸር ስራዎችን በዲጂታል መንገድ ለህብረተሰቡ ተደራሽ ለማድረግ የሚያስችል ዘመናዊ ስርዓት ነው።</p>
             <div class="features-list">
                 <div class="feature-item">
                     <h4>ዘመናዊ መዋቅር</h4>
@@ -436,7 +446,7 @@
                 </div>
                 <div class="feature-item">
                     <h4>የቱሪዝም እምቅ አቅም</h4>
-                    <p>የمنطقة ያለውን የተፈጥሮ ጸጋ እና የኢንቨስትመንት አማራጮች ማስተዋወቅ።</p>
+                    <p>የአካባቢውን የተፈጥሮ ጸጋ እና የኢንቨስትመንት አማራጮች ማስተዋወቅ።</p>
                 </div>
             </div>
         </div>
