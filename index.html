@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mataaharaa Digital Hub 2019</title>
+    <!-- Flipbook Stylesheet & jQuery CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/3/turn.min.js"></script>
     <style>
@@ -248,6 +249,7 @@
         </nav>
     </header>
 
+    <!-- Admin Password Modal -->
     <div class="modal" id="passwordModal">
         <div class="modal-content">
             <h3>የአድሚን የለፍ ቃል ያስገቡ</h3>
@@ -257,6 +259,7 @@
         </div>
     </div>
 
+    <!-- Detail View Modal -->
     <div class="detail-modal" id="detailModal">
         <div class="detail-content" id="detailModalContent">
             <button class="close-detail-btn" onclick="closeDetailModal()">✖ ዝጋ</button>
@@ -264,6 +267,7 @@
     </div>
 
     <div class="hero-banner">
+        <!-- Firework Sky Elements -->
         <div class="firework-sky fs-left-1"></div>
         <div class="firework-sky fs-left-2"></div>
         <div class="firework-sky fs-right-1"></div>
@@ -283,6 +287,7 @@
     </div>
 
     <div class="main-container">
+        <!-- Admin Panel Section -->
         <div class="admin-section" id="adminSection">
             <div class="admin-header-flex">
                 <h3 style="color: #ff6600;">መረጃ መጫኛ (Admin Panel)</h3>
@@ -325,6 +330,7 @@
             </form>
         </div>
 
+        <!-- ቱሪዝም ስፔሻል መጽሐፍ እየተገለጠ የሚታይበት ክፍል -->
         <div class="flipbook-section" id="tourismFlipbookSection">
             <h3 style="color: #ff6600; font-size: 1.5rem; margin-bottom: 5px;" id="flipbookHeading">የመታሃራ ቱሪዝም መስህቦች ዲጂታል መጽሐፍ</h3>
             <p style="color: #666; font-size: 0.95rem; margin-bottom: 15px;" id="flipbookSub">ፎቶዎቹን እንደ እውነተኛ መጽሐፍ ገጽ በገጽ በመገልጥ ይጎብኙ</p>
@@ -429,56 +435,45 @@
                 id: '1',
                 category: 'News',
                 mediaUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600',
-                titleAM: 'የኦሮሚያ ክልል ፕሬዝዳንት አቶ ሽመልስ አብዲሳ የመታሃራ ከተማን የልማት ስራዎች ጎበኙ',
-                contentAM: 'የኦሮሚያ ክልል ፕሬዝዳንት አቶ ሽመልስ አብዲሳ እና የክልሉ ከፍተኛ የሥራ ሀላፊዎች በመታሃራ ከተማ በመገኘት የተከናወኑ አዳዲስ የልማት ስራዎችንና የከተማዋን እድገት ጎብኝተዋል።',
-                titleOR: 'Preezidaantiin Mootummaa Naannoo Oromiyaa Obbo Shimallis Abdiisaa hojiilee misoomaa Magaalaa Mataaharaa daawwatan',
-                contentOR: 'Preezidaantiin Mootummaa Naannoo Oromiyaa Obbo Shimallis Abdiisaa fi hoggantoonni olaanoo naannichaa magaalichaatti argamuun hojiilee misoomaa hojjetaman daawwateera.',
-                titleEN: 'Oromia Region President Mr. Shimelis Abdisa Visited Matahara City Development Works',
-                contentEN: 'Oromia Region President Mr. Shimelis Abdisa and high-level regional officials visited the new development activities and growth of Matahara city.'
+                titleAM: 'ከ1 ቢሊዮን ብር በላይ ወጪ የሚደረግበት የመታሃራ የመጠጥ ውኃ ፕሮጀክት በፋፍኃንስ እውን መሆኑን አቅጣጫ ተሰጠ',
+                contentAM: 'በመታሃራ ከተማ አስተዳደር ከ1 ቢሊዮን ብር በላይ ወጪ የሚደረግበት የመታሃራ የመጠጥ ውኃ ፕሮጀክት በፋፍኃንስ እውን መሆኑን አቅጣጫ ተሰጠ።',
+                titleOR: 'Pirojektiin bishaanii dhugaatii magaalaa Mataaharaa birrii biliyoona 1 ol baasii irratti godhamu hojii irra akka oolu qajeelfamni kenname',
+                contentOR: 'Pirojektiin bishaanii dhugaatii magaalaa Mataaharaa birrii biliyoona 1 ol baasii irratti godhamu hojii irra akka oolu qajeelfamni kennameera.',
+                titleEN: 'Direction Given to Realize Matahara Drinking Water Project Costing Over 1 Billion Birr in Fafhans',
+                contentEN: 'Direction has been given to realize the Matahara drinking water project costing over 1 billion birr in Fafhans.'
             },
             {
                 id: '2',
                 category: 'News',
-                mediaUrl: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600',
-                titleAM: 'የመታሃራ ከተማ አስተዳደር አዳዲስ የኢንቨስትመንት ማዕቀፎችን ይፋ አደረገ',
-                contentAM: 'ከተማ አስተዳደሩ ባለሀብቶች በከተማው ውስጥ በግብርና፣ በቱሪዝም እና በንግድ ዘርፎች እንዲሰማሩ ሰፊ ዕድሎችን የሚፈጥር አዲስ ማዕቀፍ ይፋ አድርጓል።',
-                titleOR: 'Bulchiinsi Magaalaa Mataaharaa qajeelfamoota invastimantii haaraa ibse',
-                contentOR: 'Bulchiinsi magaalattii abbootiin qabeenyaa qonna, tuuriizimii fi daldala irratti akka hirmaatan carraa bal\'aa uumu danda\'u diriirseera.',
-                titleEN: 'Matahara City Administration Unveils New Investment Frameworks',
-                contentEN: 'The city administration has unveiled a new framework creating broad opportunities for investors to engage in agriculture, tourism, and trade.'
+                mediaUrl: 'https://www.youtube.com/watch?v=N9r6vN9r6vN', // Replace with exact video link if needed
+                titleAM: 'የአደይ አበባን ዕድል በንጥር ዓይን ማየት! እንደዚህ ጊዜ ከተማን የበሰቃ ለማስፋፋት ታላቅ በጀት ብቻ አይደለም የሚገባው። ያለው ነገር በንጥር ዓይን ማየት...',
+                contentAM: 'የአደይ አበባን ዕድል በንጥር ዓይን ማየት! እንደዚህ ጊዜ ከተማን የበሰቃ ለማስፋፋት ታላቅ በጀት ብቻ አይደለም የሚገባው። ያለው ነገር በንጥር ዓይን ማየት፣ የአደይ አበባን ዕድል ማልማት እና ሌሎችንም ነገሮች...',
+                titleOR: 'Carraa Adey Abeba ijaan qajeellaan ilaaluu!',
+                contentOR: 'Carraa Adey Abeba ijaan qajeellaan ilaaluu! Akka yeroo kanaa magaalatti Haroo Basaqaatti babal\'isuuf baajata gudda qofa miti kan barbaachisu.',
+                titleEN: 'Seeing the Opportunity of Adey Abeba with a Keen Eye!',
+                contentEN: 'Seeing the opportunity of Adey Abeba with a keen eye! Expanding the city to Lake Beseka requires more than just a big budget.'
             },
             {
                 id: '3',
                 category: 'News',
-                mediaUrl: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600',
-                titleAM: 'በመታሃራ ከተማ የወጣቶች ስራ ዕድል ፈጠራ እና የክህሎት ስልጠና ተጀመረ',
-                contentAM: 'ለከተማችን ወጣቶች የስራ ዕድልን ለመፍጠር እና አቅማቸውን ለማሳደግ ያለመ አጠቃላይ የክህሎት ስልጠና መድረክ በይፋ ተጀምሯል።',
-                titleOR: 'Magaalaa Mataaharaatti carraan hojii dhabdootaa fi leenjiin dandeettii jalqabame',
-                contentOR: 'Dargaggoota magaalattii keenyaaf carraa hojii uumuu fi dandeettii isaanii guddisuuf leenjiin dandeettii eegalameera.',
-                titleEN: 'Youth Employment and Skill Training Started in Matahara City',
-                contentEN: 'A comprehensive skill training platform aimed at creating employment opportunities and enhancing the capacity of our youth has officially started.'
+                mediaUrl: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600',
+                titleAM: '🌱 መታሃራ፦ የአደይ አበባን ዕድል በንጥር ዓይን ማየት! 🌴 እንደዚህ ጊዜ ከተማን የበሰቃ ለማስፋፋት ታላቅ በጀት ብቻ አይደለም የሚገባው። ያለው ነገር በንጥር ዓይን ማየት፣ የአደይ አበባን ዕድል ማልማት እና...',
+                contentAM: '🌱 መታሃራ፦ የአደይ አበባን ዕድል በንጥር ዓይን ማየት! 🌴 እንደዚህ ጊዜ ከተማን የበሰቃ ለማስፋፋት ታላቅ በጀት ብቻ አይደለም የሚገባው። ያለው ነገር በንጥር ዓይን ማየት፣ የአደይ አበባን ዕድል ማልማት እና...',
+                titleOR: '🌱 Mataaharaa: Carraa Adey Abeba ijaan qajeellaan ilaaluu! 🌴',
+                contentOR: '🌱 Mataaharaa: Carraa Adey Abeba ijaan qajeellaan ilaaluu! 🌴 Akka yeroo kanaa magaalatti Haroo Basaqaatti babal\'isuuf baajata gudda qofa miti.',
+                titleEN: '🌱 Matahara: Seeing the Opportunity of Adey Abeba with a Keen Eye! 🌴',
+                contentEN: '🌱 Matahara: Seeing the opportunity of Adey Abeba with a keen eye! Expanding the city to Lake Beseka requires more than a big budget.'
             },
             {
                 id: '4',
                 category: 'News',
                 mediaUrl: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600',
-                titleAM: 'የበሰቃ ሐይቅ ዳርቻ የቱሪዝም ልማት ፕሮጀክት ምዕራፍ ሁለት ተጠናቀቀ',
-                contentAM: 'ለጎብኚዎች ምቹ እና ማራኪ የሆነው የበሰቃ ሐይቅ የቱሪዝም ማዕከል ሁለተኛ ምዕራፍ ግንባታ ተጠናቆ ለአገልግሎት ክፍት ሆኗል።',
-                titleOR: 'Misooman turizimii qarqara Haroo Basaqaa sadarkaa lammaffaa xumurame',
-                contentOR: 'Bakki hawwata tuuriizimii qarqara Haroo Basaqaa daawwattootaaf mijataa ta\'e ijaarsi isaa sadarkaa lammaffaa xumurameera.',
-                titleEN: 'Phase Two of Lake Beseka Lakeshore Tourism Development Project Completed',
-                contentEN: 'The construction of the second phase of the Lake Beseka tourism center, designed to be attractive for visitors, has been completed and opened.'
-            },
-            {
-                id: '5',
-                category: 'Culture',
-                mediaUrl: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600',
-                titleAM: 'የባህል እሴቶች እና የህብረተሰባችን መገለጫዎች',
-                contentAM: 'የመታሃራ ህብረተሰብ የባህል ሃብቶች እና የጋራ ዕሴቶች በልዩ ሁኔታ እየተጠበቁ ይገኛሉ።',
-                titleOR: 'Aadaa fi duudhaawwan hawaasa keenyaa',
-                contentOR: 'Qabeenyota aadaa fi duudhaawwan waliinii hawaasa Mataaharaa kunuunfamaa jiru.',
-                titleEN: 'Cultural Values and Heritage of Our Community',
-                contentEN: 'The cultural resources and shared values of the Matahara community are being preserved exceptionally.'
+                titleAM: 'የኦሮሚያ ክልል መንግስት ፕሬዚዳንት አቶ ሽመልስ አብዲሳ የኦሮሚያን አሻራ የብርሃንችን ተክለኝ ኃይኝ አደረጉ! ዛሬ የኦሮሚያ ክልል መንግስት ፕሬዚዳንት አቶ ሽመልስ አብዲሳ በምረቃው ስፍ...',
+                contentAM: 'የኦሮሚያ ክልል መንግስት ፕሬዚዳንት አቶ ሽመልስ አብዲሳ የኦሮሚያን አሻራ የብርሃንችን ተክለኝ ኃይኝ አደረጉ! ዛሬ የኦሮሚያ ክልል መንግስት ፕሬዚዳንት አቶ ሽመልስ አብዲሳ በምረቃው ስፍራ...',
+                titleOR: 'Preezidaantiin Mootummaa Naannoo Oromiyaa Obbo Shimallis Abdiisaa',
+                contentOR: 'Preezidaantiin Mootummaa Naannoo Oromiyaa Obbo Shimallis Abdiisaa hojiilee misoomaa daawwatan.',
+                titleEN: 'Oromia Regional State President Mr. Shimelis Abdisa',
+                contentEN: 'Oromia Regional State President Mr. Shimelis Abdisa inspected development activities.'
             }
         ];
         
