@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mataaharaa Digital Hub 2019</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; user-select: none; -webkit-user-select: none; }
         body { background-color: #f4f7f6; color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }    
         header { display: flex; justify-content: space-between; align-items: center; padding: 12px 4%; background: #ffffff; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); flex-wrap: wrap; gap: 10px; }
         .logo-area { display: flex; align-items: center; gap: 10px; }
@@ -14,9 +14,7 @@
 
         .hero-banner { 
             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200') no-repeat center center/cover; 
-            color: white; 
-            padding: 60px 20px; 
-            text-align: center; 
+            color: white; padding: 60px 20px; text-align: center; 
         }
         .hero-banner h2 { font-size: 1.8rem; margin-bottom: 12px; font-weight: bold; text-shadow: 2px 2px 5px rgba(0,0,0,0.6); }
         .hero-banner p { font-size: 1.05rem; opacity: 0.95; font-weight: 500; text-shadow: 1px 1px 3px rgba(0,0,0,0.6); }
@@ -45,7 +43,7 @@
         .detail-content { background: white; padding: 25px; border-radius: 10px; max-width: 700px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 5px 20px rgba(0,0,0,0.3); position: relative; }
         .detail-content img, .detail-content iframe { width: 100%; height: 250px; object-fit: cover; border-radius: 6px; margin-bottom: 15px; }
         .detail-content h2 { color: #222; margin-bottom: 15px; font-size: 1.35rem; }
-        .detail-content p { color: #444; font-size: 1rem; line-height: 1.7; white-space: pre-wrap; }
+        .detail-content p { color: #444; font-size: 1rem; line-height: 1.7; white-space: pre-wrap; word-break: break-word; }
         .close-detail-btn { position: absolute; top: 15px; right: 15px; background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; }
 
         .main-container { flex: 1; padding: 25px 4%; max-width: 1300px; margin: 0 auto; width: 100%; }
@@ -66,7 +64,7 @@
         .news-card img, .news-card iframe { width: 100%; height: 180px; object-fit: cover; border-radius: 6px; margin-bottom: 12px; }
         .cat { color: #ff6600; font-size: 0.72rem; font-weight: bold; text-transform: uppercase; }
         .news-card h3 { font-size: 1.1rem; margin: 8px 0; color: #222; }
-        .news-card p { font-size: 0.88rem; color: #555; margin-bottom: 12px; }
+        .news-card p { font-size: 0.88rem; color: #555; margin-bottom: 12px; word-break: break-word; }
         
         .card-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
         .read-more-btn { background: transparent; color: #ff6600; border: 1px solid #ff6600; padding: 6px 12px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; cursor: pointer; text-align: center; transition: all 0.3s; }
@@ -83,23 +81,10 @@
         .footer-col h4 { color: #ff6600; margin-bottom: 12px; font-size: 1.05rem; }
         .footer-col p { margin-bottom: 8px; }
         .footer-bottom { text-align: center; padding-top: 20px; font-size: 0.8rem; color: #888; }
-
-        @media (max-width: 768px) {
-            header { padding: 10px 3%; justify-content: center; }
-            .logo-area { margin-bottom: 5px; width: 100%; justify-content: center; }
-            nav { width: 100%; justify-content: center; gap: 4px; }
-            nav a { font-size: 0.75rem; padding: 4px 6px; }
-            .hero-banner { padding: 40px 15px; }
-            .hero-banner h2 { font-size: 1.4rem; }
-            .main-container { padding: 15px 3%; }
-            .news-grid { grid-template-columns: 1fr; }
-            .footer-content { flex-direction: column; gap: 20px; }
-        }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
     <header>
         <div class="logo-area">
             <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" alt="Logo">
@@ -124,7 +109,6 @@
         </nav>
     </header>
 
-    <!-- Admin Password Modal -->
     <div class="modal" id="passwordModal">
         <div class="modal-content">
             <h3>የአድሚን የለፍ ቃል ያስገቡ</h3>
@@ -134,14 +118,12 @@
         </div>
     </div>
 
-    <!-- Detail View Modal -->
     <div class="detail-modal" id="detailModal">
         <div class="detail-content" id="detailModalContent">
             <button class="close-detail-btn" onclick="closeDetailModal()">✖ ዝጋ</button>
         </div>
     </div>
 
-    <!-- Hero Banner -->
     <section class="hero-banner">
         <h2 id="heroTitle">እንኳን ወደ መታሃራ ከተማ ዲጂታል መረጃ ማእከል በደህና መጡ</h2>
         <p id="heroSub">ፀሃይ የማትጠልቅባት ከተማ - መታሃራ-</p>
@@ -151,10 +133,7 @@
         <marquee id="marqueeText">🔥 እንኳን ወደ መታሃራ ዲጂታል 2019 በሰላም መጡ! ወቅታዊ የከተማችን መረጃዎች እና በስርጭት ላይ ያሉ ዜናዎችን እዚህ ማግኘት ይችላሉ። 🔥</marquee>
     </div>
 
-    <!-- Main Container -->
     <div class="main-container">
-        
-        <!-- Admin Panel Section -->
         <div class="admin-section" id="adminSection">
             <div class="admin-header-flex">
                 <h3 style="color: #ff6600;">መረጃ መጫኛ (Admin Panel)</h3>
@@ -176,14 +155,14 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="text" id="mediaUrl" placeholder="የፎቶ ሊንክ፣ የዩቲዩብ ቪዲዮ ሊንክ ወይም የምስል ዩአርኤል (Image/Video URL) ያስገቡ">
+                    <input type="text" id="mediaUrl" placeholder="የፎቶ ሊንክ ወይም ዩቲዩብ ቪዲዮ ዩአርኤል (Image/Video URL)">
                 </div>
 
                 <hr style="margin: 15px 0; border: 0; border-top: 1px solid #ddd;">
 
                 <h4>አማርኛ (Amharic)</h4>
                 <div class="form-group"><input type="text" id="titleAM" placeholder="የአማርኛ ርዕስ"></div>
-                <div class="form-group"><textarea id="contentAM" placeholder="የአማርኛ ይዘት"></textarea></div>
+                <div class="form-group"><textarea id="contentAM" placeholder="የአማርኛ ይዘት (እባክዎ ጽሁፍ እንዳይደጋገም ልብ ይበሉ)"></textarea></div>
 
                 <h4>ኦሮምኛ (Afaan Oromoo)</h4>
                 <div class="form-group"><input type="text" id="titleOR" placeholder="Mata Duree (Oro)"></div>
@@ -201,7 +180,6 @@
         <div class="news-grid" id="newsContainer"></div>
     </div>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div class="footer-col">
@@ -228,7 +206,6 @@
         </div>
     </footer>
 
-    <!-- Firebase & Custom Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -255,7 +232,7 @@
                 category: 'News',
                 lang: 'OR',
                 title: 'Yeroo tokko tokko magaalaa tokko caalaati bareechuuf baajata guddaa qofa qabaachun hin ga\'u.',
-                content: 'Yeroo tokko tokko magaalaa tokko caalaati bareechuuf baajata guddaa qofa qabaachun hin ga\'u. Waan jiru karaa addatiin ilaaluun, carraa hin mul\'anne adda baasuun, boru yaadanii har\'a hojjechuu danda\'uun "ija risaa" barbaada.',
+                content: 'Waan jiru karaa addatiin ilaaluun, carraa hin mul\'anne adda baasuun, boru yaadanii har\'a hojjechuu danda\'uun "ija risaa" barbaada.',
                 media: 'https://images.unsplash.com/photo-1477959858617-67f30bc47b82?w=600',
                 createdAt: 1770000000000
             },
@@ -263,8 +240,8 @@
                 id: 'default_2',
                 category: 'News',
                 lang: 'AM',
-                title: 'የእኛን ድል በንጥር ዓይን ማየት! ከተሞቻችንን ይበልጥ ለማንቃት ታላቅ ዕቅድ ተዘርግቶ ስራ ተጀምሯል።',
-                content: 'የእኛን ድል በንጥር ዓይን ማየት! ከተሞቻችንን ይበልጥ ለማንቃት ታላቅ ዕቅድ ተዘርግቶ ስራ ተጀምሯል። መታሃራ፣ የእኛን ድል በንጥር ዓይን ማየት! ከተሞቻችንን ይበልጥ ለማንቃት ታላቅ ዕቅድ ተዘርግቶ ስራ ተጀምሯል።',
+                title: 'የእኛን ድል በንጥር ዓይን ማየት! ከተሞቻችንን ይበልጥ ለማንቃት ታላቅ ዕቅድ ተዘርግቶ ስራ ተጀምሯል',
+                content: 'ከተሞቻችንን ይበልጥ ለማንቃት እና የከተማዋን ገጽታ ለመቀየር ትልቅ ዕቅድ ተዘርግቶ ስራዎች በይፋ ተጀምረዋል።',
                 media: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600',
                 createdAt: 1769990000000
             },
@@ -273,7 +250,7 @@
                 category: 'News',
                 lang: 'OR',
                 title: 'Oromiyaa Obbo Shimallis Abdiisaa Burtukaana Ashaaraa Magariisaa Daawwatan!',
-                content: 'Oromiyaa Obbo Shimallis Abdiisaa Burtukaana Ashaaraa Magariisaa Daawwatan! Har\'a, Pirezedaantiin Mootummaa Naannoo Oromiyaa, Obbo Shimallis Abdiisaa, Godina Shawaa Bahaa Magaalaa Mataaharaatti argamuun, biqiltuu burtukaana sagantaa Ashaaraa Magariisaatiin bara darbe dhaabbate daawwataniiru.',
+                content: 'Pirezedaantiin Mootummaa Naannoo Oromiyaa, Obbo Shimallis Abdiisaa, Godina Shawaa Bahaa Magaalaa Mataaharaatti argamuun, biqiltuu burtukaana sagantaa Ashaaraa Magariisaatiin bara darbe dhaabbate daawwataniiru.',
                 media: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600',
                 createdAt: 1769980000000
             }
@@ -372,26 +349,6 @@
             render();
         }
 
-        document.getElementById("subscribeForm").addEventListener("submit", async function(e) {
-            e.preventDefault();
-            const emailInput = document.getElementById("subscriberEmail").value;
-            const successMessage = translations[currentLang].successMsg;
-
-            try {
-                await addDoc(collection(db, "subscribers"), {
-                    email: emailInput,
-                    language: currentLang,
-                    subscribedAt: Date.now()
-                });
-                alert(successMessage);
-                this.reset();
-            } catch(err) {
-                console.error("Subscription Error: ", err);
-                alert(successMessage);
-                this.reset();
-            }
-        });
-
         async function loadData() {
             try {
                 const snap = await getDocs(collection(db, "news"));
@@ -438,7 +395,7 @@
                     }
                 }
 
-                let shortContent = p.content.length > 120 ? p.content.substring(0, 120) + "..." : p.content;
+                let shortContent = p.content && p.content.length > 120 ? p.content.substring(0, 120) + "..." : (p.content || "");
                 let adminControlsClass = isAdminLoggedIn ? "admin-controls active" : "admin-controls";
 
                 container.innerHTML += `
