@@ -595,4 +595,215 @@
             document.getElementById('subTitleHeading').innerText = translations[lang].subHeading;
             document.getElementById('subDescText').innerText = translations[lang].subDesc;
             document.getElementById('subBtn').innerText = translations[lang].subButton;
-            document.getElementById('subscriberEmail').placeholder = translations[lang
+            document.getElementById('subscriberEmail').placeholder = translations[lang].subDesc;
+
+            document.getElementById('flipbookHeading').innerText = translations[lang].flipbookHead;
+            document.getElementById('flipbookSub').innerText = translations[lang].flipbookSubText;
+
+            document.querySelectorAll('.lang-text').forEach(el => {
+                el.style.display = el.classList.contains(lang.toLowerCase()) ? 'block' : 'none';
+            });
+
+            document.querySelectorAll('.lang-desc').forEach(el => {
+                el.style.display = el.classList.contains(lang.toLowerCase()) ? 'block' : 'none';
+            });
+
+            render();
+        }
+
+        function render() {
+            const container = document.getElementById('newsContainer');
+            if(currentCat === 'Tourism') return; 
+
+            let filtered = allPosts.filter(p => p.category === currentCat && !deletedStaticIds.includes(p.id));
+
+            if(filtered.length === 0) {
+                container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #777; padding: 20px;">${translations[currentLang].noData}</p>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(post => {
+                let title = post['title' + currentLang] || post['titleAM'] || '';
+                let content = post['content' + currentLang] || post['contentAM'] || '';
+                let shortContent = content.length > 110 ? content.substring(0, 110) + '...' : content;
+                
+                let mediaTag = '';
+                if(post.mediaUrl) {
+                    if(post.mediaUrl.includes('youtube.com') || post.mediaUrl.includes('youtu.be')) {
+                        let embedUrl = post.mediaUrl.includes('watch?v=') ? post.mediaUrl.replace('watch?v=', 'embed/') : post.mediaUrl;
+                        mediaTag = `<iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe>`;
+                    } else {
+                        mediaTag = `<img src="${post.mediaUrl}" alt="Media">`;
+                    }
+                }
+
+                return `
+                    <div class="news-card">
+                        <div>
+                            ${mediaTag}
+                            <span class="cat">${post.category}</span>
+                            <h3>${title}</h3>
+                            <p>${shortContent}</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="read-more-btn" onclick="openDetail('${post.id}')">${translations[currentLang].readMore}</button>
+                            <div class="admin-controls ${isAdminLoggedIn ? 'active' : ''}">
+                                <button class="edit-btn" onclick="editPost('${post.id}')">አስተካክል</button>
+                                <button class="delete-btn" onclick="deletePost('${post.id}')">ሰርዝ</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openDetail(id) {
+            let post = allPosts.find(p => p.id === id);
+            if(!post) return;
+            let title = post['title' + currentLang] || post['titleAM'] || '';
+            let content = post['content' + currentLang] || post['contentAM'] || '';
+            let mediaTag = '';
+            if(post.mediaUrl) {
+                if(post.mediaUrl.includes('youtube.com') || post.mediaUrl.includes('youtu.be')) {
+                    let embedUrl = post.mediaUrl.includes('watch?v=') ? post.mediaUrl.replace('watch?v=', 'embed/') : post.mediaUrl;
+                    mediaTag = `<iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe>`;
+                } else {
+                    mediaTag = `<img src="${post.mediaUrl}" alt="Media">`;
+                }
+            }
+
+            document.getElementById('detailModalContent').innerHTML = `
+                <button class="close-detail-btn" onclick="closeDetailModal()">✖ ዝጋ</button>
+                ${mediaTag}
+                <h2>${title}</h2>
+                <p>${content}</p>
+            `;
+            document.getElementById('detailModal').classList.add('active');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.remove('active');
+        }
+
+        function checkPassword() {
+            document.getElementById('passwordModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('passwordModal').classList.remove('active');
+            document.getElementById('adminPasswordInput').value = '';
+        }
+
+        function verifyPassword() {
+            let pass = document.getElementById('adminPasswordInput').value;
+            if(pass === 'sami2all@8080' || pass === 'admin123') {
+                isAdminLoggedIn = true;
+                closeModal();
+                document.getElementById('adminSection').classList.add('active');
+                render();
+            } else {
+                alert('የለፍ ቃል ስህተት ነው!');
+            }
+        }
+
+        function closeAdminPanel() {
+            isAdminLoggedIn = false;
+            document.getElementById('adminSection').classList.remove('active');
+            render();
+        }
+
+        function deletePost(id) {
+            if(confirm('ይህን መረጃ መሰረዝ ይፈልጋሉ?')) {
+                deletedStaticIds.push(id);
+                localStorage.setItem('deletedStaticIds', JSON.stringify(deletedStaticIds));
+                render();
+            }
+        }
+
+        function editPost(id) {
+            let post = allPosts.find(p => p.id === id);
+            if(!post) return;
+            document.getElementById('editPostId').value = post.id;
+            document.getElementById('newsCategory').value = post.category;
+            document.getElementById('mediaUrl').value = post.mediaUrl || '';
+            document.getElementById('titleAM').value = post.titleAM || '';
+            document.getElementById('contentAM').value = post.contentAM || '';
+            document.getElementById('titleOR').value = post.titleOR || '';
+            document.getElementById('contentOR').value = post.contentOR || '';
+            document.getElementById('titleEN').value = post.titleEN || '';
+            document.getElementById('contentEN').value = post.contentEN || '';
+            document.getElementById('adminSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            let editId = document.getElementById('editPostId').value;
+            let category = document.getElementById('newsCategory').value;
+            let mediaUrl = document.getElementById('mediaUrl').value;
+            let titleAM = document.getElementById('titleAM').value;
+            let contentAM = document.getElementById('contentAM').value;
+            let titleOR = document.getElementById('titleOR').value;
+            let contentOR = document.getElementById('contentOR').value;
+            let titleEN = document.getElementById('titleEN').value;
+            let contentEN = document.getElementById('contentEN').value;
+
+            if(editId) {
+                let post = allPosts.find(p => p.id === editId);
+                if(post) {
+                    post.category = category;
+                    post.mediaUrl = mediaUrl;
+                    post.titleAM = titleAM;
+                    post.contentAM = contentAM;
+                    post.titleOR = titleOR;
+                    post.contentOR = contentOR;
+                    post.titleEN = titleEN;
+                    post.contentEN = contentEN;
+                }
+                document.getElementById('editPostId').value = '';
+            } else {
+                let newPost = {
+                    id: Date.now().toString(),
+                    category,
+                    mediaUrl,
+                    titleAM, contentAM,
+                    titleOR, contentOR,
+                    titleEN, contentEN
+                };
+                allPosts.unshift(newPost);
+            }
+
+            document.getElementById('newsForm').reset();
+            updateFilter(category);
+            alert('በተሳካ ሁኔታ ተመዝግቧል!');
+        }
+
+        $(document).ready(function() {
+            setTimeout(function() {
+                if($.fn.turn) {
+                    $('#flipbook').turn({
+                        width: 900,
+                        height: 500,
+                        autoCenter: true,
+                        gradients: true,
+                        elevation: 50
+                    });
+                }
+            }, 500);
+
+            window.updateLanguage('AM');
+            updateFilter('News');
+        });
+
+        $(window).resize(function() {
+            var width = $(window).width();
+            if(width < 950 && width > 768) {
+                $('#flipbook').turn('size', 700, 400);
+            } else if(width <= 768) {
+                $('#flipbook').turn('size', width - 40, 320);
+            } else {
+                $('#flipbook').turn('size', 900, 500);
+            }
+        });
+    </script>
+</body>
+</html>
