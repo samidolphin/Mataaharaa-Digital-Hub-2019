@@ -256,7 +256,7 @@
                 lang: 'OR',
                 title: 'Yeroo tokko tokko magaalaa tokko caalaati bareechuuf baajata guddaa qofa qabaachun hin ga\'u.',
                 content: 'Yeroo tokko tokko magaalaa tokko caalaati bareechuuf baajata guddaa qofa qabaachun hin ga\'u. Waan jiru karaa addatiin ilaaluun, carraa hin mul\'anne adda baasuun, boru yaadanii har\'a hojjechuu danda\'uun "ija risaa" barbaada.',
-                media: '',
+                media: 'https://images.unsplash.com/photo-1477959858617-67f30bc47b82?w=600',
                 createdAt: 1770000000000
             },
             {
@@ -265,7 +265,7 @@
                 lang: 'AM',
                 title: 'የእኛን ድል በንጥር ዓይን ማየት! ከተሞቻችንን ይበልጥ ለማንቃት ታላቅ ዕቅድ ተዘርግቶ ስራ ተጀምሯል።',
                 content: 'የእኛን ድል በንጥር ዓይን ማየት! ከተሞቻችንን ይበልጥ ለማንቃት ታላቅ ዕቅድ ተዘርግቶ ስራ ተጀምሯል። መታሃራ፣ የእኛን ድል በንጥር ዓይን ማየት! ከተሞቻችንን ይበልጥ ለማንቃት ታላቅ ዕቅድ ተዘርግቶ ስራ ተጀምሯል።',
-                media: '',
+                media: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600',
                 createdAt: 1769990000000
             },
             {
@@ -274,7 +274,7 @@
                 lang: 'OR',
                 title: 'Oromiyaa Obbo Shimallis Abdiisaa Burtukaana Ashaaraa Magariisaa Daawwatan!',
                 content: 'Oromiyaa Obbo Shimallis Abdiisaa Burtukaana Ashaaraa Magariisaa Daawwatan! Har\'a, Pirezedaantiin Mootummaa Naannoo Oromiyaa, Obbo Shimallis Abdiisaa, Godina Shawaa Bahaa Magaalaa Mataaharaatti argamuun, biqiltuu burtukaana sagantaa Ashaaraa Magariisaatiin bara darbe dhaabbate daawwataniiru.',
-                media: '',
+                media: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600',
                 createdAt: 1769980000000
             }
         ];
@@ -565,57 +565,56 @@
             const category = document.getElementById("newsCategory").value;
             const media = document.getElementById("mediaUrl").value;
 
-            const posts = [
-                { lang: 'AM', title: document.getElementById("titleAM").value, content: document.getElementById("contentAM").value },
-                { lang: 'OR', title: document.getElementById("titleOR").value, content: document.getElementById("contentOR").value },
-                { lang: 'EN', title: document.getElementById("titleEN").value, content: document.getElementById("contentEN").value }
-            ];
+            const amTitle = document.getElementById("titleAM").value;
+            const amContent = document.getElementById("contentAM").value;
+            const orTitle = document.getElementById("titleOR").value;
+            const orContent = document.getElementById("contentOR").value;
+            const enTitle = document.getElementById("titleEN").value;
+            const enContent = document.getElementById("contentEN").value;
+
+            let postsToSave = [];
+            if(amTitle) postsToSave.push({ lang: 'AM', title: amTitle, content: amContent });
+            if(orTitle) postsToSave.push({ lang: 'OR', title: orTitle, content: orContent });
+            if(enTitle) postsToSave.push({ lang: 'EN', title: enTitle, content: enContent });
+
+            if(postsToSave.length === 0) {
+                alert("እባክዎ ቢያንስ የአንድ ቋንቋ ርዕስ እና ይዘት ያስገቡ!");
+                return;
+            }
 
             try {
                 if(editId) {
-                    const p = allPosts.find(item => item.id === editId);
-                    if(p) {
-                        p.category = category;
-                        p.media = media;
-                        p.title = document.getElementById("title" + p.lang).value;
-                        p.content = document.getElementById("content" + p.lang).value;
-                        if(!editId.startsWith('default_')) {
-                            await updateDoc(doc(db, "news", editId), { category, media, title: p.title, content: p.content });
-                        }
-                        alert("መረጃው በተሳካ ሁኔታ ተስተካክሏል!");
+                    const singlePost = postsToSave[0];
+                    const postData = { category, media, title: singlePost.title, content: singlePost.content, lang: singlePost.lang };
+                    if(!editId.startsWith('default_')) {
+                        await updateDoc(doc(db, "news", editId), postData);
                     }
+                    allPosts = allPosts.map(p => p.id === editId ? { ...p, ...postData } : p);
+                    alert("መረጃው በተሳካ ሁኔታ ተስተካክሏል!");
                 } else {
-                    for(let p of posts) {
-                        if(p.title && p.content) {
-                            const docRef = await addDoc(collection(db, "news"), {
-                                category,
-                                media,
-                                lang: p.lang,
-                                title: p.title,
-                                content: p.content,
-                                createdAt: Date.now()
-                            });
-                            allPosts.unshift({
-                                id: docRef.id,
-                                category,
-                                media,
-                                lang: p.lang,
-                                title: p.title,
-                                content: p.content,
-                                createdAt: Date.now()
-                            });
-                        }
+                    for(let post of postsToSave) {
+                        const newPostData = {
+                            category,
+                            media,
+                            lang: post.lang,
+                            title: post.title,
+                            content: post.content,
+                            createdAt: Date.now()
+                        };
+                        const docRef = await addDoc(collection(db, "news"), newPostData);
+                        allPosts.unshift({ id: docRef.id, ...newPostData });
                     }
-                    alert("መረጃው በሶስቱም ቋንቋዎች በተሳካ ሁኔታ ተለጠፈ!");
+                    alert("መረጃው በተሳካ ሁኔታ ተለጠፈ!");
                 }
-                
+
                 document.getElementById("newsForm").reset();
                 document.getElementById("editPostId").value = "";
                 document.getElementById("formSubmitBtn").innerText = "በሶስቱም ቋንቋዎች ለጥፍ";
+                document.getElementById("adminSection").classList.remove("active");
                 render();
             } catch(err) {
-                console.error(err);
-                alert("ስህተት ተፈጥሯል እባክዎ እንደገና ይሞክሩ።");
+                console.error("Error saving post: ", err.message);
+                alert("መረጃውን ማስቀመጥ አልተቻለም: " + err.message);
             }
         });
 
