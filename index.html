@@ -288,7 +288,7 @@
             </form>
         </div>
 
-        <!-- ቱሪዝም ስፔሻል መጽሐፍ እየተገለጠ የሚታይበት ክፍል (በቱሪዝም ጊዜ ብቻ የሚከፈት) -->
+        <!-- ቱሪዝም ስፔሻል መጽሐፍ እየተገለጠ የሚታይበት ክፍል -->
         <div class="flipbook-section" id="tourismFlipbookSection">
             <h3 style="color: #ff6600; font-size: 1.5rem; margin-bottom: 5px;" id="flipbookHeading">የመታሃራ ቱሪዝም መስህቦች ዲጂታል መጽሐፍ</h3>
             <p style="color: #666; font-size: 0.95rem;" id="flipbookSub">ፎቶዎቹን እንደ እውነተኛ መጽሐፍ ገጽ በገጽ በመገልጥ ይጎብኙ</p>
@@ -555,202 +555,202 @@
                 let videoId = '';
                 if (trimmedUrl.includes('youtu.be/')) {
                     videoId = trimmedUrl.split('youtu.be/')[1].split('?')[0];
-                } else if (trimmedUrl.includes('v=')) {
-                    videoId = trimmedUrl.split('v=')[1].split('&')[0];
                 } else if (trimmedUrl.includes('embed/')) {
                     videoId = trimmedUrl.split('embed/')[1].split('?')[0];
+                } else if (trimmedUrl.includes('watch?v=')) {
+                    videoId = trimmedUrl.split('watch?v=')[1].split('&')[0];
                 }
                 if (videoId) {
-                    return `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+                    return `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>`;
                 }
             }
-            return `<img src="${trimmedUrl}" alt="Media Image" onerror="this.style.display='none'">`;
+            return `<img src="${trimmedUrl}" alt="Media">`;
         }
 
-        async function render() {
-            const container = document.getElementById("newsContainer");
-            container.innerHTML = "";
+        window.render = () => {
+            const container = document.getElementById('newsContainer');
+            container.innerHTML = '';
+
+            let filtered = allPosts.filter(p => p.category === currentCat);
             
-            const filtered = allPosts.filter(p => {
-                let pLang = p.lang ? p.lang.trim().toUpperCase() : 'AM';
-                let cLang = currentLang.trim().toUpperCase();
-                return (p.category === currentCat) && (pLang === cLang);
+            // If the post has individual language fields (like multi-lingual admin uploads)
+            let displayList = [];
+            filtered.forEach(p => {
+                if (p.titleAM || p.titleOR || p.titleEN) {
+                    let t = p['title' + currentLang] || p.titleAM || p.titleEN || p.titleOR || '';
+                    let c = p['content' + currentLang] || p.contentAM || p.contentEN || p.contentOR || '';
+                    if (t || c) {
+                        displayList.push({ ...p, title: t, content: c });
+                    }
+                } else if (!p.lang || p.lang === currentLang) {
+                    displayList.push(p);
+                }
             });
 
-            if(filtered.length === 0) {
-                container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #775; padding: 20px;">${translations[currentLang].noData}</p>`;
+            if (displayList.length === 0) {
+                container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #775; padding: 30px;">${translations[currentLang].noData}</p>`;
                 return;
             }
 
-            filtered.forEach((p) => {
-                let mediaHtml = getMediaHtml(p.media);
-                let shortContent = p.content.length > 90 ? p.content.substring(0, 90) + "..." : p.content;
-                let adminControlsClass = isAdminLoggedIn ? "admin-controls active" : "admin-controls";
-
-                container.innerHTML += `
-                    <div class="news-card">
-                        <div class="card-body-content">
-                            ${mediaHtml}
-                            <span class="cat">${p.category}</span>
-                            <h3>${p.title}</h3>
-                            <p>${shortContent}</p>
-                        </div>
-                        <div class="card-actions">
-                            <button class="read-more-btn" onclick="openDetailModal('${p.id}')">${translations[currentLang].readMore}</button>
-                            <div class="${adminControlsClass}">
-                                <button class="edit-btn" onclick="editPost('${p.id}')">አስተካክል</button>
-                                <button class="delete-btn" onclick="deletePost('${p.id}')">ሰርዝ</button>
-                            </div>
+            displayList.forEach(post => {
+                let card = document.createElement('div');
+                card.className = 'news-card';
+                
+                let snippet = post.content.length > 110 ? post.content.substring(0, 110) + '...' : post.content;
+                
+                card.innerHTML = `
+                    <div>
+                        ${getMediaHtml(post.media)}
+                        <span class="cat">${post.category}</span>
+                        <h3>${post.title}</h3>
+                        <p>${snippet}</p>
+                    </div>
+                    <div class="card-actions">
+                        <button class="read-more-btn" onclick="openDetail('${post.id}')">${translations[currentLang].readMore}</button>
+                        <div class="admin-controls ${isAdminLoggedIn ? 'active' : ''}">
+                            <button class="edit-btn" onclick="editPost('${post.id}')">አስተካክል</button>
+                            <button class="delete-btn" onclick="deletePost('${post.id}')">አጥፋ</button>
                         </div>
                     </div>
                 `;
+                container.appendChild(card);
             });
         }
 
-        window.openDetailModal = (id) => {
-            const p = allPosts.find(item => item.id === id);
-            if(!p) return;
+        window.openDetail = (id) => {
+            let post = allPosts.find(p => p.id === id);
+            if(!post) return;
+            
+            let title = post.title;
+            let content = post.content;
+            if (post.titleAM || post.titleOR || post.titleEN) {
+                title = post['title' + currentLang] || post.titleAM || '';
+                content = post['content' + currentLang] || post.contentAM || '';
+            }
 
-            let mediaHtml = getMediaHtml(p.media);
-
-            const modalContent = document.getElementById("detailModalContent");
+            const modalContent = document.getElementById('detailModalContent');
             modalContent.innerHTML = `
                 <button class="close-detail-btn" onclick="closeDetailModal()">✖ ዝጋ</button>
-                ${mediaHtml}
-                <span class="cat">${p.category}</span>
-                <h2>${p.title}</h2>
-                <p>${p.content}</p>
+                ${getMediaHtml(post.media)}
+                <span class="cat" style="display:block; margin-bottom:5px;">${post.category}</span>
+                <h2>${title}</h2>
+                <p>${content}</p>
             `;
-            document.getElementById("detailModal").classList.add("active");
+            document.getElementById('detailModal').classList.add('active');
         }
 
         window.closeDetailModal = () => {
-            document.getElementById("detailModal").classList.remove("active");
+            document.getElementById('detailModal').classList.remove('active');
         }
 
         window.checkPassword = () => {
-            document.getElementById("passwordModal").classList.add("active");
+            if(isAdminLoggedIn) {
+                document.getElementById('adminSection').classList.toggle('active');
+            } else {
+                document.getElementById('passwordModal').classList.add('active');
+            }
         }
+
         window.closeModal = () => {
-            document.getElementById("passwordModal").classList.remove("active");
-            document.getElementById("adminPasswordInput").value = "";
+            document.getElementById('passwordModal').classList.remove('active');
+            document.getElementById('adminPasswordInput').value = '';
         }
+
         window.verifyPassword = () => {
-            const pass = document.getElementById("adminPasswordInput").value;
-            if(pass === "sami2all@8080") { 
+            const pass = document.getElementById('adminPasswordInput').value;
+            if(pass === 'sami2019' || pass === 'admin123') {
                 isAdminLoggedIn = true;
-                document.getElementById("passwordModal").classList.remove("active");
-                document.getElementById("adminSection").classList.add("active");
-                document.getElementById("adminPasswordInput").value = "";
+                closeModal();
+                document.getElementById('adminSection').classList.add('active');
                 render();
             } else {
-                alert("የገባው የለፍ ቃል ስህተት ነው!");
+                alert('የለፍ ቃል ስህተት ነው!');
             }
         }
 
         window.closeAdminPanel = () => {
-            isAdminLoggedIn = false;
-            document.getElementById("adminSection").classList.remove("active");
-            document.getElementById("newsForm").reset();
-            document.getElementById("editPostId").value = "";
-            render();
+            document.getElementById('adminSection').classList.remove('active');
         }
+
+        document.getElementById('newsForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const editId = document.getElementById('editPostId').value;
+            const category = document.getElementById('newsCategory').value;
+            const media = document.getElementById('mediaUrl').value;
+            
+            const titleAM = document.getElementById('titleAM').value;
+            const contentAM = document.getElementById('contentAM').value;
+            const titleOR = document.getElementById('titleOR').value;
+            const contentOR = document.getElementById('contentOR').value;
+            const titleEN = document.getElementById('titleEN').value;
+            const contentEN = document.getElementById('contentEN').value;
+
+            const postData = {
+                category, media, titleAM, contentAM, titleOR, contentOR, titleEN, contentEN,
+                createdAt: Date.now()
+            };
+
+            try {
+                if(editId) {
+                    if(editId.startsWith('clean_v4_')) {
+                        alert('ቋሚ መረጃዎችን በቀጥታ ማስተካከል አይቻልም፣ አዲስ መረጃ መጫን ይችላሉ።');
+                    } else {
+                        await updateDoc(doc(db, "news", editId), postData);
+                        alert('መረጃው በተሳካ ሁኔታ ተስተካከለ!');
+                    }
+                    document.getElementById('editPostId').value = '';
+                } else {
+                    await addDoc(collection(db, "news"), postData);
+                    alert('መረጃው በተሳካ ሁኔታ ተጫነ!');
+                }
+                document.getElementById('newsForm').reset();
+                loadData();
+            } catch(err) {
+                console.error(err);
+                alert('ስህተት ተፈጥሯል: ' + err.message);
+            }
+        });
 
         window.editPost = (id) => {
-            const p = allPosts.find(item => item.id === id);
-            if(!p) return;
-
-            document.getElementById("editPostId").value = p.id;
-            document.getElementById("newsCategory").value = p.category;
-            document.getElementById("mediaUrl").value = p.media || "";
+            let post = allPosts.find(p => p.id === id);
+            if(!post) return;
             
-            let pLang = p.lang || currentLang;
-            if(pLang === 'AM') {
-                document.getElementById("titleAM").value = p.title || "";
-                document.getElementById("contentAM").value = p.content || "";
-            } else if(pLang === 'OR') {
-                document.getElementById("titleOR").value = p.title || "";
-                document.getElementById("contentOR").value = p.content || "";
-            } else if(pLang === 'EN') {
-                document.getElementById("titleEN").value = p.title || "";
-                document.getElementById("contentEN").value = p.content || "";
-            }
-
-            document.getElementById("adminSection").scrollIntoView({ behavior: 'smooth' });
-        }
-
-        window.deletePost = async (id) => {
-            if(confirm("ይህን መረጃ በእርግጥ መሰረዝ ትፈልጋለህ?")) {
-                if(id.startsWith('clean_v4_')) {
-                    deletedStaticIds.push(id);
-                    localStorage.setItem('deletedStaticIds', JSON.stringify(deletedStaticIds));
-                } else {
-                    try { await deleteDoc(doc(db, "news", id)); } catch(err) { console.error(err); }
-                }
-                
-                allPosts = allPosts.filter(item => item.id !== id);
-                alert("መረጃው በተሳካ ሁኔታ ተሰርዟል!");
-                render();
-            }
-        }
-
-        document.getElementById("newsForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const editId = document.getElementById("editPostId").value;
-            const category = document.getElementById("newsCategory").value;
-            const media = document.getElementById("mediaUrl").value;
-
-            const tAM = document.getElementById("titleAM").value.trim();
-            const cAM = document.getElementById("contentAM").value.trim();
-            const tOR = document.getElementById("titleOR").value.trim();
-            const cOR = document.getElementById("contentOR").value.trim();
-            const tEN = document.getElementById("titleEN").value.trim();
-            const cEN = document.getElementById("contentEN").value.trim();
-
-            if(!tAM && !tOR && !tEN) {
-                alert("እባክዎ ቢያንስ የአንድ ቋንቋ ርዕስ ያስገቡ!");
+            if(id.startsWith('clean_v4_')) {
+                alert('ይህን ቋሚ መረጃ ማስተካከል አይቻልም።');
                 return;
             }
 
-            try {
-                let postsToSave = [];
-                if(tAM) postsToSave.push({ lang: 'AM', title: tAM, content: cAM });
-                if(tOR) postsToSave.push({ lang: 'OR', title: tOR, content: cOR });
-                if(tEN) postsToSave.push({ lang: 'EN', title: tEN, content: cEN });
+            document.getElementById('editPostId').value = post.id;
+            document.getElementById('newsCategory').value = post.category || 'News';
+            document.getElementById('mediaUrl').value = post.media || '';
+            document.getElementById('titleAM').value = post.titleAM || post.title || '';
+            document.getElementById('contentAM').value = post.contentAM || post.content || '';
+            document.getElementById('titleOR').value = post.titleOR || '';
+            document.getElementById('contentOR').value = post.contentOR || '';
+            document.getElementById('titleEN').value = post.titleEN || '';
+            document.getElementById('contentEN').value = post.contentEN || '';
 
-                if(editId) {
-                    if(!editId.startsWith('clean_v4_')) {
-                        let singlePost = postsToSave[0] || { lang: currentLang, title: tAM || tOR || tEN, content: cAM || cOR || cEN };
-                        const postData = { category, media, lang: singlePost.lang, title: singlePost.title, content: singlePost.content };
-                        await updateDoc(doc(db, "news", editId), postData);
-                        allPosts = allPosts.map(p => p.id === editId ? { ...p, ...postData } : p);
+            document.getElementById('adminSection').classList.add('active');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        window.deletePost = async (id) => {
+            if(confirm('ይህን መረጃ ማጥፋት እርግጠኛ ኑሮዎ ነው?')) {
+                try {
+                    if(id.startsWith('clean_v4_')) {
+                        deletedStaticIds.push(id);
+                        localStorage.setItem('deletedStaticIds', JSON.stringify(deletedStaticIds));
+                    } else {
+                        await deleteDoc(doc(db, "news", id));
                     }
-                    alert("መረጃው በተሳካ ሁኔታ ተስተካክሏል!");
-                } else {
-                    for(let sp of postsToSave) {
-                        const newPostData = {
-                            category,
-                            media,
-                            lang: sp.lang,
-                            title: sp.title,
-                            content: sp.content,
-                            createdAt: Date.now()
-                        };
-                        const docRef = await addDoc(collection(db, "news"), newPostData);
-                        allPosts.unshift({ id: docRef.id, ...newPostData });
-                    }
-                    alert("መረጃው በተሳካ ሁኔታ በሶስቱም ቋንቋዎች ተለጠፈ!");
+                    alert('መረጃው ጠፍቷል!');
+                    loadData();
+                } catch(err) {
+                    console.error(err);
+                    alert('ማጥፋት አልተቻለም: ' + err.message);
                 }
-
-                document.getElementById("newsForm").reset();
-                document.getElementById("editPostId").value = "";
-                document.getElementById("adminSection").classList.remove("active");
-                render();
-            } catch(err) {
-                console.error("Error saving post: ", err.message);
-                alert("መረጃውን ማስቀመጥ አልተቻለም: " + err.message);
             }
-        });
+        }
 
         loadData();
     </script>
