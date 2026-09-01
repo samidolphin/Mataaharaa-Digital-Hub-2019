@@ -9,7 +9,6 @@
         body { background-color: #f4f7f6; color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }    
         header { display: flex; justify-content: space-between; align-items: center; padding: 12px 3%; background: #ffffff; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); flex-wrap: wrap; gap: 8px; }
         .logo-area { display: flex; align-items: center; gap: 8px; }
-        .logo-area img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
         .logo-text h1 { font-size: 1rem; color: #ff6600; font-weight: bold; white-space: nowrap; }
 
         .hero-banner { 
@@ -87,7 +86,6 @@
 
     <header>
         <div class="logo-area">
-            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" alt="Logo">
             <div class="logo-text"><h1>Mataaharaa / መታሃራ / Metehara</h1></div>
         </div>
         <nav>
@@ -226,6 +224,7 @@
         let allPosts = [];
         let isAdminLoggedIn = false;
 
+        // በእኛ ቁጥጥር ስር ያሉ አራቱ ትክክለኛ ዜናዎች ብቻ
         const defaultStaticPosts = [
             {
                 id: 'default_1',
@@ -241,7 +240,7 @@
                 category: 'News',
                 lang: 'AM',
                 title: 'የመታሃራ ቱሪዝም እና የኢንቨስትመንት አቅም በሰፊው እየተስፋፋ ይገኛል',
-                content: 'በከተማችን የሚገኙ ውብ መልክዓ ምድሮች እና የकृषि ልማት ስራዎች ለባለሀብቶች ምቹ ሁኔታዎችን እየፈጠሩ ይገኛሉ።',
+                content: 'በከተማችን የሚገኙ ውብ መልክዓ ምድሮች እና የልማት ስራዎች ለባለሀብቶች ምቹ ሁኔታዎችን እየፈጠሩ ይገኛሉ።',
                 media: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600',
                 createdAt: 1770000000003
             },
