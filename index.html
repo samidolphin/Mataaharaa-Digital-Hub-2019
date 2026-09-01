@@ -245,6 +245,7 @@
     </div>
 
     <div class="main-container">
+        <!-- Admin Panel Section -->
         <div class="admin-section" id="adminSection">
             <div class="admin-header-flex">
                 <h3 style="color: #ff6600;">መረጃ መጫኛ (Admin Panel)</h3>
@@ -287,6 +288,7 @@
             </form>
         </div>
 
+        <!-- ቱሪዝም ስፔሻል መጽሐፍ እየተገለጠ የሚታይበት ክፍል (በቱሪዝም ጊዜ ብቻ የሚከፈት) -->
         <div class="flipbook-section" id="tourismFlipbookSection">
             <h3 style="color: #ff6600; font-size: 1.5rem; margin-bottom: 5px;" id="flipbookHeading">የመታሃራ ቱሪዝም መስህቦች ዲጂታል መጽሐፍ</h3>
             <p style="color: #666; font-size: 0.95rem;" id="flipbookSub">ፎቶዎቹን እንደ እውነተኛ መጽሐፍ ገጽ በገጽ በመገልጥ ይጎብኙ</p>
@@ -435,34 +437,37 @@
         window.updateLanguage = (lang) => {
             currentLang = lang;
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('btn' + lang).classList.add('active');
+            const activeBtn = document.getElementById('btn' + lang);
+            if(activeBtn) activeBtn.classList.add('active');
             
-            document.getElementById('badgeText').innerText = translations[lang].badgeText;
-            document.getElementById('heroTitle').innerText = translations[lang].heroTitle;
-            document.getElementById('heroSub').innerText = translations[lang].heroSub;
-            document.getElementById('marqueeText').innerText = translations[lang].marquee;
-            
-            document.getElementById('navNews').innerText = translations[lang].navNews;
-            document.getElementById('navTourism').innerText = translations[lang].navTourism;
-            document.getElementById('navCulture').innerText = translations[lang].navCulture;
-            document.getElementById('navPhilosophy').innerText = translations[lang].navPhilosophy;
-            document.getElementById('navLiterature').innerText = translations[lang].navLiterature;
-            document.getElementById('navVideo').innerText = translations[lang].navVideo;
-            document.getElementById('navPhoto').innerText = translations[lang].navPhoto;
+            if(translations[lang]) {
+                document.getElementById('badgeText').innerText = translations[lang].badgeText;
+                document.getElementById('heroTitle').innerText = translations[lang].heroTitle;
+                document.getElementById('heroSub').innerText = translations[lang].heroSub;
+                document.getElementById('marqueeText').innerText = translations[lang].marquee;
+                
+                document.getElementById('navNews').innerText = translations[lang].navNews;
+                document.getElementById('navTourism').innerText = translations[lang].navTourism;
+                document.getElementById('navCulture').innerText = translations[lang].navCulture;
+                document.getElementById('navPhilosophy').innerText = translations[lang].navPhilosophy;
+                document.getElementById('navLiterature').innerText = translations[lang].navLiterature;
+                document.getElementById('navVideo').innerText = translations[lang].navVideo;
+                document.getElementById('navPhoto').innerText = translations[lang].navPhoto;
 
-            document.getElementById('sectionHeading').innerText = translations[lang].sectionHeading;
-            document.getElementById('footerAboutTitle').innerText = translations[lang].footerAboutTitle;
-            document.getElementById('footerAboutText').innerText = translations[lang].footerAboutText;
-            document.getElementById('footerContactTitle').innerText = translations[lang].footerContactTitle;
+                document.getElementById('sectionHeading').innerText = translations[lang].sectionHeading;
+                document.getElementById('footerAboutTitle').innerText = translations[lang].footerAboutTitle;
+                document.getElementById('footerAboutText').innerText = translations[lang].footerAboutText;
+                document.getElementById('footerContactTitle').innerText = translations[lang].footerContactTitle;
 
-            document.getElementById('subTitleHeading').innerText = translations[lang].subHeading;
-            document.getElementById('subDescText').innerText = translations[lang].subDesc;
-            document.getElementById('subscriberEmail').placeholder = translations[lang].subDesc;
-            document.getElementById('subBtn').innerText = translations[lang].subButton;
+                document.getElementById('subTitleHeading').innerText = translations[lang].subHeading;
+                document.getElementById('subDescText').innerText = translations[lang].subDesc;
+                document.getElementById('subscriberEmail').placeholder = translations[lang].subDesc;
+                document.getElementById('subBtn').innerText = translations[lang].subButton;
 
-            document.getElementById('flipbookHeading').innerText = translations[lang].flipbookHead;
-            document.getElementById('flipbookSub').innerText = translations[lang].flipbookSubText;
-            document.getElementById('flipbookPlaceholderText').innerHTML = translations[lang].flipbookNote;
+                document.getElementById('flipbookHeading').innerText = translations[lang].flipbookHead;
+                document.getElementById('flipbookSub').innerText = translations[lang].flipbookSubText;
+                document.getElementById('flipbookPlaceholderText').innerHTML = translations[lang].flipbookNote;
+            }
 
             render();
         }
