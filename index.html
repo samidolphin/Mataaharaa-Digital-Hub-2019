@@ -224,7 +224,6 @@
         let allPosts = [];
         let isAdminLoggedIn = false;
 
-        // በእኛ ቁጥጥር ስር ያሉ አራቱ ትክክለኛ ዜናዎች ብቻ
         const defaultStaticPosts = [
             {
                 id: 'default_1',
@@ -360,6 +359,26 @@
             }
         }
 
+        // የሚዲያ ማሳያ (Image ወይም YouTube Iframe) በትክክል እንዲያወጣ የተስተካከለ ተግባር
+        function getMediaHtml(mediaUrl) {
+            if (!mediaUrl) return '';
+            let trimmedUrl = mediaUrl.trim();
+            if (trimmedUrl.includes('youtube.com') || trimmedUrl.includes('youtu.be')) {
+                let videoId = '';
+                if (trimmedUrl.includes('youtu.be/')) {
+                    videoId = trimmedUrl.split('youtu.be/')[1].split('?')[0];
+                } else if (trimmedUrl.includes('v=')) {
+                    videoId = trimmedUrl.split('v=')[1].split('&')[0];
+                } else if (trimmedUrl.includes('embed/')) {
+                    videoId = trimmedUrl.split('embed/')[1].split('?')[0];
+                }
+                if (videoId) {
+                    return `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+                }
+            }
+            return `<img src="${trimmedUrl}" alt="Media Image" onerror="this.style.display='none'">`;
+        }
+
         async function render() {
             const container = document.getElementById("newsContainer");
             container.innerHTML = "";
@@ -375,17 +394,7 @@
             }
 
             filtered.forEach((p) => {
-                let mediaHtml = '';
-                if(p.media) {
-                    if(p.media.includes('youtube') || p.media.includes('youtu.be')) {
-                        let videoId = p.media.split('v=')[1] || p.media.split('/').pop();
-                        if(videoId && videoId.includes('&')) videoId = videoId.split('&')[0];
-                        mediaHtml = `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
-                    } else {
-                        mediaHtml = `<img src="${p.media}" alt="Post Image">`;
-                    }
-                }
-
+                let mediaHtml = getMediaHtml(p.media);
                 let shortContent = p.content && p.content.length > 120 ? p.content.substring(0, 120) + "..." : (p.content || "");
                 let adminControlsClass = isAdminLoggedIn ? "admin-controls active" : "admin-controls";
 
@@ -413,17 +422,7 @@
             const p = allPosts.find(item => item.id === id);
             if(!p) return;
 
-            let mediaHtml = '';
-            if(p.media) {
-                if(p.media.includes('youtube') || p.media.includes('youtu.be')) {
-                    let videoId = p.media.split('v=')[1] || p.media.split('/').pop();
-                    if(videoId && videoId.includes('&')) videoId = videoId.split('&')[0];
-                    mediaHtml = `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
-                } else {
-                    mediaHtml = `<img src="${p.media}" alt="Detail Image">`;
-                }
-            }
-
+            let mediaHtml = getMediaHtml(p.media);
             const modalContent = document.getElementById("detailModalContent");
             modalContent.innerHTML = `
                 <button class="close-detail-btn" onclick="closeDetailModal()">✖ ዝጋ</button>
