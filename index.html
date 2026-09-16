@@ -21,115 +21,116 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.7; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }    
 
-        /* Header & Navigation - Fully Mobile & Laptop Responsive */
+        /* Header & Navigation */
         header { display: flex; justify-content: space-between; align-items: center; padding: 15px 4%; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.06); gap: 10px; }        
         .logo-area { display: flex; align-items: center; }
         .logo-text {
             border: 2px solid var(--primary);
-            padding: 6px 14px;
+            padding: 8px 16px;
             border-radius: 10px;
             background: linear-gradient(135deg, #fff8f3, #fff);
             box-shadow: 0 3px 10px rgba(255,102,0,0.1);
         }
-        .logo-text h1 { font-size: 1rem; color: var(--primary); font-weight: 700; white-space: nowrap; }
+        .logo-text h1 { font-size: 1.1rem; color: var(--primary); font-weight: 700; white-space: nowrap; }
 
         nav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-        nav a { text-decoration: none; color: var(--text-main); font-weight: 600; font-size: 0.82rem; padding: 6px 10px; border-radius: 6px; cursor: pointer; transition: var(--transition); white-space: nowrap; }
+        nav a { text-decoration: none; color: var(--text-main); font-weight: 600; font-size: 0.85rem; padding: 7px 12px; border-radius: 6px; cursor: pointer; transition: var(--transition); white-space: nowrap; }
         nav a:hover, nav a.active { color: var(--primary); background: #fff3ed; }
         
         .lang-container { display: flex; align-items: center; gap: 3px; background: #e2e8f0; padding: 3px; border-radius: 20px; }
-        .lang-btn { background: transparent; border: none; padding: 4px 10px; border-radius: 15px; cursor: pointer; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); transition: var(--transition); }
+        .lang-btn { background: transparent; border: none; padding: 5px 12px; border-radius: 15px; cursor: pointer; font-size: 0.78rem; font-weight: 700; color: var(--text-muted); transition: var(--transition); }
         .lang-btn.active { background: var(--primary); color: var(--white); box-shadow: 0 2px 6px rgba(255,102,0,0.3); }
 
-        .admin-btn { background: var(--primary); color: var(--white) !important; padding: 6px 14px; border-radius: 6px; font-size: 0.82rem; cursor: pointer; border: none; font-weight: 700; transition: var(--transition); }
+        .admin-btn { background: var(--primary); color: var(--white) !important; padding: 7px 16px; border-radius: 6px; font-size: 0.85rem; cursor: pointer; border: none; font-weight: 700; transition: var(--transition); }
         .admin-btn:hover { background: var(--primary-dark); }
 
         /* Hero Banner */
         .hero-banner { 
             background: linear-gradient(135deg, rgba(5,15,35,0.92), rgba(15,35,70,0.88)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1400') no-repeat center center/cover; 
-            color: var(--white); padding: 70px 20px 80px 20px; text-align: center; border-bottom: 5px solid var(--primary);
+            color: var(--white); padding: 75px 20px 85px 20px; text-align: center; border-bottom: 5px solid var(--primary);
         }
 
         .brand-display { margin-bottom: 20px; }
-        .brand-display .main-title { font-size: 2.5rem; font-weight: 800; color: var(--white); letter-spacing: 1px; }
-        .brand-display .sub-title { font-size: 1.6rem; color: var(--accent); font-weight: 700; }
+        .brand-display .main-title { font-size: 2.8rem; font-weight: 800; color: var(--white); letter-spacing: 1px; }
+        .brand-display .sub-title { font-size: 1.8rem; color: var(--accent); font-weight: 700; }
         
         .adey-badge {
             display: inline-block; background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: var(--white); padding: 6px 20px; border-radius: 30px; font-size: 0.95rem; font-weight: 700; margin-bottom: 15px;
+            color: var(--white); padding: 7px 22px; border-radius: 30px; font-size: 1rem; font-weight: 700; margin-bottom: 18px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
-        .hero-banner h2 { font-size: 1.6rem; margin-bottom: 10px; font-weight: 700; color: var(--white); }
-        .hero-banner p { font-size: 1.05rem; color: #fef08a; font-weight: 500; }
+        .hero-banner h2 { font-size: 1.8rem; margin-bottom: 12px; font-weight: 700; color: var(--white); }
+        .hero-banner p { font-size: 1.15rem; color: #fef08a; font-weight: 500; }
 
-        .marquee-container { background: var(--primary); color: var(--white); padding: 9px 0; font-size: 0.9rem; font-weight: 600; overflow: hidden; white-space: nowrap; }
+        .marquee-container { background: var(--primary); color: var(--white); padding: 10px 0; font-size: 0.95rem; font-weight: 600; overflow: hidden; white-space: nowrap; }
         .marquee-container marquee { width: 100%; }
 
         /* Modals */
         .modal, .detail-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); z-index: 2000; justify-content: center; align-items: center; padding: 15px; }
         .modal.active, .detail-modal.active { display: flex; }
-        .modal-content, .detail-content { background: var(--white); padding: 25px; border-radius: 14px; width: 100%; max-width: 380px; text-align: center; position: relative; box-shadow: var(--shadow); }
-        .detail-content { max-width: 700px; text-align: left; max-height: 85vh; overflow-y: auto; }
-        .modal-content input { width: 100%; padding: 10px 14px; margin: 12px 0; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; }
-        .modal-content button, .submit-btn { background: var(--primary); color: var(--white); border: none; padding: 11px; font-weight: 700; border-radius: 8px; cursor: pointer; width: 100%; transition: var(--transition); }
+        .modal-content, .detail-content { background: var(--white); padding: 30px; border-radius: 14px; width: 100%; max-width: 400px; text-align: center; position: relative; box-shadow: var(--shadow); }
+        .detail-content { max-width: 750px; text-align: left; max-height: 85vh; overflow-y: auto; }
+        .modal-content input { width: 100%; padding: 12px; margin: 15px 0; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 1rem; }
+        .modal-content button, .submit-btn { background: var(--primary); color: var(--white); border: none; padding: 12px; font-weight: 700; border-radius: 8px; cursor: pointer; width: 100%; transition: var(--transition); }
         
-        .detail-content img, .detail-content iframe { width: 100%; height: 280px; object-fit: cover; border-radius: 10px; margin-bottom: 15px; }
-        .close-detail-btn { position: absolute; top: 12px; right: 12px; background: #ef4444; color: var(--white); border: none; padding: 6px 12px; border-radius: 6px; font-weight: 700; cursor: pointer; }
+        .detail-content img, .detail-content iframe { width: 100%; height: 320px; object-fit: cover; border-radius: 10px; margin-bottom: 20px; }
+        .close-detail-btn { position: absolute; top: 15px; right: 15px; background: #ef4444; color: var(--white); border: none; padding: 8px 14px; border-radius: 8px; font-weight: 700; cursor: pointer; }
 
         /* Main Container & Grid */
-        .main-container { flex: 1; padding: 35px 4%; max-width: 1350px; margin: 0 auto; width: 100%; }
-        .admin-section { display: none; background: var(--white); padding: 25px; border-radius: 14px; margin-bottom: 35px; border: 2px dashed var(--primary); box-shadow: var(--shadow); }
+        .main-container { flex: 1; padding: 40px 5%; max-width: 1400px; margin: 0 auto; width: 100%; }
+        .admin-section { display: none; background: var(--white); padding: 30px; border-radius: 14px; margin-bottom: 40px; border: 2px dashed var(--primary); box-shadow: var(--shadow); }
         .admin-section.active { display: block; }
-        .admin-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .close-admin-btn { background: #ef4444; color: var(--white); border: none; padding: 6px 12px; border-radius: 6px; font-weight: 700; cursor: pointer; }
+        .admin-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .close-admin-btn { background: #ef4444; color: var(--white); border: none; padding: 8px 14px; border-radius: 8px; font-weight: 700; cursor: pointer; }
         
-        .form-group { margin-bottom: 15px; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px 14px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.92rem; outline: none; }
-        .form-group textarea { height: 110px; resize: vertical; }
+        .form-group { margin-bottom: 18px; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; outline: none; }
+        .form-group textarea { height: 120px; resize: vertical; }
 
-        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; margin-top: 20px; }
-        .news-card { background: var(--white); border-radius: 14px; padding: 18px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #f1f5f9; transition: var(--transition); }
-        .news-card:hover { transform: translateY(-4px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
-        .news-card img, .news-card iframe { width: 100%; height: 190px; object-fit: cover; border-radius: 10px; margin-bottom: 12px; }
-        .cat { color: var(--primary); font-size: 0.72rem; font-weight: 800; text-transform: uppercase; background: #fff3ed; padding: 4px 10px; border-radius: 6px; display: inline-block; margin-bottom: 8px; }
-        .news-card h3 { font-size: 1.15rem; margin: 6px 0; color: var(--text-main); font-weight: 700; }
-        .news-card p { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 15px; }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; margin-top: 25px; }
+        .news-card { background: var(--white); border-radius: 16px; padding: 20px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #f1f5f9; transition: var(--transition); }
+        .news-card:hover { transform: translateY(-5px); box-shadow: 0 20px 30px rgba(0,0,0,0.12); }
+        .news-card img, .news-card iframe { width: 100%; height: 200px; object-fit: cover; border-radius: 12px; margin-bottom: 15px; }
+        .cat { color: var(--primary); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; background: #fff3ed; padding: 4px 10px; border-radius: 6px; display: inline-block; margin-bottom: 8px; }
+        .news-card h3 { font-size: 1.25rem; margin: 8px 0; color: var(--text-main); font-weight: 700; }
+        .news-card p { font-size: 0.92rem; color: var(--text-muted); margin-bottom: 20px; }
         
-        .card-actions { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 12px; }
-        .read-more-btn { background: transparent; color: var(--primary); border: 2px solid var(--primary); padding: 6px 14px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: var(--transition); }
+        .card-actions { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 15px; }
+        .read-more-btn { background: transparent; color: var(--primary); border: 2px solid var(--primary); padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 700; cursor: pointer; transition: var(--transition); }
         .read-more-btn:hover { background: var(--primary); color: var(--white); }
 
-        .admin-controls { display: none; gap: 6px; }
+        .admin-controls { display: none; gap: 8px; }
         .admin-controls.active { display: flex; }
-        .edit-btn { background: #3b82f6; color: var(--white); border: none; padding: 6px 10px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.75rem; }
-        .delete-btn { background: #ef4444; color: var(--white); border: none; padding: 6px 10px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.75rem; }
+        .edit-btn { background: #3b82f6; color: var(--white); border: none; padding: 8px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.78rem; }
+        .delete-btn { background: #ef4444; color: var(--white); border: none; padding: 8px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.78rem; }
 
-        .flipbook-section { display: none; margin-top: 25px; background: var(--white); padding: 30px; border-radius: 14px; text-align: center; box-shadow: var(--shadow); }
+        .flipbook-section { display: none; margin-top: 25px; background: var(--white); padding: 40px; border-radius: 16px; text-align: center; box-shadow: var(--shadow); }
         .flipbook-section.active { display: block; }
-        .flipbook-container { width: 100%; height: 550px; background: #f1f5f9; border-radius: 10px; border: 2px dashed var(--primary); display: flex; justify-content: center; align-items: center; margin-top: 15px; position: relative; overflow: hidden; }
+        .flipbook-container { width: 100%; height: 600px; background: #f1f5f9; border-radius: 12px; border: 2px dashed var(--primary); display: flex; justify-content: center; align-items: center; margin-top: 20px; position: relative; overflow: hidden; }
         .flipbook-container iframe { width: 100%; height: 100%; border: none; }
-        .flipbook-placeholder { position: absolute; color: var(--text-muted); padding: 25px; background: rgba(255,255,255,0.95); border-radius: 10px; max-width: 550px; font-size: 0.95rem; }
+        .flipbook-placeholder { position: absolute; color: var(--text-muted); padding: 30px; background: rgba(255,255,255,0.95); border-radius: 12px; max-width: 600px; font-size: 1.05rem; }
 
         /* Footer */
-        footer { background: #0f172a; color: #94a3b8; padding: 45px 4% 20px; margin-top: 50px; font-size: 0.88rem; }
-        .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 35px; max-width: 1350px; margin: 0 auto; padding-bottom: 30px; border-bottom: 1px solid #1e293b; }
-        .footer-col { flex: 1; min-width: 250px; }
-        .footer-col h4 { color: var(--primary); margin-bottom: 15px; font-weight: 700; }
-        .footer-bottom { text-align: center; padding-top: 20px; color: #64748b; font-size: 0.82rem; }
+        footer { background: #0f172a; color: #94a3b8; padding: 50px 5% 25px; margin-top: 60px; font-size: 0.9rem; }
+        .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px; max-width: 1400px; margin: 0 auto; padding-bottom: 35px; border-bottom: 1px solid #1e293b; }
+        .footer-col { flex: 1; min-width: 260px; }
+        .footer-col h4 { color: var(--primary); margin-bottom: 18px; font-weight: 700; }
+        .footer-bottom { text-align: center; padding-top: 25px; color: #64748b; font-size: 0.85rem; }
 
-        /* Mobile Screen Optimizations (Media Query) */
-        @media (max-width: 768px) {
-            header { padding: 10px 3%; justify-content: center; }
-            .logo-area { width: 100%; justify-content: center; margin-bottom: 4px; }
-            nav { width: 100%; justify-content: center; gap: 4px; }
-            nav a { font-size: 0.75rem; padding: 5px 7px; }
-            .hero-banner { padding: 45px 15px; }
-            .brand-display .main-title { font-size: 1.9rem; }
-            .brand-display .sub-title { font-size: 1.2rem; }
-            .main-container { padding: 15px 3%; }
+        /* Perfect Mobile Screen Optimization */
+        @media (max-width: 900px) {
+            header { flex-direction: column; padding: 12px 10px; gap: 12px; }
+            .logo-area { width: 100%; justify-content: center; }
+            nav { width: 100%; justify-content: center; gap: 5px; }
+            nav a { font-size: 0.78rem; padding: 6px 10px; background: #f1f5f9; }
+            .lang-container { padding: 3px; }
+            .hero-banner { padding: 50px 15px; }
+            .brand-display .main-title { font-size: 2.1rem; }
+            .brand-display .sub-title { font-size: 1.3rem; }
+            .main-container { padding: 20px 4%; }
             .news-grid { grid-template-columns: 1fr; gap: 20px; }
-            .flipbook-container { height: 380px; }
-            .footer-content { gap: 25px; }
+            .flipbook-container { height: 400px; }
+            .footer-content { gap: 30px; }
         }
     </style>
 </head>
@@ -212,7 +213,7 @@
                     <input type="text" id="mediaUrl" placeholder="የፎቶ ሊንክ፣ የዩቲዩብ ቪዲዮ ሊንክ ወይም የምስል ዩአርኤል">
                 </div>
 
-                <hr style="margin: 15px 0; border: 0; border-top: 1px solid #e2e8f0;">
+                <hr style="margin: 20px 0; border: 0; border-top: 1px solid #e2e8f0;">
 
                 <h4>አማርኛ (Amharic)</h4>
                 <div class="form-group"><input type="text" id="titleAM" placeholder="የአማርኛ ርዕስ"></div>
@@ -231,8 +232,8 @@
         </div>
 
         <div class="flipbook-section" id="tourismFlipbookSection">
-            <h3 style="color: var(--primary); font-size: 1.6rem; margin-bottom: 6px;" id="flipbookHeading">የመታሃራ ቱሪዝም መስህቦች ዲጂታል መጽሐፍ</h3>
-            <p style="color: var(--text-muted); font-size: 0.95rem;" id="flipbookSub">ፎቶዎቹን እንደ እውነተኛ መጽሐፍ ገጽ በገጽ በመገልጥ ይጎብኙ</p>
+            <h3 style="color: var(--primary); font-size: 1.8rem; margin-bottom: 8px;" id="flipbookHeading">የመታሃራ ቱሪዝም መስህቦች ዲጂታል መጽሐፍ</h3>
+            <p style="color: var(--text-muted); font-size: 1rem;" id="flipbookSub">ፎቶዎቹን እንደ እውነተኛ መጽሐፍ ገጽ በገጽ በመገልጥ ይጎብኙ</p>
             <div class="flipbook-container">
                 <div class="flipbook-placeholder" id="flipbookPlaceholderText">
                     የቱሪዝም ፎቶዎችዎን በማቀናበሪያ መሳሪያ (ለምሳሌ AnyFlip) ካቀናጁ በኋላ የሚሰጥዎትን <b>Embed Code (iframe)</b> በቀጥታ በዚህ ቦታ ይለጥፉ።
@@ -240,7 +241,7 @@
             </div>
         </div>
 
-        <h3 id="sectionHeading" style="margin-top: 25px; margin-bottom: 15px; color: var(--text-main); border-bottom: 3px solid var(--primary); display: inline-block; padding-bottom: 6px; font-weight: 700;">ወቅታዊ መረጃዎች</h3>
+        <h3 id="sectionHeading" style="margin-top: 30px; margin-bottom: 20px; color: var(--text-main); border-bottom: 3px solid var(--primary); display: inline-block; padding-bottom: 8px; font-weight: 700;">ወቅታዊ መረጃዎች</h3>
         <div class="news-grid" id="newsContainer"></div>
     </div>
 
@@ -253,9 +254,9 @@
             <div class="footer-col">
                 <h4 id="subTitleHeading">ለአዳዲስ መረጃዎች ይመዝገቡ</h4>
                 <p id="subDescText">ኢሜይል አድራሻዎን ያስገቡ</p>
-                <form id="subscribeForm" style="display: flex; gap: 6px; margin-top: 8px;">
-                    <input type="email" id="subscriberEmail" placeholder="ኢሜይል አድራሻ" style="padding: 9px; flex: 1; border-radius: 6px; border: 1px solid #cbd5e1; outline: none;" required>
-                    <button type="submit" id="subBtn" style="padding: 9px 15px; background: var(--primary); border: none; color: white; cursor: pointer; border-radius: 6px; font-weight: 700;">ይመዝገቡ</button>
+                <form id="subscribeForm" style="display: flex; gap: 8px; margin-top: 10px;">
+                    <input type="email" id="subscriberEmail" placeholder="ኢሜይል አድራሻ" style="padding: 10px; flex: 1; border-radius: 8px; border: 1px solid #cbd5e1; outline: none;" required>
+                    <button type="submit" id="subBtn" style="padding: 10px 18px; background: var(--primary); border: none; color: white; cursor: pointer; border-radius: 8px; font-weight: 700;">ይመዝገቡ</button>
                 </form>
             </div>
             <div class="footer-col">
