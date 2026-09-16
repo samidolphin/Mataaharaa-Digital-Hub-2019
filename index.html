@@ -353,7 +353,8 @@
         if(type === 'cat') {
             currentCat = val;
             document.querySelectorAll('nav a[id^="nav"]').forEach(a => a.classList.remove('active'));
-            document.getElementById('nav' + val).classList.add('active');
+            const navElem = document.getElementById('nav' + val);
+            if(navElem) navElem.classList.add('active');
             
             const flipbookSec = document.getElementById('tourismFlipbookSection');
             if(val === 'Tourism') {
@@ -512,6 +513,7 @@
 
     function render() {
         const container = document.getElementById("newsContainer");
+        if(!container) return;
         container.innerHTML = "";
         
         let targetLang = currentLang.trim().toUpperCase();
@@ -586,12 +588,12 @@
     }
 
     window.closeAdminPanel = () => {
-        isAdminLoggedIn = false; // ከአድሚን ሲወጡ የአድሚንነቱ ፈቃድ እንዲጠፋ ያደርጋል
+        isAdminLoggedIn = false; 
         document.getElementById("adminSection").classList.remove("active");
         document.getElementById("newsForm").reset();
         document.getElementById("editPostId").value = "";
         document.getElementById("formSubmitBtn").innerText = "መረጃውን አስቀምጥ (Save)";
-        render(); // ገጹን እንደገና በማደስ አዝራሮቹ እንዲጠፉ ያደርጋል
+        render(); 
     }
 
     window.verifyPassword = () => {
@@ -644,6 +646,7 @@
         }
     }
 
+    // ገጹ ሲከፈት መረጃዎችን ከፋየርቤስ እንዲጭን ይደረጋል
     loadData();
 </script>
 </body>
