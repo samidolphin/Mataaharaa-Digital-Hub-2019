@@ -345,7 +345,7 @@
             footerAboutTitle: "ስለ መታሃራ ዲጂታል 2019",
             footerAboutText: "መታሃራ ዲጂታል 2019 የከተማችንን ቱሪዝም፣ ባህል፣ ልማት እና ወቅታዊ መረጃዎች በሶስት ቋንቋዎች ለህብረተሰቡ የሚያደርስ መድረክ ነው።",
             footerContactTitle: "አግኙን / Contact Us",
-            noData: "በዚህ ቋንቋ ወይም ምድብ የተለጠፈ መረጃ የለም።",
+            noData: "በዚህ ቋንቋ የተለጠፈ መረጃ የለም። (ለፈተና የሚከተለው ጽሑፍ ከታየ እባክዎ በአድሚን ፓነል በኩል ፖስት ያስገቡ)",
             subHeading: "ለአዳዲስ መረጃዎች ይመዝገቡ",
             subDesc: "ኢሜይል አድራሻዎን ያስገቡ",
             subButton: "ይመዝገቡ",
@@ -366,7 +366,7 @@
             footerAboutTitle: "Waa'ee Mataaharaa Digital 2019",
             footerAboutText: "Mataaharaa Digital 2019 wiirtuu odeeffannoo tuuriizimii, aadaa fi misiyoonsii magaalattii afaan sadiin dhiyeessuudha.",
             footerContactTitle: "Nu Quunnamaa",
-            noData: "Odeeffannoon afaan kana ykn ramaddii kanaan hin jiru.",
+            noData: "Odeeffannoon afaan kanaatiin hin jiru.",
             subHeading: "Odeeffannoowwan Haaraaf Galmaa'aa",
             subDesc: "Teessoo imeelii keessanii galchaa",
             subButton: "Galmaa'i",
@@ -387,7 +387,7 @@
             footerAboutTitle: "About Mataaharaa Digital 2019",
             footerAboutText: "Mataaharaa Digital 2019 is a comprehensive platform sharing tourism, culture, development, and news in three languages.",
             footerContactTitle: "Contact Us",
-            noData: "No posts available in this language or category.",
+            noData: "No posts available in this language.",
             subHeading: "Subscribe for Updates",
             subDesc: "Enter your email address",
             subButton: "Subscribe",
@@ -517,10 +517,8 @@
                 let title = (post.title || "").trim();
                 let content = (post.content || "").trim();
                 
-                // Smart language detection fallback if post.lang is missing
                 let lang = post.lang ? post.lang.trim().toUpperCase() : '';
                 if(!lang) {
-                    // Check characters to guess language or default to AM
                     if(/[А-яሀ-ፐ]/.test(title + content)) {
                         lang = 'AM';
                     } else if(/([Bb]aga|[Bb]ulchiinsi|[Oo]duu|[Aa]faan)/.test(title + content)) {
@@ -564,11 +562,17 @@
         const container = document.getElementById("newsContainer");
         container.innerHTML = "";
         
-        const filtered = allPosts.filter(p => {
+        // Flexible Filter: matches exact language or falls back if none match, ensuring posts are visible
+        let filtered = allPosts.filter(p => {
             let pLang = p.lang ? p.lang.trim().toUpperCase() : 'AM';
             let cLang = currentLang.trim().toUpperCase();
             return (p.category === currentCat) && (pLang === cLang);
         });
+
+        // Fallback: If category has posts overall but none matching the exact language toggle, show them all under that category to prevent empty screens
+        if(filtered.length === 0) {
+            filtered = allPosts.filter(p => p.category === currentCat);
+        }
 
         if(filtered.length === 0) {
             container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #775; padding: 20px;">${translations[currentLang].noData}</p>`;
