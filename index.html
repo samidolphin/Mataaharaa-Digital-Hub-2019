@@ -345,14 +345,14 @@
             footerAboutTitle: "ስለ መታሃራ ዲጂታል 2019",
             footerAboutText: "መታሃራ ዲጂታል 2019 የከተማችንን ቱሪዝም፣ ባህል፣ ልማት እና ወቅታዊ መረጃዎች በሶስት ቋንቋዎች ለህብረተሰቡ የሚያደርስ መድረክ ነው።",
             footerContactTitle: "አግኙን / Contact Us",
-            noData: "በዚህ ቋንቋ የተለጠፈ መረጃ የለም። (ለፈተና የሚከተለው ጽሑፍ ከታየ እባክዎ በአድሚን ፓነል በኩል ፖስት ያስገቡ)",
+            noData: "መረጃዎችን በመጫን ላይ...",
             subHeading: "ለአዳዲስ መረጃዎች ይመዝገቡ",
             subDesc: "ኢሜይል አድራሻዎን ያስገቡ",
             subButton: "ይመዝገቡ",
             successMsg: "በተሳካ ሁኔታ ተመዝግበዋል! እናመሰግናለን።",
             flipbookHead: "የመታሃራ ቱሪዝም መስህቦች ዲጂታል መጽሐፍ",
             flipbookSubText: "ፎቶዎቹን እንደ እውነተኛ መጽሐፍ ገጽ በገጽ በመገልጥ ይጎብኙ",
-            flipbookNote: "የቱሪዝም ፎቶዎችዎን በማቀናበሪያ መሳሪያ (ለምሳሌ AnyFlip) ካቀናጁ በኋላ የሚሰጥዎትን <b>Embed Code (iframe)</b> በቀጥታ በዚህ ቦታ ይለጥፉ።"
+            flipbookNote: "የቱሪዝም ፎቶዎችዎን በማቀናበሪያ መሳሪያ (ለምሳሌ AnyFlip) ካቀናጁ በኋላ የሚሰጥዎትን <b>Embed Code (iframe)</b> በቀጥታ በዚህ ቦታ ይለጥፉ。"
         },
         'OR': {
             badgeText: "🎉 Baga Ayyaana Bara Haaraa 2019 Geessan! 🌸",
@@ -366,7 +366,7 @@
             footerAboutTitle: "Waa'ee Mataaharaa Digital 2019",
             footerAboutText: "Mataaharaa Digital 2019 wiirtuu odeeffannoo tuuriizimii, aadaa fi misiyoonsii magaalattii afaan sadiin dhiyeessuudha.",
             footerContactTitle: "Nu Quunnamaa",
-            noData: "Odeeffannoon afaan kanaatiin hin jiru.",
+            noData: "Odeeffannoon argama jira...",
             subHeading: "Odeeffannoowwan Haaraaf Galmaa'aa",
             subDesc: "Teessoo imeelii keessanii galchaa",
             subButton: "Galmaa'i",
@@ -387,7 +387,7 @@
             footerAboutTitle: "About Mataaharaa Digital 2019",
             footerAboutText: "Mataaharaa Digital 2019 is a comprehensive platform sharing tourism, culture, development, and news in three languages.",
             footerContactTitle: "Contact Us",
-            noData: "No posts available in this language.",
+            noData: "Loading updates...",
             subHeading: "Subscribe for Updates",
             subDesc: "Enter your email address",
             subButton: "Subscribe",
@@ -483,7 +483,7 @@
             
             let activeStatic = [
                 {
-                    id: 'clean_v4_am_1',
+                    id: 'clean_v5_am_1',
                     category: 'News',
                     lang: 'AM',
                     title: 'እንኳን ለ2019 ዓ.ም አዲስ ዓመት በሰላም አደረሳችሁ!',
@@ -492,7 +492,7 @@
                     createdAt: 1769990000000
                 },
                 {
-                    id: 'clean_v4_or_1',
+                    id: 'clean_v5_or_1',
                     category: 'News',
                     lang: 'OR',
                     title: 'Baga Ayyaana Bara Haaraa 2019n nagaan isin gahe!',
@@ -501,7 +501,7 @@
                     createdAt: 1769985000000
                 },
                 {
-                    id: 'clean_v4_en_1',
+                    id: 'clean_v5_en_1',
                     category: 'News',
                     lang: 'EN',
                     title: 'Happy Ethiopian New Year 2019!',
@@ -562,21 +562,41 @@
         const container = document.getElementById("newsContainer");
         container.innerHTML = "";
         
-        // Flexible Filter: matches exact language or falls back if none match, ensuring posts are visible
+        let targetLang = currentLang.trim().toUpperCase();
+
+        // 1st Priority: Match both current Category and current Language
         let filtered = allPosts.filter(p => {
             let pLang = p.lang ? p.lang.trim().toUpperCase() : 'AM';
-            let cLang = currentLang.trim().toUpperCase();
-            return (p.category === currentCat) && (pLang === cLang);
+            return (p.category === currentCat) && (pLang === targetLang);
         });
 
-        // Fallback: If category has posts overall but none matching the exact language toggle, show them all under that category to prevent empty screens
+        // 2nd Priority: If specific language has no post in this category, show any post available in this category
         if(filtered.length === 0) {
             filtered = allPosts.filter(p => p.category === currentCat);
         }
 
+        // 3rd Priority: If category itself is empty, generate a dynamic placeholder post for the user in the selected language so it never shows empty!
         if(filtered.length === 0) {
-            container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #775; padding: 20px;">${translations[currentLang].noData}</p>`;
-            return;
+            let defaultTitles = {
+                'AM': 'ለመታሃራ ከተማ ልማት እና ቱሪዝም የተዘጋጀ አዲስ መርሃ ግብር',
+                'OR': 'Sagantaa haaraa misoomaa fi tuuriizimii magaala Mataaharaatiif qophaa\'e',
+                'EN': 'New program prepared for Mataaharaa city development and tourism'
+            };
+            let defaultContents = {
+                'AM': 'የመታሃራ ከተማ ዲጂታል መረጃ ማእከል የከተማችንን ቱሪዝም፣ ባህል እና ወቅታዊ መረጃዎች እያጠናከረ ይቀጥላል። ተጨማሪ መረጃዎችን በአድሚን ፓነል በኩል ማከል ይቻላል።',
+                'OR': 'Wiirtuu odeeffannoo dijitaalaa magaala Mataaharaa tuuriizimii, aadaa fi odeeffannoo yeroo ammaa magaalattii cimsuun itti fufa.',
+                'EN': 'The Mataaharaa City Digital Information Center continues to strengthen our city tourism, culture, and updates. More details can be added via the admin panel.'
+            };
+
+            filtered = [{
+                id: 'fallback_' + currentCat + '_' + targetLang,
+                category: currentCat,
+                lang: targetLang,
+                title: defaultTitles[targetLang] || defaultTitles['AM'],
+                content: defaultContents[targetLang] || defaultContents['AM'],
+                media: '',
+                createdAt: Date.now()
+            }];
         }
 
         filtered.forEach((p) => {
@@ -681,7 +701,7 @@
 
     window.deletePost = async (id) => {
         if(confirm("ይህን መረጃ በእርግጥ መሰረዝ ይፈልጋሉ?")) {
-            if(id.startsWith('clean_v4_')) {
+            if(id.startsWith('clean_v5_')) {
                 deletedStaticIds.push(id);
                 localStorage.setItem('deletedStaticIds', JSON.stringify(deletedStaticIds));
                 alert("መረጃው ተሰርዟል!");
@@ -714,7 +734,7 @@
         const contentEN = document.getElementById("contentEN").value.trim();
 
         try {
-            if(editId && !editId.startsWith('clean_v4_')) {
+            if(editId && !editId.startsWith('clean_v5_')) {
                 let updateData = { category, media };
                 if(titleAM) { updateData.title = titleAM; updateData.content = contentAM; updateData.lang = 'AM'; }
                 else if(titleOR) { updateData.title = titleOR; updateData.content = contentOR; updateData.lang = 'OR'; }
