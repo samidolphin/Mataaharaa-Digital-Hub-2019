@@ -21,7 +21,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.7; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }    
 
-        /* Header & Navigation */
         header { display: flex; justify-content: space-between; align-items: center; padding: 15px 4%; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.06); gap: 10px; }        
         .logo-area { display: flex; align-items: center; }
         .logo-text {
@@ -44,7 +43,6 @@
         .admin-btn { background: var(--primary); color: var(--white) !important; padding: 7px 16px; border-radius: 6px; font-size: 0.85rem; cursor: pointer; border: none; font-weight: 700; transition: var(--transition); }
         .admin-btn:hover { background: var(--primary-dark); }
 
-        /* Hero Banner */
         .hero-banner { 
             background: linear-gradient(135deg, rgba(5,15,35,0.92), rgba(15,35,70,0.88)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1400') no-repeat center center/cover; 
             color: var(--white); padding: 75px 20px 85px 20px; text-align: center; border-bottom: 5px solid var(--primary);
@@ -65,7 +63,6 @@
         .marquee-container { background: var(--primary); color: var(--white); padding: 10px 0; font-size: 0.95rem; font-weight: 600; overflow: hidden; white-space: nowrap; }
         .marquee-container marquee { width: 100%; }
 
-        /* Modals */
         .modal, .detail-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); z-index: 2000; justify-content: center; align-items: center; padding: 15px; }
         .modal.active, .detail-modal.active { display: flex; }
         .modal-content, .detail-content { background: var(--white); padding: 30px; border-radius: 14px; width: 100%; max-width: 400px; text-align: center; position: relative; box-shadow: var(--shadow); }
@@ -76,7 +73,6 @@
         .detail-content img, .detail-content iframe { width: 100%; height: 320px; object-fit: cover; border-radius: 10px; margin-bottom: 20px; }
         .close-detail-btn { position: absolute; top: 15px; right: 15px; background: #ef4444; color: var(--white); border: none; padding: 8px 14px; border-radius: 8px; font-weight: 700; cursor: pointer; }
 
-        /* Main Container & Grid */
         .main-container { flex: 1; padding: 40px 5%; max-width: 1400px; margin: 0 auto; width: 100%; }
         .admin-section { display: none; background: var(--white); padding: 30px; border-radius: 14px; margin-bottom: 40px; border: 2px dashed var(--primary); box-shadow: var(--shadow); }
         .admin-section.active { display: block; }
@@ -110,14 +106,12 @@
         .flipbook-container iframe { width: 100%; height: 100%; border: none; }
         .flipbook-placeholder { position: absolute; color: var(--text-muted); padding: 30px; background: rgba(255,255,255,0.95); border-radius: 12px; max-width: 600px; font-size: 1.05rem; }
 
-        /* Footer */
         footer { background: #0f172a; color: #94a3b8; padding: 50px 5% 25px; margin-top: 60px; font-size: 0.9rem; }
         .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px; max-width: 1400px; margin: 0 auto; padding-bottom: 35px; border-bottom: 1px solid #1e293b; }
         .footer-col { flex: 1; min-width: 260px; }
         .footer-col h4 { color: var(--primary); margin-bottom: 18px; font-weight: 700; }
         .footer-bottom { text-align: center; padding-top: 25px; color: #64748b; font-size: 0.85rem; }
 
-        /* Perfect Mobile Screen Optimization */
         @media (max-width: 900px) {
             header { flex-direction: column; padding: 12px 10px; gap: 12px; }
             .logo-area { width: 100%; justify-content: center; }
