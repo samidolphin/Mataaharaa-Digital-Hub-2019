@@ -20,26 +20,26 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.7; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }    
 
-        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 4%; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.06); gap: 10px; }        
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 3%; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.06); gap: 8px; }        
         .logo-area { display: flex; align-items: center; }
         .logo-text {
             border: 2px solid var(--primary);
-            padding: 8px 16px;
+            padding: 6px 12px;
             border-radius: 10px;
             background: linear-gradient(135deg, #fff8f3, #fff);
             box-shadow: 0 3px 10px rgba(255,102,0,0.1);
         }
-        .logo-text h1 { font-size: 1.1rem; color: var(--primary); font-weight: 700; white-space: nowrap; }
+        .logo-text h1 { font-size: 1rem; color: var(--primary); font-weight: 700; white-space: nowrap; }
 
-        nav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-        nav a { text-decoration: none; color: var(--text-main); font-weight: 600; font-size: 0.85rem; padding: 7px 12px; border-radius: 6px; cursor: pointer; transition: var(--transition); white-space: nowrap; }
+        nav { display: flex; align-items: center; gap: 4px; flex-wrap: nowrap; }
+        nav a { text-decoration: none; color: var(--text-main); font-weight: 600; font-size: 0.8rem; padding: 6px 10px; border-radius: 6px; cursor: pointer; transition: var(--transition); white-space: nowrap; }
         nav a:hover, nav a.active { color: var(--primary); background: #fff3ed; }
         
-        .lang-container { display: flex; align-items: center; gap: 3px; background: #e2e8f0; padding: 3px; border-radius: 20px; }
-        .lang-btn { background: transparent; border: none; padding: 5px 12px; border-radius: 15px; cursor: pointer; font-size: 0.78rem; font-weight: 700; color: var(--text-muted); transition: var(--transition); }
+        .lang-container { display: flex; align-items: center; gap: 2px; background: #e2e8f0; padding: 3px; border-radius: 20px; }
+        .lang-btn { background: transparent; border: none; padding: 4px 10px; border-radius: 15px; cursor: pointer; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); transition: var(--transition); }
         .lang-btn.active { background: var(--primary); color: var(--white); box-shadow: 0 2px 6px rgba(255,102,0,0.3); }
 
-        .admin-btn { background: var(--primary); color: var(--white) !important; padding: 7px 16px; border-radius: 6px; font-size: 0.85rem; cursor: pointer; border: none; font-weight: 700; transition: var(--transition); }
+        .admin-btn { background: var(--primary); color: var(--white) !important; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; border: none; font-weight: 700; transition: var(--transition); white-space: nowrap; }
         .admin-btn:hover { background: var(--primary-dark); }
 
         .hero-banner { 
@@ -111,10 +111,10 @@
         .footer-col h4 { color: var(--primary); margin-bottom: 18px; font-weight: 700; }
         .footer-bottom { text-align: center; padding-top: 25px; color: #64748b; font-size: 0.85rem; }
 
-        @media (max-width: 900px) {
+        @media (max-width: 1050px) {
             header { flex-direction: column; padding: 12px 10px; gap: 12px; }
             .logo-area { width: 100%; justify-content: center; }
-            nav { width: 100%; justify-content: center; gap: 5px; }
+            nav { width: 100%; justify-content: center; gap: 5px; flex-wrap: wrap; }
             nav a { font-size: 0.78rem; padding: 6px 10px; background: #f1f5f9; }
             .lang-container { padding: 3px; }
             .hero-banner { padding: 50px 15px; }
@@ -265,7 +265,7 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = { 
         apiKey: "AIzaSy...", 
@@ -429,30 +429,33 @@
         const category = document.getElementById("newsCategory").value;
         const media = document.getElementById("mediaUrl").value;
 
-        let title = "";
-        let content = "";
-        let langToSave = currentLang;
-
-        if(currentLang === 'EN') {
-            title = document.getElementById("titleEN").value;
-            content = document.getElementById("contentEN").value;
-        } else if(currentLang === 'OR') {
-            title = document.getElementById("titleOR").value;
-            content = document.getElementById("contentOR").value;
-        } else {
-            title = document.getElementById("titleAM").value;
-            content = document.getElementById("contentAM").value;
-        }
+        const titleAM = document.getElementById("titleAM").value.trim();
+        const contentAM = document.getElementById("contentAM").value.trim();
+        
+        const titleOR = document.getElementById("titleOR").value.trim();
+        const contentOR = document.getElementById("contentOR").value.trim();
+        
+        const titleEN = document.getElementById("titleEN").value.trim();
+        const contentEN = document.getElementById("contentEN").value.trim();
 
         try {
             if(postId) {
+                // በሚስተካከልበት ጊዜ ሶስቱንም ቋንቋዎች በአንድ ላይ እናዘምናለን
                 await updateDoc(doc(db, "news", postId), {
-                    category, media, title, content, lang: langToSave
+                    category, media, 
+                    titleAM, contentAM, 
+                    titleOR, contentOR, 
+                    titleEN, contentEN
                 });
                 alert("መረጃው በተሳካ ሁኔታ ተዘምኗል!");
             } else {
+                // አዲስ ሲመዘገብ ሶስቱን ቋንቋዎች የያዘ አንድ ፖስት ሆኖ ይቀመጣል
                 await addDoc(collection(db, "news"), {
-                    category, media, title, content, lang: langToSave, createdAt: Date.now()
+                    category, media, 
+                    titleAM, contentAM, 
+                    titleOR, contentOR, 
+                    titleEN, contentEN, 
+                    createdAt: Date.now()
                 });
                 alert("መረጃው በተሳካ ሁኔታ ተቀምጧል!");
             }
@@ -476,13 +479,7 @@
                 firestorePosts.push({id: d.id, ...data});
             });
             
-            allPosts = firestorePosts.map(post => {
-                let title = (post.title || "").trim();
-                let content = (post.content || "").trim();
-                let lang = post.lang ? post.lang.trim().toUpperCase() : 'AM';
-                return { ...post, title, content, lang };
-            });
-            
+            allPosts = firestorePosts;
             allPosts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
             render();
         } catch(err) {
@@ -516,12 +513,7 @@
         if(!container) return;
         container.innerHTML = "";
         
-        let targetLang = currentLang.trim().toUpperCase();
-
-        let filtered = allPosts.filter(p => {
-            let pLang = p.lang ? p.lang.trim().toUpperCase() : 'AM';
-            return (p.category === currentCat) && (pLang === targetLang);
-        });
+        let filtered = allPosts.filter(p => p.category === currentCat);
 
         if(filtered.length === 0) {
             container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px; font-size: 1.05rem;">${translations[currentLang].noData}</p>`;
@@ -530,7 +522,24 @@
 
         filtered.forEach((p) => {
             let mediaHtml = getMediaHtml(p.media);
-            let shortContent = p.content.length > 90 ? p.content.substring(0, 90) + "..." : p.content;
+            
+            // እንደየተመረጠው ቋንቋ ርዕሱን እና ይዘቱን እንመርጣለን (በድሮ መረጃዎች ላይ ለነበሩትም ድጋፍ እንዲኖረው ይደረጋል)
+            let title = "";
+            let content = "";
+
+            if(currentLang === 'OR') {
+                title = p.titleOR || p.title || "";
+                content = p.contentOR || p.content || "";
+            } else if(currentLang === 'EN') {
+                title = p.titleEN || p.title || "";
+                content = p.contentEN || p.content || "";
+            } else {
+                title = p.titleAM || p.title || "";
+                content = p.contentAM || p.content || "";
+            }
+
+            // የዚህ ቋንቋ ይዘት ባዶ ከሆነ ካርዱን እንዳይዘልቅ ማጣራት ይቻላል ወይም ባዶ ያሳየዋል
+            let shortContent = content.length > 90 ? content.substring(0, 90) + "..." : content;
             let adminControlsClass = isAdminLoggedIn ? "admin-controls active" : "admin-controls";
 
             container.innerHTML += `
@@ -538,7 +547,7 @@
                     <div class="card-body-content">
                         ${mediaHtml}
                         <span class="cat">${p.category}</span>
-                        <h3>${p.title}</h3>
+                        <h3>${title}</h3>
                         <p>${shortContent}</p>
                     </div>
                     <div class="card-actions">
@@ -557,6 +566,19 @@
         const post = allPosts.find(p => p.id === id);
         if(!post) return;
 
+        let title = "";
+        let content = "";
+        if(currentLang === 'OR') {
+            title = post.titleOR || post.title || "";
+            content = post.contentOR || post.content || "";
+        } else if(currentLang === 'EN') {
+            title = post.titleEN || post.title || "";
+            content = post.contentEN || post.content || "";
+        } else {
+            title = post.titleAM || post.title || "";
+            content = post.contentAM || post.content || "";
+        }
+
         let mediaHtml = getMediaHtml(post.media);
         const modalContent = document.getElementById("detailModalContent");
         
@@ -564,8 +586,8 @@
             <button class="close-detail-btn" onclick="closeDetailModal()">✖ ዝጋ</button>
             ${mediaHtml}
             <span class="cat">${post.category}</span>
-            <h2>${post.title}</h2>
-            <p>${post.content}</p>
+            <h2>${title}</h2>
+            <p>${content}</p>
         `;
         document.getElementById("detailModal").classList.add("active");
     }
@@ -617,16 +639,14 @@
         document.getElementById("newsCategory").value = post.category || 'News';
         document.getElementById("mediaUrl").value = post.media || '';
 
-        if(post.lang === 'EN') {
-            document.getElementById("titleEN").value = post.title;
-            document.getElementById("contentEN").value = post.content;
-        } else if(post.lang === 'OR') {
-            document.getElementById("titleOR").value = post.title;
-            document.getElementById("contentOR").value = post.content;
-        } else {
-            document.getElementById("titleAM").value = post.title;
-            document.getElementById("contentAM").value = post.content;
-        }
+        document.getElementById("titleAM").value = post.titleAM || post.title || '';
+        document.getElementById("contentAM").value = post.contentAM || post.content || '';
+
+        document.getElementById("titleOR").value = post.titleOR || '';
+        document.getElementById("contentOR").value = post.contentOR || '';
+
+        document.getElementById("titleEN").value = post.titleEN || '';
+        document.getElementById("contentEN").value = post.contentEN || '';
 
         document.getElementById("formSubmitBtn").innerText = "መረጃውን አዘምን (Update)";
         document.getElementById("adminSection").classList.add("active");
@@ -646,7 +666,6 @@
         }
     }
 
-    // ገጹ ሲከፈት መረጃዎችን ከፋየርቤስ እንዲጭን ይደረጋል
     loadData();
 </script>
 </body>
