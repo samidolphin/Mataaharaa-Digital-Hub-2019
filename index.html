@@ -19,7 +19,6 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         
-        /* እዚህ ጋር ጽሑፎችን ሰሌክት አድርጎ ኮፒ እንዳያደርግ የሚከለክለው ክፍል ነው */
         body { 
             background-color: var(--bg-color); 
             color: var(--text-main); 
@@ -27,11 +26,11 @@
             display: flex; 
             flex-direction: column; 
             min-height: 100vh; 
-            overflow-x: hidden;
-            -webkit-user-select: none; /* Safari */
-            -moz-user-select: none;    /* Firefox */
-            -ms-user-select: none;     /* IE10+/Edge */
-            user-select: none;         /* Standard */
+            overflow-x: hidden; 
+            -webkit-user-select: none; 
+            -moz-user-select: none;    
+            -ms-user-select: none;     
+            user-select: none;         
         }    
 
         header { display: flex; justify-content: space-between; align-items: center; padding: 15px 3%; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.06); gap: 8px; }        
@@ -80,15 +79,6 @@
         .modal.active, .detail-modal.active { display: flex; }
         .modal-content, .detail-content { background: var(--white); padding: 30px; border-radius: 14px; width: 100%; max-width: 400px; text-align: center; position: relative; box-shadow: var(--shadow); }
         .detail-content { max-width: 750px; text-align: left; max-height: 85vh; overflow-y: auto; }
-        
-        /* አድሚኖቹ በሚጽፉበት ጊዜ (input/textarea) ላይ መጻፍ እንዲችሉ ሴሌክቱን መልሰን እናነቃዋለን */
-        .modal-content input, .form-group input, .form-group textarea, .form-group select { 
-            -webkit-user-select: text;
-            -moz-user-select: text;
-            -ms-user-select: text;
-            user-select: text;
-        }
-
         .modal-content input { width: 100%; padding: 12px; margin: 15px 0; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 1rem; }
         .modal-content button, .submit-btn { background: var(--primary); color: var(--white); border: none; padding: 12px; font-weight: 700; border-radius: 8px; cursor: pointer; width: 100%; transition: var(--transition); }
         
@@ -101,6 +91,13 @@
         .admin-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .close-admin-btn { background: #ef4444; color: var(--white); border: none; padding: 8px 14px; border-radius: 8px; font-weight: 700; cursor: pointer; }
         
+        .admin-section input, .admin-section textarea, .admin-section select {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+
         .form-group { margin-bottom: 18px; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; outline: none; }
         .form-group textarea { height: 120px; resize: vertical; }
@@ -150,7 +147,7 @@
         }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 <header>
     <div class="logo-area">
         <div class="logo-text"><h1>Mataaharaa / መታሃራ / Metehara</h1></div>
@@ -270,7 +267,7 @@
             <h4 id="subTitleHeading">ለአዳዲስ መረጃዎች ይመዝገቡ</h4>
             <p id="subDescText">ኢሜይል አድራሻዎን ያስገቡ</p>
             <form id="subscribeForm" style="display: flex; gap: 8px; margin-top: 10px;">
-                <input type="email" id="subscriberEmail" placeholder="ኢሜይል አድራሻ" style="padding: 10px; flex: 1; border-radius: 8px; border: 1px solid #cbd5e1; outline: none;" required>
+                <input type="email" id="subscriberEmail" placeholder="ኢሜይል አድራሻ" style="padding: 10px; flex: 1; border-radius: 8px; border: 1px solid #cbd5e1; outline: none;-webkit-user-select: text; user-select: text;" required>
                 <button type="submit" id="subBtn" style="padding: 10px 18px; background: var(--primary); border: none; color: white; cursor: pointer; border-radius: 8px; font-weight: 700;">ይመዝገቡ</button>
             </form>
         </div>
@@ -290,6 +287,13 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && (e.key === 'c' || e.key === 'x' || e.key === 'u' || e.key === 's')) {
+            e.preventDefault();
+            alert("ይህ ድረ-ገጽ የተጠበቀ ነው (Protected Content)!");
+        }
+    });
+
     const firebaseConfig = { 
         apiKey: "AIzaSy...", 
         authDomain: "mataaharaa-hub-2019.firebaseapp.com",
@@ -305,15 +309,6 @@
     let currentLang = 'AM';
     let allPosts = [];
     let isAdminLoggedIn = false;
-
-    // -------------------------------------------------------------
-    // ኮፒ (Copy) እና ራይት ክሊክ (Right-Click) እንዳይደረግ የሚከለክል JavaScript
-    // -------------------------------------------------------------
-    document.addEventListener('contextmenu', event => event.preventDefault()); // ራይት ክሊክ መከልከል
-    document.addEventListener('copy', event => {
-        event.preventDefault();
-        alert("የዚህ ዌብሳይት ይዘቶች ኮፒ ማድረግ የተከለከለ ነው! / Copying content is disabled.");
-    });
 
     const translations = {
         'AM': {
@@ -556,15 +551,16 @@
             let title = "";
             let content = "";
 
+            // እዚህ ጋር የቋንቋ ምርጫው በትክክል እንዲያነብ ተደርጓል (Bug Fixed)
             if(currentLang === 'OR') {
-                title = p.titleOR || p.title || "";
-                content = p.contentOR || p.content || "";
+                title = p.titleOR || p.titleAM || "";
+                content = p.contentOR || p.contentAM || "";
             } else if(currentLang === 'EN') {
-                title = p.titleEN || p.title || "";
-                content = p.contentEN || p.content || "";
+                title = p.titleEN || p.titleAM || "";
+                content = p.contentEN || p.contentAM || "";
             } else {
-                title = p.titleAM || p.title || "";
-                content = p.contentAM || p.content || "";
+                title = p.titleAM || "";
+                content = p.contentAM || "";
             }
 
             let shortContent = content.length > 90 ? content.substring(0, 90) + "..." : content;
@@ -596,15 +592,16 @@
 
         let title = "";
         let content = "";
+        
         if(currentLang === 'OR') {
-            title = post.titleOR || post.title || "";
-            content = post.contentOR || post.content || "";
+            title = post.titleOR || post.titleAM || "";
+            content = post.contentOR || post.contentAM || "";
         } else if(currentLang === 'EN') {
-            title = post.titleEN || post.title || "";
-            content = post.contentEN || post.content || "";
+            title = post.titleEN || post.titleAM || "";
+            content = post.contentEN || post.contentAM || "";
         } else {
-            title = post.titleAM || post.title || "";
-            content = post.contentAM || post.content || "";
+            title = post.titleAM || "";
+            content = post.contentAM || "";
         }
 
         let mediaHtml = getMediaHtml(post.media);
@@ -647,7 +644,7 @@
     }
 
     window.verifyPassword = () => {
-        const pass = document.getElementById("adminPasswordInput5")?.value || document.getElementById("adminPasswordInput").value;
+        const pass = document.getElementById("adminPasswordInput").value;
         if(pass === "sami2all@8080") {
             isAdminLoggedIn = true;
             closeModal();
@@ -668,7 +665,7 @@
         document.getElementById("mediaUrl").value = post.media || '';
 
         document.getElementById("titleAM").value = post.titleAM || post.title || '';
-        document.getElementById("contentAM").value = post.contentAM || post.content || '';
+        document.getElementById("contentAM").value = post.contentAM || '';
 
         document.getElementById("titleOR").value = post.titleOR || '';
         document.getElementById("contentOR").value = post.contentOR || '';
