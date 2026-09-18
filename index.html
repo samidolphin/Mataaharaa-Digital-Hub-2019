@@ -119,14 +119,11 @@
         .edit-btn { background: #3b82f6; color: var(--white); border: none; padding: 8px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.78rem; }
         .delete-btn { background: #ef4444; color: var(--white); border: none; padding: 8px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.78rem; }
 
-        .flipbook-section, .history-section { display: none; margin-top: 25px; background: var(--white); padding: 40px; border-radius: 16px; box-shadow: var(--shadow); }
-        .flipbook-section.active, .history-section.active { display: block; }
+        .flipbook-section { display: none; margin-top: 25px; background: var(--white); padding: 40px; border-radius: 16px; text-align: center; box-shadow: var(--shadow); }
+        .flipbook-section.active { display: block; }
         .flipbook-container { width: 100%; height: 600px; background: #f1f5f9; border-radius: 12px; border: 2px dashed var(--primary); display: flex; justify-content: center; align-items: center; margin-top: 20px; position: relative; overflow: hidden; }
         .flipbook-container iframe { width: 100%; height: 100%; border: none; }
-        .flipbook-placeholder { position: absolute; color: var(--text-muted); padding: 30px; background: rgba(255,255,255,0.95); border-radius: 12px; max-width: 600px; font-size: 1.05rem; text-align: center; }
-
-        .history-content h3 { color: var(--primary); font-size: 1.8rem; margin-bottom: 15px; }
-        .history-content p { color: var(--text-muted); font-size: 1.05rem; margin-bottom: 15px; text-align: justify; }
+        .flipbook-placeholder { position: absolute; color: var(--text-muted); padding: 30px; background: rgba(255,255,255,0.95); border-radius: 12px; max-width: 600px; font-size: 1.05rem; }
 
         footer { background: #0f172a; color: #94a3b8; padding: 50px 5% 25px; margin-top: 60px; font-size: 0.9rem; }
         .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px; max-width: 1400px; margin: 0 auto; padding-bottom: 35px; border-bottom: 1px solid #1e293b; }
@@ -260,14 +257,6 @@
             </div>
         </div>
 
-        <div class="history-section" id="historySection">
-            <div class="history-content">
-                <h3 id="historyHeading">የመታሃራ ከተማ አመሰራረት ታሪክ</h3>
-                <p id="historyText1">መታሃራ ከተማ በምስራቅ ኢትዮጵያ በኦሮሚያ ክልል በምስራቅ አሸዋ ዞን የሚገኝ ታሪካዊ እና ስትራቴጂካዊ ከተማ ናት። የከተማው መስፋፋት እና ማደግ በዋናነት ከታላቁ የመታሃራ የስኳር ፋብሪካ መቋቋም እና ከባህር ትራንስፖርት/የባቡር መስመር ጋር በጥብቅ የተቆራኘ ነው።</p>
-                <p id="historyText2">በአካባቢው የሚገኘው ለም መሬት እና የውሃ ሃብት ለኢንዱስትሪ ልማትና ለግብርና ምቹ ሁኔታን የፈጠረ ሲሆን፣ ከተማዋ የበርካታ ብሔር ብሔረሰቦች መחדሪያ በመሆን በሰላም፣ በባህልና በልማት እያደገች ትገኛለች።</p>
-            </div>
-        </div>
-
         <h3 id="sectionHeading" style="margin-top: 30px; margin-bottom: 20px; color: var(--text-main); border-bottom: 3px solid var(--primary); display: inline-block; padding-bottom: 8px; font-weight: 700;">ወቅታዊ መረጃዎች</h3>
         <div class="news-grid" id="newsContainer"></div>
     </div>
@@ -345,10 +334,7 @@
                 successMsg: "በተሳካ ሁኔታ ተመዝግበዋል! እናመሰግናለን።",
                 flipbookHead: "የመታሃራ ቱሪዝም መስህቦች ዲጂታል መጽሐፍ",
                 flipbookSubText: "ፎቶዎቹን እንደ እውነተኛ መጽሐፍ ገጽ በገጽ በመገልጥ ይጎብኙ",
-                flipbookNote: "የቱሪዝም ፎቶዎችዎን በማቀናበሪያ መሳሪያ (ለምሳሌ AnyFlip) ካቀናጁ በኋላ የሚሰጥዎትን Embed Code (iframe) በቀጥታ በዚህ ቦታ ይለጥፉ。",
-                historyHead: "የመታሃራ ከተማ አመሰራረት ታሪክ",
-                historyP1: "መታሃራ ከተማ በምስራቅ ኢትዮጵያ በኦሮሚያ ክልል በምስራቅ አሸዋ ዞን የሚገኝ ታሪካዊ እና ስትራቴጂካዊ ከተማ ናት። የከተማው መስፋፋት እና ማደግ በዋናነት ከታላቁ የመታሃራ የስኳር ፋብሪካ መቋቋም እና ከባህር ትራንስፖርት/የባቡር መስመር ጋር በጥብቅ የተቆራኘ ነው።",
-                historyP2: "በአካባቢው የሚገኘው ለም መሬት እና የውሃ ሃብት ለኢንዱስትሪ ልማትና ለግብርና ምቹ ሁኔታን የፈጠረ ሲሆን፣ ከተማዋ የበርካታ ብሔር ብሔረሰቦች መחדሪያ በመሆን በሰላም፣ በባህልና በልማት እያደገች ትገኛለች።"
+                flipbookNote: "የቱሪዝም ፎቶዎችዎን በማቀናበሪያ መሳሪያ (ለምሳሌ AnyFlip) ካቀናጁ በኋላ የሚሰጥዎትን Embed Code (iframe) በቀጥታ በዚህ ቦታ ይለጥፉ。"
             },
             'OR': {
                 badgeText: "🎉 Baga Ayyaana Bara Haaraa 2019 Geessan! 🌸",
@@ -369,10 +355,7 @@
                 successMsg: "Milkaa'inaan galmoofteetta! Galatoomaa.",
                 flipbookHead: "Kitaaba Dijitaalaa Hawwata Tuuriizimii Mataaharaa",
                 flipbookSubText: "Suurota akka kitaaba dhugaa fuula fuulaan garagalchuun daawwadhaa",
-                flipbookNote: "Suurota tuuriizimii keessan meeshaa qindeessaa fayyadamuun (fakkeenyaaf AnyFlip) qopheessuudhaan booda Embed Code (iframe) kenname kana keessatti maxxansa.",
-                historyHead: "Seenaa Hundeeffama Magaalaa Mataaharaa",
-                historyP1: "Magaalaan Mataaharaa baha Itoophiyaa Naannoo Oromiyaa Godina Shawaa Bahaa keessatti argamti. Guddinni magaalichaa hundeeffama Warshaa Sukkaaraa Mataaharaa fi daandii baaburaa wajjin hidhata cimaa qaba.",
-                historyP2: "Lfa gabbataa fi qabeenyi bishaanii naannichaajiru misooma indaastiriif haala mijaawaa uumeera; magaalattis ummata biyya keessaa bal’inaan kan qabduu fi nagaan kan keessatti guddachaa jirtuudha."
+                flipbookNote: "Suurota tuuriizimii keessan meeshaa qindeessaa fayyadamuun (fakkeenyaaf AnyFlip) qopheessuudhaan booda Embed Code (iframe) kenname kana keessatti maxxansa."
             },
             'EN': {
                 badgeText: "🎉 Happy Ethiopian New Year 2019 - Adey Abeba 🌸",
@@ -393,10 +376,7 @@
                 successMsg: "Successfully subscribed! Thank you.",
                 flipbookHead: "Mataaharaa Tourism Digital Flipbook",
                 flipbookSubText: "Explore our beautiful tourist attractions by flipping through the digital book",
-                flipbookNote: "Paste your digital book Embed Code (iframe) right here after publishing your photos on a flipbook maker.",
-                historyHead: "History of Mataaharaa City Foundation",
-                historyP1: "Mataaharaa is a historical and strategic town located in the East Shewa Zone of the Oromia Region in eastern Ethiopia. The town's expansion and development are closely tied to the establishment of the prominent Mataaharaa Sugar Factory and historical transport routes.",
-                historyP2: "The fertile land and water resources in the area have created a favorable environment for industrial and agricultural development, and the city continues to thrive as a harmonious community of diverse peoples."
+                flipbookNote: "Paste your digital book Embed Code (iframe) right here after publishing your photos on a flipbook maker."
             }
         };
 
@@ -408,19 +388,13 @@
                 if(navElem) navElem.classList.add('active');
                 
                 const flipbookSec = document.getElementById('tourismFlipbookSection');
-                const historySec = document.getElementById('historySection');
                 const newsContainer = document.getElementById('newsContainer');
                 const sectionHeading = document.getElementById('sectionHeading');
 
                 flipbookSec.classList.remove('active');
-                historySec.classList.remove('active');
 
                 if(val === 'Tourism') {
                     flipbookSec.classList.add('active');
-                    newsContainer.style.display = 'none';
-                    sectionHeading.style.display = 'none';
-                } else if(val === 'History') {
-                    historySec.classList.add('active');
                     newsContainer.style.display = 'none';
                     sectionHeading.style.display = 'none';
                 } else {
@@ -465,10 +439,6 @@
                 document.getElementById('flipbookHeading').innerText = translations[lang].flipbookHead;
                 document.getElementById('flipbookSub').innerText = translations[lang].flipbookSubText;
                 document.getElementById('flipbookPlaceholderText').innerHTML = translations[lang].flipbookNote;
-
-                document.getElementById('historyHeading').innerText = translations[lang].historyHead;
-                document.getElementById('historyText1').innerText = translations[lang].historyP1;
-                document.getElementById('historyText2').innerText = translations[lang].historyP2;
             }
             render();
         }
@@ -573,11 +543,11 @@
                     return `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
                 }
             }
-            return `<img src="${trimmedUrl}" alt="News Image" onerror="this.style.display='none'">`;
+            return `<img src="${trimmedUrl}" alt="Media Image" onerror="this.style.display='none'">`;
         }
 
         function render() {
-            if(currentCat === 'Tourism' || currentCat === 'History') return;
+            if(currentCat === 'Tourism') return;
             
             const container = document.getElementById("newsContainer");
             if(!container) return;
@@ -711,7 +681,7 @@
             document.getElementById("contentAM").value = post.contentAM || '';
 
             document.getElementById("titleOR").value = post.titleOR || '';
-            document.getElementById("contentOR").value = post.contentOR || '',
+            document.getElementById("contentOR").value = post.contentOR || '';
 
             document.getElementById("titleEN").value = post.titleEN || '';
             document.getElementById("contentEN").value = post.contentEN || '';
