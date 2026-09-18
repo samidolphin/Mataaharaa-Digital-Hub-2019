@@ -32,7 +32,7 @@
             user-select: none;         
         }    
 
-        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 3%; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.06); gap: 8px; }        
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 3%; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.06); gap: 6px; }        
         .logo-area { display: flex; align-items: center; }
         .logo-text {
             border: 2px solid var(--primary);
@@ -41,17 +41,17 @@
             background: linear-gradient(135deg, #fff8f3, #fff);
             box-shadow: 0 3px 10px rgba(255,102,0,0.1);
         }
-        .logo-text h1 { font-size: 1rem; color: var(--primary); font-weight: 700; white-space: nowrap; }
+        .logo-text h1 { font-size: 0.95rem; color: var(--primary); font-weight: 700; white-space: nowrap; }
 
-        nav { display: flex; align-items: center; gap: 4px; flex-wrap: nowrap; }
-        nav a { text-decoration: none; color: var(--text-main); font-weight: 600; font-size: 0.8rem; padding: 6px 10px; border-radius: 6px; cursor: pointer; transition: var(--transition); white-space: nowrap; }
+        nav { display: flex; align-items: center; gap: 3px; flex-wrap: nowrap; }
+        nav a { text-decoration: none; color: var(--text-main); font-weight: 600; font-size: 0.78rem; padding: 6px 8px; border-radius: 6px; cursor: pointer; transition: var(--transition); white-space: nowrap; }
         nav a:hover, nav a.active { color: var(--primary); background: #fff3ed; }
         
         .lang-container { display: flex; align-items: center; gap: 2px; background: #e2e8f0; padding: 3px; border-radius: 20px; }
-        .lang-btn { background: transparent; border: none; padding: 4px 10px; border-radius: 15px; cursor: pointer; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); transition: var(--transition); }
+        .lang-btn { background: transparent; border: none; padding: 4px 8px; border-radius: 15px; cursor: pointer; font-size: 0.72rem; font-weight: 700; color: var(--text-muted); transition: var(--transition); }
         .lang-btn.active { background: var(--primary); color: var(--white); box-shadow: 0 2px 6px rgba(255,102,0,0.3); }
 
-        .admin-btn { background: var(--primary); color: var(--white) !important; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; border: none; font-weight: 700; transition: var(--transition); white-space: nowrap; }
+        .admin-btn { background: var(--primary); color: var(--white) !important; padding: 6px 10px; border-radius: 6px; font-size: 0.78rem; cursor: pointer; border: none; font-weight: 700; transition: var(--transition); white-space: nowrap; }
         .admin-btn:hover { background: var(--primary-dark); }
 
         .hero-banner { 
@@ -119,11 +119,14 @@
         .edit-btn { background: #3b82f6; color: var(--white); border: none; padding: 8px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.78rem; }
         .delete-btn { background: #ef4444; color: var(--white); border: none; padding: 8px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.78rem; }
 
-        .flipbook-section { display: none; margin-top: 25px; background: var(--white); padding: 40px; border-radius: 16px; text-align: center; box-shadow: var(--shadow); }
-        .flipbook-section.active { display: block; }
+        .flipbook-section, .history-section { display: none; margin-top: 25px; background: var(--white); padding: 40px; border-radius: 16px; box-shadow: var(--shadow); }
+        .flipbook-section.active, .history-section.active { display: block; }
         .flipbook-container { width: 100%; height: 600px; background: #f1f5f9; border-radius: 12px; border: 2px dashed var(--primary); display: flex; justify-content: center; align-items: center; margin-top: 20px; position: relative; overflow: hidden; }
         .flipbook-container iframe { width: 100%; height: 100%; border: none; }
-        .flipbook-placeholder { position: absolute; color: var(--text-muted); padding: 30px; background: rgba(255,255,255,0.95); border-radius: 12px; max-width: 600px; font-size: 1.05rem; }
+        .flipbook-placeholder { position: absolute; color: var(--text-muted); padding: 30px; background: rgba(255,255,255,0.95); border-radius: 12px; max-width: 600px; font-size: 1.05rem; text-align: center; }
+
+        .history-content h3 { color: var(--primary); font-size: 1.8rem; margin-bottom: 15px; }
+        .history-content p { color: var(--text-muted); font-size: 1.05rem; margin-bottom: 15px; text-align: justify; }
 
         footer { background: #0f172a; color: #94a3b8; padding: 50px 5% 25px; margin-top: 60px; font-size: 0.9rem; }
         .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px; max-width: 1400px; margin: 0 auto; padding-bottom: 35px; border-bottom: 1px solid #1e293b; }
@@ -131,11 +134,11 @@
         .footer-col h4 { color: var(--primary); margin-bottom: 18px; font-weight: 700; }
         .footer-bottom { text-align: center; padding-top: 25px; color: #64748b; font-size: 0.85rem; }
 
-        @media (max-width: 1050px) {
-            header { flex-direction: column; padding: 12px 10px; gap: 12px; }
+        @media (max-width: 1100px) {
+            header { flex-direction: column; padding: 12px 10px; gap: 10px; }
             .logo-area { width: 100%; justify-content: center; }
-            nav { width: 100%; justify-content: center; gap: 5px; flex-wrap: wrap; }
-            nav a { font-size: 0.78rem; padding: 6px 10px; background: #f1f5f9; }
+            nav { width: 100%; justify-content: center; gap: 3px; flex-wrap: wrap; }
+            nav a { font-size: 0.75rem; padding: 5px 7px; background: #f1f5f9; }
             .lang-container { padding: 3px; }
             .hero-banner { padding: 50px 15px; }
             .brand-display .main-title { font-size: 2.1rem; }
@@ -157,6 +160,7 @@
         </div>
         <nav>
             <a id="navNews" class="active" onclick="updateFilter('cat', 'News')">ዜና</a>
+            <a id="navHistory" onclick="updateFilter('cat', 'History')">የከተማው አመሰራረት</a>
             <a id="navTourism" onclick="updateFilter('cat', 'Tourism')">ቱሪዝም</a>
             <a id="navCulture" onclick="updateFilter('cat', 'Culture')">ባህል</a>
             <a id="navPhilosophy" onclick="updateFilter('cat', 'Philosophy')">ፍልስፍና</a>
@@ -214,6 +218,7 @@
                 <div class="form-group">
                     <select id="newsCategory">
                         <option value="News">ዜና (News)</option>
+                        <option value="History">የከተማው አመሰራረት (City History)</option>
                         <option value="Tourism">ቱሪዝም (Tourism)</option>
                         <option value="Culture">ባህል (Culture)</option>
                         <option value="Philosophy">ፍልስፍና (Philosophy)</option>
@@ -252,6 +257,14 @@
                 <div class="flipbook-placeholder" id="flipbookPlaceholderText">
                     የቱሪዝም ፎቶዎችዎን በማቀናበሪያ መሳሪያ (ለምሳሌ AnyFlip) ካቀናጁ በኋላ የሚሰጥዎትን <b>Embed Code (iframe)</b> በቀጥታ በዚህ ቦታ ይለጥፉ።
                 </div>
+            </div>
+        </div>
+
+        <div class="history-section" id="historySection">
+            <div class="history-content">
+                <h3 id="historyHeading">የመታሃራ ከተማ አመሰራረት ታሪክ</h3>
+                <p id="historyText1">መታሃራ ከተማ በምስራቅ ኢትዮጵያ በኦሮሚያ ክልል በምስራቅ አሸዋ ዞን የሚገኝ ታሪካዊ እና ስትራቴጂካዊ ከተማ ናት። የከተማው መስፋፋት እና ማደግ በዋናነት ከታላቁ የመታሃራ የስኳር ፋብሪካ መቋቋም እና ከባህር ትራንስፖርት/የባቡር መስመር ጋር በጥብቅ የተቆራኘ ነው።</p>
+                <p id="historyText2">በአካባቢው የሚገኘው ለም መሬት እና የውሃ ሃብት ለኢንዱስትሪ ልማትና ለግብርና ምቹ ሁኔታን የፈጠረ ሲሆን፣ ከተማዋ የበርካታ ብሔር ብሔረሰቦች መחדሪያ በመሆን በሰላም፣ በባህልና በልማት እያደገች ትገኛለች።</p>
             </div>
         </div>
 
@@ -318,7 +331,7 @@
                 heroTitle: "እንኳን ወደ መታሃራ ከተማ ዲጂታል መረጃ ማእከል በደህና መጡ",
                 heroSub: "ፀሃይ የማትጠልቅባት ከተማ - መታሃራ-",
                 marquee: "🔥 እንኳን ለ2019 ዓ.ም አዲስ ዓመት በሰላም አደረሳችሁ! ወቅታዊ የከተማችን መረጃዎች እና የልማት ስራዎች እዚህ ይከታተሉ። 🔥",
-                navNews: "ዜና", navTourism: "ቱሪዝም", navCulture: "ባህል",
+                navNews: "ዜና", navHistory: "የከተማው አመሰራረት", navTourism: "ቱሪዝም", navCulture: "ባህል",
                 navPhilosophy: "ፍልስፍና", navLiterature: "ፅነ-ፅሁፍ", navVideo: "የቪዲዮ ጋለሪ", navPhoto: "የፎቶ ጋለሪ",
                 sectionHeading: "ወቅታዊ መረጃዎች",
                 readMore: "ተጨማሪ ለማንበብ...",
@@ -332,14 +345,17 @@
                 successMsg: "በተሳካ ሁኔታ ተመዝግበዋል! እናመሰግናለን።",
                 flipbookHead: "የመታሃራ ቱሪዝም መስህቦች ዲጂታል መጽሐፍ",
                 flipbookSubText: "ፎቶዎቹን እንደ እውነተኛ መጽሐፍ ገጽ በገጽ በመገልጥ ይጎብኙ",
-                flipbookNote: "የቱሪዝም ፎቶዎችዎን በማቀናበሪያ መሳሪያ (ለምሳሌ AnyFlip) ካቀናጁ በኋላ የሚሰጥዎትን Embed Code (iframe) በቀጥታ በዚህ ቦታ ይለጥፉ。"
+                flipbookNote: "የቱሪዝም ፎቶዎችዎን በማቀናበሪያ መሳሪያ (ለምሳሌ AnyFlip) ካቀናጁ በኋላ የሚሰጥዎትን Embed Code (iframe) በቀጥታ በዚህ ቦታ ይለጥፉ。",
+                historyHead: "የመታሃራ ከተማ አመሰራረት ታሪክ",
+                historyP1: "መታሃራ ከተማ በምስራቅ ኢትዮጵያ በኦሮሚያ ክልል በምስራቅ አሸዋ ዞን የሚገኝ ታሪካዊ እና ስትራቴጂካዊ ከተማ ናት። የከተማው መስፋፋት እና ማደግ በዋናነት ከታላቁ የመታሃራ የስኳር ፋብሪካ መቋቋም እና ከባህር ትራንስፖርት/የባቡር መስመር ጋር በጥብቅ የተቆራኘ ነው።",
+                historyP2: "በአካባቢው የሚገኘው ለም መሬት እና የውሃ ሃብት ለኢንዱስትሪ ልማትና ለግብርና ምቹ ሁኔታን የፈጠረ ሲሆን፣ ከተማዋ የበርካታ ብሔር ብሔረሰቦች መחדሪያ በመሆን በሰላም፣ በባህልና በልማት እያደገች ትገኛለች።"
             },
             'OR': {
                 badgeText: "🎉 Baga Ayyaana Bara Haaraa 2019 Geessan! 🌸",
                 heroTitle: "Baga Nagaan Gara Wiirtuu Odeeffannoo Dijitaalaa Magaala Mataaharaa Dhuftan",
                 heroSub: "Mataaharaa Magaalaa Aduun itti hindhiine",
                 marquee: "🔥 Baga Ayyaana Bara Haaraa 2019n nagaan isin gahe! Odeeffannoowwan yeroo fi hawwii gaarii magaalattii as irratti argachuu dandeessu. 🔥",
-                navNews: "Oduu", navTourism: "Tuuriizimii", navCulture: "Aadaa",
+                navNews: "Oduu", navHistory: "Hundeeffama Magaalichaa", navTourism: "Tuuriizimii", navCulture: "Aadaa",
                 navPhilosophy: "Filoosofii", navLiterature: "Barruu", navVideo: "Gaalarii Viidiyoo", navPhoto: "Gaalarii Suuraa",
                 sectionHeading: "Odeeffannoo Yeroo Ammaa",
                 readMore: "Dabalataan Dubbisuuf...",
@@ -353,14 +369,17 @@
                 successMsg: "Milkaa'inaan galmoofteetta! Galatoomaa.",
                 flipbookHead: "Kitaaba Dijitaalaa Hawwata Tuuriizimii Mataaharaa",
                 flipbookSubText: "Suurota akka kitaaba dhugaa fuula fuulaan garagalchuun daawwadhaa",
-                flipbookNote: "Suurota tuuriizimii keessan meeshaa qindeessaa fayyadamuun (fakkeenyaaf AnyFlip) qopheessuudhaan booda Embed Code (iframe) kenname kana keessatti maxxansa."
+                flipbookNote: "Suurota tuuriizimii keessan meeshaa qindeessaa fayyadamuun (fakkeenyaaf AnyFlip) qopheessuudhaan booda Embed Code (iframe) kenname kana keessatti maxxansa.",
+                historyHead: "Seenaa Hundeeffama Magaalaa Mataaharaa",
+                historyP1: "Magaalaan Mataaharaa baha Itoophiyaa Naannoo Oromiyaa Godina Shawaa Bahaa keessatti argamti. Guddinni magaalichaa hundeeffama Warshaa Sukkaaraa Mataaharaa fi daandii baaburaa wajjin hidhata cimaa qaba.",
+                historyP2: "Lfa gabbataa fi qabeenyi bishaanii naannichaajiru misooma indaastiriif haala mijaawaa uumeera; magaalattis ummata biyya keessaa bal’inaan kan qabduu fi nagaan kan keessatti guddachaa jirtuudha."
             },
             'EN': {
                 badgeText: "🎉 Happy Ethiopian New Year 2019 - Adey Abeba 🌸",
                 heroTitle: "Welcome to Mataaharaa City Digital Information Center",
                 heroSub: "“Mataahara — The City Where the Sun Never Sets.” ☀️",
                 marquee: "🔥 Happy Ethiopian New Year 2019! Find the latest city updates, festive wishes, and news right here. 🔥",
-                navNews: "News", navTourism: "Tourism", navCulture: "Culture",
+                navNews: "News", navHistory: "City History", navTourism: "Tourism", navCulture: "Culture",
                 navPhilosophy: "Philosophy", navLiterature: "Literature", navVideo: "Video Gallery", navPhoto: "Photo Gallery",
                 sectionHeading: "Latest Updates",
                 readMore: "Read More...",
@@ -374,7 +393,10 @@
                 successMsg: "Successfully subscribed! Thank you.",
                 flipbookHead: "Mataaharaa Tourism Digital Flipbook",
                 flipbookSubText: "Explore our beautiful tourist attractions by flipping through the digital book",
-                flipbookNote: "Paste your digital book Embed Code (iframe) right here after publishing your photos on a flipbook maker."
+                flipbookNote: "Paste your digital book Embed Code (iframe) right here after publishing your photos on a flipbook maker.",
+                historyHead: "History of Mataaharaa City Foundation",
+                historyP1: "Mataaharaa is a historical and strategic town located in the East Shewa Zone of the Oromia Region in eastern Ethiopia. The town's expansion and development are closely tied to the establishment of the prominent Mataaharaa Sugar Factory and historical transport routes.",
+                historyP2: "The fertile land and water resources in the area have created a favorable environment for industrial and agricultural development, and the city continues to thrive as a harmonious community of diverse peoples."
             }
         };
 
@@ -382,14 +404,28 @@
             if(type === 'cat') {
                 currentCat = val;
                 document.querySelectorAll('nav a[id^="nav"]').forEach(a => a.classList.remove('active'));
-                const navElem = document.getElementById('nav' + val);
+                const navElem = document.getElementById('nav' + (val === 'History' ? 'History' : val));
                 if(navElem) navElem.classList.add('active');
                 
                 const flipbookSec = document.getElementById('tourismFlipbookSection');
+                const historySec = document.getElementById('historySection');
+                const newsContainer = document.getElementById('newsContainer');
+                const sectionHeading = document.getElementById('sectionHeading');
+
+                flipbookSec.classList.remove('active');
+                historySec.classList.remove('active');
+
                 if(val === 'Tourism') {
                     flipbookSec.classList.add('active');
+                    newsContainer.style.display = 'none';
+                    sectionHeading.style.display = 'none';
+                } else if(val === 'History') {
+                    historySec.classList.add('active');
+                    newsContainer.style.display = 'none';
+                    sectionHeading.style.display = 'none';
                 } else {
-                    flipbookSec.classList.remove('active');
+                    newsContainer.style.display = 'grid';
+                    sectionHeading.style.display = 'inline-block';
                 }
             }
             render();
@@ -408,6 +444,7 @@
                 document.getElementById('marqueeText').innerText = translations[lang].marquee;
                 
                 document.getElementById('navNews').innerText = translations[lang].navNews;
+                document.getElementById('navHistory').innerText = translations[lang].navHistory;
                 document.getElementById('navTourism').innerText = translations[lang].navTourism;
                 document.getElementById('navCulture').innerText = translations[lang].navCulture;
                 document.getElementById('navPhilosophy').innerText = translations[lang].navPhilosophy;
@@ -428,6 +465,10 @@
                 document.getElementById('flipbookHeading').innerText = translations[lang].flipbookHead;
                 document.getElementById('flipbookSub').innerText = translations[lang].flipbookSubText;
                 document.getElementById('flipbookPlaceholderText').innerHTML = translations[lang].flipbookNote;
+
+                document.getElementById('historyHeading').innerText = translations[lang].historyHead;
+                document.getElementById('historyText1').innerText = translations[lang].historyP1;
+                document.getElementById('historyText2').innerText = translations[lang].historyP2;
             }
             render();
         }
@@ -536,6 +577,8 @@
         }
 
         function render() {
+            if(currentCat === 'Tourism' || currentCat === 'History') return;
+            
             const container = document.getElementById("newsContainer");
             if(!container) return;
             container.innerHTML = "";
@@ -668,7 +711,7 @@
             document.getElementById("contentAM").value = post.contentAM || '';
 
             document.getElementById("titleOR").value = post.titleOR || '';
-            document.getElementById("contentOR").value = post.contentOR || '';
+            document.getElementById("contentOR").value = post.contentOR || '',
 
             document.getElementById("titleEN").value = post.titleEN || '';
             document.getElementById("contentEN").value = post.contentEN || '';
