@@ -498,57 +498,30 @@
                 
                 let activeStatic = [
                     {
-                        id: 'clean_v5_am_1',
+                        id: 'clean_v4_am_1',
                         category: 'News',
                         lang: 'AM',
-                        title: 'የኦሮሚያ ክልል ፕሬዝዳንት አቶ ሽመልስ አብዲሳ የመታሃራ ከተማን የልማት ስራዎች ጎበኙ',
-                        content: 'የኦሮሚያ ክልል ፕሬዝዳንት አቶ ሽመልስ አብዲሳ እና የክልሉ ከፍተኛ የሥራ ሀላፊዎች በመታሃራ ከተማ በመገኘት የተከናወኑ አዳዲስ የልማት ስራዎችንና የከተማዋን እድገት ጎብኝተዋል።',
-                        media: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600',
+                        title: 'እንኳን ለ2019 ዓ.ም አዲስ ዓመት በሰላም አደረሳችሁ!',
+                        content: 'እንኳን ለ2019 ዓ.ም የዘመን መለወጫ በዓል በሰላም አደረሳችሁ! የመታሃራ ከተማ አስተዳደር ህብረተሰቡ በዓሉን በድምቀት እንዲያከብር መልካም ምኞቱን ያስተላልፋል።',
+                        media: '',
                         createdAt: 1769990000000
                     },
                     {
-                        id: 'clean_v5_am_2',
-                        category: 'News',
-                        lang: 'AM',
-                        title: 'የመታሃራ ከተማ አስተዳደር አዳዲስ የኢንቨስትመንት ማዕቀፎችን ይፋ አደረገ',
-                        content: 'ከተማ አስተዳደሩ ባለሀብቶች በከተማው ውስጥ በግብርና፣ በቱሪዝም እና በንግድ ዘርፎች እንዲሰማሩ ሰፊ ዕድሎችን የሚፈጥር አዲስ ማዕቀፍ ይፋ አድርጓል።',
-                        media: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600',
-                        createdAt: 1769989000000
-                    },
-                    {
-                        id: 'clean_v5_am_3',
-                        category: 'News',
-                        lang: 'AM',
-                        title: 'በመታሃራ ከተማ የወጣቶች ስራ ዕድል ፈጠራ እና የክህሎት ስልጠና ተጀመረ',
-                        content: 'ለከተማችን ወጣቶች የስራ ዕድልን ለመፍጠር እና አቅማቸውን ለማሳደግ ያለመ አጠቃላይ የክህሎት ስልጠና መድረክ በይፋ ተጀምሯል።',
-                        media: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600',
-                        createdAt: 1769988000000
-                    },
-                    {
-                        id: 'clean_v5_am_4',
-                        category: 'News',
-                        lang: 'AM',
-                        title: 'የበሰቃ ሐይቅ ዳርቻ የቱሪዝም ልማት ፕሮጀክት ምዕራፍ ሁለት ተጠናቀቀ',
-                        content: 'ለጎብኚዎች ምቹ እና ማራኪ የሆነው የበሰቃ ሐይቅ የቱሪዝም ማዕከል ሁለተኛ ምዕራፍ ግንባታ ተጠናቆ ለአገልግሎት ክፍት ሆኗል።',
-                        media: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600',
-                        createdAt: 1769987000000
-                    },
-                    {
-                        id: 'clean_v5_or_1',
+                        id: 'clean_v4_or_1',
                         category: 'News',
                         lang: 'OR',
-                        title: 'Preezidaantiin Mootummaa Naannoo Oromiyaa Obbo Shimallis Abdiisaa hojiilee misoomaa daawwatan',
-                        content: 'Preezidaantiin Mootummaa Naannoo Oromiyaa Obbo Shimallis Abdiisaa fi hoggantoonni olaanoo naannichaa magaalichaatti argamuun hojiilee misoomaa daawwateera.',
-                        media: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600',
+                        title: 'Baga Ayyaana Bara Haaraa 2019n nagaan isin gahe!',
+                        content: 'Baga Ayyaana Bara Haaraa 2019n nagaan isin gahe! Bulchiinsi magaala Mataaharaa hawaasaf hawwii gaarii dabarsa.',
+                        media: '',
                         createdAt: 1769985000000
                     },
                     {
-                        id: 'clean_v5_en_1',
+                        id: 'clean_v4_en_1',
                         category: 'News',
                         lang: 'EN',
-                        title: 'Oromia Region President Mr. Shimelis Abdisa Visited Matahara City Development',
-                        content: 'Oromia Region President Mr. Shimelis Abdisa and high-level regional officials visited the new development activities of Matahara city.',
-                        media: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600',
+                        title: 'Happy Ethiopian New Year 2019!',
+                        content: 'Happy Ethiopian New Year 2019 to all residents and visitors! Warm wishes from Mataaharaa City Administration.',
+                        media: '',
                         createdAt: 1769980000000
                     }
                 ].filter(p => !deletedStaticIds.includes(p.id));
@@ -558,12 +531,7 @@
                 allPosts = combinedPosts.map(post => {
                     let title = (post.title || "").trim();
                     let content = (post.content || "").trim();
-                    let media = (post.media || "").trim();
-                    // ከፌስቡክ ጊዜያዊ ሊንክ ከሆነ አስተማማኝ በሆነ ቋሚ ፎቶ እንተካዋለን እንዳይጠፋ
-                    if(media.includes('fbcdn.net') || media === '') {
-                        media = 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600';
-                    }
-                    return { ...post, title, content, media };
+                    return { ...post, title, content };
                 });
                 
                 allPosts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
@@ -576,7 +544,7 @@
         }
 
         function getMediaHtml(mediaUrl) {
-            if (!mediaUrl) mediaUrl = 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600';
+            if (!mediaUrl) return '';
             let trimmedUrl = mediaUrl.trim();
             if (trimmedUrl.includes('youtube.com') || trimmedUrl.includes('youtu.be')) {
                 let videoId = '';
@@ -591,7 +559,7 @@
                     return `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
                 }
             }
-            return `<img src="${trimmedUrl}" alt="Media Image" onerror="this.src='https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600'">`;
+            return `<img src="${trimmedUrl}" alt="Media Image" onerror="this.style.display='none'">`;
         }
 
         async function render() {
@@ -708,7 +676,7 @@
 
         window.deletePost = async (id) => {
             if(confirm("ይህን መረጃ በእርግጥ መሰረዝ ትፈልጋለህ?")) {
-                if(id.startsWith('clean_v5_')) {
+                if(id.startsWith('clean_v4_')) {
                     deletedStaticIds.push(id);
                     localStorage.setItem('deletedStaticIds', JSON.stringify(deletedStaticIds));
                 } else {
@@ -725,10 +693,7 @@
             e.preventDefault();
             const editId = document.getElementById("editPostId").value;
             const category = document.getElementById("newsCategory").value;
-            let media = document.getElementById("mediaUrl").value.trim();
-            if(!media || media.includes('fbcdn.net')) {
-                media = 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600';
-            }
+            const media = document.getElementById("mediaUrl").value;
 
             const tAM = document.getElementById("titleAM").value.trim();
             const cAM = document.getElementById("contentAM").value.trim();
@@ -749,7 +714,7 @@
                 if(tEN) postsToSave.push({ lang: 'EN', title: tEN, content: cEN });
 
                 if(editId) {
-                    if(!editId.startsWith('clean_v5_')) {
+                    if(!editId.startsWith('clean_v4_')) {
                         let singlePost = postsToSave[0] || { lang: currentLang, title: tAM || tOR || tEN, content: cAM || cOR || cEN };
                         const postData = { category, media, lang: singlePost.lang, title: singlePost.title, content: singlePost.content };
                         await updateDoc(doc(db, "news", editId), postData);
