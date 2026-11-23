@@ -7,16 +7,33 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #f4f7f6; color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }    
-        header { display: flex; justify-content: space-between; align-items: center; padding: 12px 4%; background: #ffffff; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); flex-wrap: wrap; gap: 10px; }        
-        .logo-area { display: flex; align-items: center; }
+        
+        /* Fixed Header for Laptop & Mobile */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 12px 3%; background: #ffffff; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 100%; }        
+        .logo-area { display: flex; align-items: center; flex-shrink: 0; }
         .logo-text {
             border: 2px solid #ff6600;
-            padding: 6px 14px;
+            padding: 5px 12px;
             border-radius: 8px;
             background: #fff8f3;
             box-shadow: 0 2px 6px rgba(255,102,0,0.15);
         }
-        .logo-text h1 { font-size: 1.05rem; color: #ff6600; font-weight: bold; white-space: nowrap; }
+        .logo-text h1 { font-size: 0.95rem; color: #ff6600; font-weight: bold; white-space: nowrap; }
+
+        /* Navigation Menu Alignment Fix */
+        nav { display: flex; align-items: center; gap: 4px; flex-wrap: nowrap; overflow-x: auto; padding: 4px 0; }
+        nav::-webkit-scrollbar { display: none; } /* Scrollbar hide for clean mobile view */
+        nav a { text-decoration: none; color: #333; font-weight: 600; font-size: 0.78rem; transition: all 0.2s; padding: 5px 8px; border-radius: 4px; cursor: pointer; white-space: nowrap; display: inline-block; }
+        nav a:hover, nav a.active { color: #ff6600; background: #fff3ed; border-bottom: 2px solid #ff6600; }
+        
+        .nav-right-group { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+        .lang-container { display: flex; align-items: center; gap: 2px; background: #eee; padding: 3px; border-radius: 20px; }
+        .lang-btn { background: transparent; border: none; padding: 4px 8px; border-radius: 15px; cursor: pointer; font-size: 0.75rem; font-weight: bold; color: #555; transition: all 0.2s; white-space: nowrap; }
+        .lang-btn:hover { background: #ddd; }
+        .lang-btn.active { background: #ff6600; color: white; }
+
+        .admin-btn { background: #ff6600; color: white !important; padding: 6px 12px; border-radius: 4px; font-size: 0.78rem; cursor: pointer; border: none; font-weight: bold; transition: background 0.2s; white-space: nowrap; }
+        .admin-btn:hover { background: #e65c00; }
 
         .hero-banner { 
             background: linear-gradient(rgba(5,15,35,0.85), rgba(10,25,50,0.85)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200') no-repeat center center/cover; 
@@ -83,18 +100,6 @@
         .marquee-container { background: #ff6600; color: white; padding: 9px 0; font-size: 0.90rem; font-weight: bold; overflow: hidden; white-space: nowrap; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .marquee-container marquee { width: 100%; }
 
-        nav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; position: relative; z-index: 1005; }
-        nav a { text-decoration: none; color: #333; font-weight: 600; font-size: 0.82rem; transition: all 0.2s; padding: 6px 10px; border-radius: 4px; cursor: pointer; display: inline-block; }
-        nav a:hover, nav a.active { color: #ff6600; background: #fff3ed; border-bottom: 2px solid #ff6600; }
-        
-        .lang-container { display: flex; align-items: center; gap: 4px; background: #eee; padding: 4px; border-radius: 20px; }
-        .lang-btn { background: transparent; border: none; padding: 5px 11px; border-radius: 15px; cursor: pointer; font-size: 0.78rem; font-weight: bold; color: #555; transition: all 0.2s; }
-        .lang-btn:hover { background: #ddd; }
-        .lang-btn.active { background: #ff6600; color: white; }
-
-        .admin-btn { background: #ff6600; color: white !important; padding: 7px 15px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; border: none; font-weight: bold; transition: background 0.2s; }
-        .admin-btn:hover { background: #e65c00; }
-        
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 5000; justify-content: center; align-items: center; padding: 15px; }
         .modal.active { display: flex; }
         .modal-content { background: white; padding: 25px; border-radius: 8px; width: 100%; max-width: 320px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
@@ -171,19 +176,12 @@
         .footer-col p { margin-bottom: 8px; }
         .footer-bottom { text-align: center; padding-top: 20px; font-size: 0.8rem; color: #888; }
 
-        @media (max-width: 768px) {
-            header { padding: 10px 3%; justify-content: center; }
-            .logo-area { margin-bottom: 5px; width: 100%; justify-content: center; }
-            nav { width: 100%; justify-content: center; gap: 4px; }
-            nav a { font-size: 0.78rem; padding: 5px 7px; }
-            .hero-banner { padding: 45px 15px; }
-            .brand-display .main-title { font-size: 1.6rem; }
-            .brand-display .sub-title { font-size: 1.2rem; }
-            .hero-banner h2 { font-size: 1.25rem; }
-            .main-container { padding: 15px 3%; }
-            .news-grid { grid-template-columns: 1fr; }
-            .footer-content { flex-direction: column; gap: 20px; }
-            .flipbook-container { height: 350px; }
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 900px) {
+            header { flex-direction: column; gap: 8px; padding: 10px 2%; }
+            .logo-area { width: 100%; justify-content: center; }
+            nav { width: 100%; justify-content: center; overflow-x: auto; padding-bottom: 5px; }
+            .nav-right-group { width: 100%; justify-content: center; }
         }
     </style>
 </head>
@@ -202,15 +200,15 @@
             <a id="navLiterature" data-cat="Literature">ፅነ-ፅሁፍ</a>
             <a id="navVideo" data-cat="Video">የቪዲዮ ጋለሪ</a>
             <a id="navPhoto" data-cat="Photo">የፎቶ ጋለሪ</a>
-            
+        </nav>
+        <div class="nav-right-group">
             <div class="lang-container">
                 <button type="button" class="lang-btn" id="btnOR" data-lang="OR">Oro</button>
                 <button type="button" class="lang-btn active" id="btnAM" data-lang="AM">Am</button>
                 <button type="button" class="lang-btn" id="btnEN" data-lang="EN">Eng</button>
             </div>
-
             <button type="button" class="admin-btn" id="openAdminBtn">አድሚን</button>
-        </nav>
+        </div>
     </header>
 
     <div class="modal" id="passwordModal">
@@ -626,7 +624,6 @@
                 }
             }
 
-            // ሁሉንም አዝራሮች በቀጥታ ማገናኘት (Event Listeners)
             document.querySelectorAll('#mainNav a[data-cat]').forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
