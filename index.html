@@ -195,7 +195,6 @@
             <a id="navNews" class="active" onclick="updateFilter('cat', 'News')">ዜና</a>
             <a id="navTourism" onclick="updateFilter('cat', 'Tourism')">ቱሪዝም</a>
             <a id="navCulture" onclick="updateFilter('cat', 'Culture')">ባህል</a>
-            <a id="navHistory" onclick="updateFilter('cat', 'History')">ስለ ከተማው አመሰራረት</a>
             <a id="navPhilosophy" onclick="updateFilter('cat', 'Philosophy')">ፍልስፍና</a>
             <a id="navLiterature" onclick="updateFilter('cat', 'Literature')">ፅነ-ፅሁፍ</a>
             <a id="navVideo" onclick="updateFilter('cat', 'Video')">የቪዲዮ ጋለሪ</a>
@@ -242,7 +241,7 @@
     </section>
 
     <div class="marquee-container">
-        <marquee id="marqueeText">🔥 እንኳን ለ2019 ዓ.ም አዲስ ዓመት በሰላም አደረሳችሁ! ወቅታዊ የከተማችን መረጃዎች እና በሰልፍ ላይ ያሉ መርሃ ግብሮች እዚህ ይከታተሉ። 🔥</marquee>
+        <marquee id="marqueeText">🔥 እንኳን ለ2019 አዲስ ዓመት በሰላም አደረሳችሁ! ወቅታዊ የከተማችን መረጃዎች እና በሰልፍ ላይ ያሉ መርሃ ግብሮች እዚህ ይከታተሉ። 🔥</marquee>
     </div>
 
     <div class="main-container">
@@ -259,7 +258,6 @@
                         <option value="News">ዜና (News)</option>
                         <option value="Tourism">ቱሪዝም (Tourism)</option>
                         <option value="Culture">ባህል (Culture)</option>
-                        <option value="History">ስለ ከተማው አመሰራረት (History)</option>
                         <option value="Philosophy">ፍልስፍና (Philosophy)</option>
                         <option value="Literature">ፅነ-ፅሁፍ (Literature)</option>
                         <option value="Video">የቪዲዮ ጋለሪ (Video)</option>
@@ -268,7 +266,7 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="text" id="mediaUrl" placeholder="የፎቶ ሊንክ፣ የዩቲዩብ ቪዲዮ ሊንክ ወይም የምስል ዩአርኤል ያስገቡ">
+                    <input type="text" id="mediaUrl" placeholder="የፎቶ ሊንክ፣ የዩቲዩብ ቪዲዮ ሊንክ ወይም የምስል ዩአርኤል (Image/Video URL) ያስገቡ">
                 </div>
 
                 <hr style="margin: 15px 0; border: 0; border-top: 1px solid #ddd;">
@@ -358,7 +356,7 @@
                 heroTitle: "እንኳን ወደ መታሃራ ከተማ ዲጂታል መረጃ ማእከል በደህና መጡ",
                 heroSub: "ፀሃይ የማትጠልቅባት ከተማ - መታሃራ-",
                 marquee: "🔥 እንኳን ለ2019 ዓ.ም አዲስ ዓመት በሰላም አደረሳችሁ! ወቅታዊ የከተማችን መረጃዎች እና የበዓል መልዕክቶች እዚህ ይከታተሉ። 🔥",
-                navNews: "ዜና", navTourism: "ቱሪዝም", navCulture: "ባህል", navHistory: "ስለ ከተማው አመሰራረት",
+                navNews: "ዜና", navTourism: "ቱሪዝም", navCulture: "ባህል",
                 navPhilosophy: "ፍልስፍና", navLiterature: "ፅነ-ፅሁፍ", navVideo: "የቪዲዮ ጋለሪ", navPhoto: "የፎቶ ጋለሪ",
                 sectionHeading: "ወቅታዊ መረጃዎች",
                 readMore: "ተጨማሪ ለማንበብ...",
@@ -379,7 +377,7 @@
                 heroTitle: "Baga Nagaan Gara Wiirtuu Odeeffannoo Dijitaalaa Magaala Mataaharaa Dhuftan",
                 heroSub: "Mataaharaa Magaalaa Aduun itti hindhiine",
                 marquee: "🔥 Baga Ayyaana Bara Haaraa 2019n nagaan isin gahe! Odeeffannoowwan yeroo fi hawwii gaarii magaalattii as irratti argachuu dandeessu. 🔥",
-                navNews: "Oduu", navTourism: "Tuuriizimii", navCulture: "Aadaa", navHistory: "Waa'ee Hundeeffama Magaalichaa",
+                navNews: "Oduu", navTourism: "Tuuriizimii", navCulture: "Aadaa",
                 navPhilosophy: "Filoosofii", navLiterature: "Barruu", navVideo: "Gaalarii Viidiyoo", navPhoto: "Gaalarii Suuraa",
                 sectionHeading: "Odeeffannoo Yeroo Ammaa",
                 readMore: "Dabalataan Dubbisuuf...",
@@ -400,7 +398,7 @@
                 heroTitle: "Welcome to Mataaharaa City Digital Information Center",
                 heroSub: "“Mataahara — The City Where the Sun Never Sets.” ☀️",
                 marquee: "🔥 Happy Ethiopian New Year 2019! Find the latest city updates, festive wishes, and news right here. 🔥",
-                navNews: "News", navTourism: "Tourism", navCulture: "Culture", navHistory: "History of the Town",
+                navNews: "News", navTourism: "Tourism", navCulture: "Culture",
                 navPhilosophy: "Philosophy", navLiterature: "Literature", navVideo: "Video Gallery", navPhoto: "Photo Gallery",
                 sectionHeading: "Latest Updates",
                 readMore: "Read More...",
@@ -447,7 +445,6 @@
             document.getElementById('navNews').innerText = translations[lang].navNews;
             document.getElementById('navTourism').innerText = translations[lang].navTourism;
             document.getElementById('navCulture').innerText = translations[lang].navCulture;
-            document.getElementById('navHistory').innerText = translations[lang].navHistory;
             document.getElementById('navPhilosophy').innerText = translations[lang].navPhilosophy;
             document.getElementById('navLiterature').innerText = translations[lang].navLiterature;
             document.getElementById('navVideo').innerText = translations[lang].navVideo;
@@ -501,58 +498,31 @@
                 
                 let activeStatic = [
                     {
-                        id: 'clean_v6_am_1',
+                        id: 'clean_v4_am_1',
                         category: 'News',
                         lang: 'AM',
-                        title: 'የኦሮሚያ ክልል ፕሬዝዳንት አቶ ሽመልስ አብዲሳ የመታሃራ ከተማን የልማት ስራዎች ጎበኙ',
-                        content: 'የኦሮሚያ ክልል ፕሬዝዳንት አቶ ሽመልስ አብዲሳ እና የክልሉ ከፍተኛ የሥራ ሀላፊዎች በመታሃራ ከተማ በመገኘት የተከናወኑ አዳዲስ የልማት ስራዎችንና የከተማዋን እድገት ጎብኝተዋል።',
-                        media: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600',
+                        title: 'እንኳን ለ2019 ዓ.ም አዲስ ዓመት በሰላም አደረሳችሁ!',
+                        content: 'እንኳን ለ2019 ዓ.ም የዘመን መለወጫ በዓል በሰላም አደረሳችሁ! የመታሃራ ከተማ አስተዳደር ህብረተሰቡ በዓሉን በድምቀት እንዲያከብር መልካም ምኞቱን ያስተላልፋል።',
+                        media: '',
                         createdAt: 1769990000000
                     },
                     {
-                        id: 'clean_v6_am_2',
+                        id: 'clean_v4_or_1',
                         category: 'News',
-                        lang: 'AM',
-                        title: 'የመታሃራ ከተማ አስተዳደር አዳዲስ የኢንቨስትመንት ማዕቀፎችን ይፋ አደረገ',
-                        content: 'ከተማ አስተዳደሩ ባለሀብቶች በከተማው ውስጥ በግብርና፣ በቱሪዝም እና በንግድ ዘርፎች እንዲሰማሩ ሰፊ ዕድሎችን የሚፈጥር አዲስ ማዕቀፍ ይፋ አድርጓል።',
-                        media: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600',
-                        createdAt: 1769989000000
+                        lang: 'OR',
+                        title: 'Baga Ayyaana Bara Haaraa 2019n nagaan isin gahe!',
+                        content: 'Baga Ayyaana Bara Haaraa 2019n nagaan isin gahe! Bulchiinsi magaala Mataaharaa hawaasaf hawwii gaarii dabarsa.',
+                        media: '',
+                        createdAt: 1769985000000
                     },
                     {
-                        id: 'clean_v6_am_water',
+                        id: 'clean_v4_en_1',
                         category: 'News',
-                        lang: 'AM',
-                        title: 'የመታሃራ ከተማ ንጹህ መጠጥ የውሃ አቅርቦት ልማት ፕሮጀክት ተጠናቀቀ',
-                        content: 'ለህብረተሰቡ የንጹህ መጠጥ ውሃ አቅርቦትን አስተማማኝ ለማድረግ የተከናወነው ትልቁ የውሃ ፕሮጀክት ግንባታ ተጠናቆ ለአገልግሎት ክፍት ሆኗል።',
-                        media: 'https://images.unsplash.com/photo-1541888946425-d0fbb18f764c?w=600',
-                        createdAt: 1769988500000
-                    },
-                    {
-                        id: 'clean_v6_am_mayor',
-                        category: 'News',
-                        lang: 'AM',
-                        title: 'የከተማችን ከንቲባ እና የሥራ ሀላፊዎች የልማት ስራዎችን ጎበኙ',
-                        content: 'የመታሃራ ከተማ ከንቲባ እና የከተማዋ የሥራ ሀላፊዎች በከተማው እየተከናወኑ ያሉ የኮሪደር ልማት እና የአገልግሎት መስጫ ተቋማትን በመገኘት ተዘዋውረው ጎብኝተዋል።',
-                        media: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600',
-                        createdAt: 1769988200000
-                    },
-                    {
-                        id: 'clean_v6_am_orange',
-                        category: 'News',
-                        lang: 'AM',
-                        title: 'በመታሃራ አካባቢ የሚገኙ ዘመናዊ የብርቱካን እና የግብርና እርሻዎች',
-                        content: 'መታሃራ በ ለም አፈር እና በግብርና ስራዎቿ የምታታወቀ ሲሆን፣ በዙሪያው የሚገኙት የብርቱካን እርሻዎች ለከተማዋ ኢኮኖሚ ከፍተኛ አስተዋጽኦ እያበረከቱ ይገኛሉ።',
-                        media: 'https://images.unsplash.com/photo-1595855759920-86582396756a?w=600',
-                        createdAt: 1769988100000
-                    },
-                    {
-                        id: 'clean_v6_am_history',
-                        category: 'History',
-                        lang: 'AM',
-                        title: 'ስለ መታሃራ ከተማ ታሪካዊ አመሰራረት',
-                        content: 'መታሃራ ከተማ በታሪኳ፣ በጂኦግራፊያዊ አቀማመጧ እና በባህላዊ ውበቷ ልዩ ስፍራ ያላት ከተማ ናት። ከተማዋ በሐይቆች፣ በተራሮች እና በ ለም አከባቢዎች የተከበበች ስትሆን የበርካታ ህዝቦች መተላለፊያና መኖሪያ ሆና ቆይታለች።',
-                        media: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600',
-                        createdAt: 1769987500000
+                        lang: 'EN',
+                        title: 'Happy Ethiopian New Year 2019!',
+                        content: 'Happy Ethiopian New Year 2019 to all residents and visitors! Warm wishes from Mataaharaa City Administration.',
+                        media: '',
+                        createdAt: 1769980000000
                     }
                 ].filter(p => !deletedStaticIds.includes(p.id));
 
@@ -561,11 +531,7 @@
                 allPosts = combinedPosts.map(post => {
                     let title = (post.title || "").trim();
                     let content = (post.content || "").trim();
-                    let media = (post.media || "").trim();
-                    if(media.includes('fbcdn.net') || media === '') {
-                        media = 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600';
-                    }
-                    return { ...post, title, content, media };
+                    return { ...post, title, content };
                 });
                 
                 allPosts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
@@ -578,7 +544,7 @@
         }
 
         function getMediaHtml(mediaUrl) {
-            if (!mediaUrl) mediaUrl = 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600';
+            if (!mediaUrl) return '';
             let trimmedUrl = mediaUrl.trim();
             if (trimmedUrl.includes('youtube.com') || trimmedUrl.includes('youtu.be')) {
                 let videoId = '';
@@ -593,7 +559,7 @@
                     return `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
                 }
             }
-            return `<img src="${trimmedUrl}" alt="Media Image" onerror="this.src='https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600'">`;
+            return `<img src="${trimmedUrl}" alt="Media Image" onerror="this.style.display='none'">`;
         }
 
         async function render() {
@@ -710,7 +676,7 @@
 
         window.deletePost = async (id) => {
             if(confirm("ይህን መረጃ በእርግጥ መሰረዝ ትፈልጋለህ?")) {
-                if(id.startsWith('clean_v6_')) {
+                if(id.startsWith('clean_v4_')) {
                     deletedStaticIds.push(id);
                     localStorage.setItem('deletedStaticIds', JSON.stringify(deletedStaticIds));
                 } else {
@@ -727,10 +693,7 @@
             e.preventDefault();
             const editId = document.getElementById("editPostId").value;
             const category = document.getElementById("newsCategory").value;
-            let media = document.getElementById("mediaUrl").value.trim();
-            if(!media || media.includes('fbcdn.net')) {
-                media = 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600';
-            }
+            const media = document.getElementById("mediaUrl").value;
 
             const tAM = document.getElementById("titleAM").value.trim();
             const cAM = document.getElementById("contentAM").value.trim();
@@ -751,7 +714,7 @@
                 if(tEN) postsToSave.push({ lang: 'EN', title: tEN, content: cEN });
 
                 if(editId) {
-                    if(!editId.startsWith('clean_v6_')) {
+                    if(!editId.startsWith('clean_v4_')) {
                         let singlePost = postsToSave[0] || { lang: currentLang, title: tAM || tOR || tEN, content: cAM || cOR || cEN };
                         const postData = { category, media, lang: singlePost.lang, title: singlePost.title, content: singlePost.content };
                         await updateDoc(doc(db, "news", editId), postData);
