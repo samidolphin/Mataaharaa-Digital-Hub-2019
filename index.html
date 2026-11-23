@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mataaharaa Digital Hub 2019</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/3/turn.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
         body { background-color: #f4f7f6; color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }    
@@ -137,52 +135,31 @@
         .edit-btn { background: #3498db; color: white; border: none; padding: 5px 10px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; font-weight: bold; }
         .delete-btn { background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; font-weight: bold; }
 
-        /* Tourism Flipbook Section Styles */
+        /* Tourism Flipbook Section Style */
         .flipbook-section { display: none; margin-top: 20px; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); text-align: center; }
         .flipbook-section.active { display: block; }
-        
-        #flipbook {
-            width: 900px;
-            height: 500px;
-            margin: 20px auto;
-            box-shadow: 0 20px 30px rgba(0,0,0,0.3);
-        }
-        .hard {
-            background: #1e293b;
-            color: #f8fafc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            padding: 20px;
-            text-align: center;
-            border: 2px solid #334155;
-        }
-        .page {
-            background: #ffffff;
-            color: #1e293b;
-            padding: 25px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .page img {
+        .flipbook-container {
+            position: relative;
             width: 100%;
-            height: 240px;
-            object-fit: cover;
+            height: 550px;
+            background: #eaeaea;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px dashed #ff6600;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 15px;
+        }
+        .flipbook-container iframe { width: 100%; height: 100%; border: none; }
+        .flipbook-placeholder {
+            position: absolute;
+            color: #555;
+            font-size: 1rem;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 8px;
-            margin-bottom: 12px;
-        }
-        .page-content h3 {
-            margin-top: 0;
-            color: #0f172a;
-            font-size: 1.15rem;
-        }
-        .page-content p {
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: #334155;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         footer { background: #222; color: #ccc; padding: 35px 4% 20px; margin-top: 40px; font-size: 0.88rem; }
@@ -191,13 +168,6 @@
         .footer-col h4 { color: #ff6600; margin-bottom: 12px; font-size: 1.05rem; }
         .footer-col p { margin-bottom: 8px; }
         .footer-bottom { text-align: center; padding-top: 20px; font-size: 0.8rem; color: #888; }
-
-        @media (max-width: 950px) {
-            #flipbook {
-                width: 100% !important;
-                height: 380px !important;
-            }
-        }
 
         @media (max-width: 768px) {
             header { padding: 10px 3%; justify-content: center; }
@@ -211,12 +181,7 @@
             .main-container { padding: 15px 3%; }
             .news-grid { grid-template-columns: 1fr; }
             .footer-content { flex-direction: column; gap: 20px; }
-            #flipbook {
-                width: 100% !important;
-                height: 320px !important;
-            }
-            .page { padding: 15px; }
-            .page img { height: 130px; }
+            .flipbook-container { height: 350px; }
         }
     </style>
 </head>
@@ -224,19 +189,16 @@
 
     <header>
         <div class="logo-area">
-            <div class="logo-text">
-                <h1 id="logoTextHeading">Mataaharaa / መታሃራ / Metehara</h1>
-            </div>
+            <div class="logo-text"><h1>Mataaharaa / መታሃራ / Metehara</h1></div>
         </div>
-        
         <nav>
-            <a id="navNews" class="active" onclick="updateFilter('News')">ዜና</a>
-            <a id="navTourism" onclick="updateFilter('Tourism')">ቱሪዝም</a>
-            <a id="navCulture" onclick="updateFilter('Culture')">ባህል</a>
-            <a id="navPhilosophy" onclick="updateFilter('Philosophy')">ፍልስፍና</a>
-            <a id="navLiterature" onclick="updateFilter('Literature')">ፅነ-ፅሁፍ</a>
-            <a id="navVideo" onclick="updateFilter('Video')">የቪዲዮ ጋለሪ</a>
-            <a id="navPhoto" onclick="updateFilter('Photo')">የፎቶ ጋለሪ</a>
+            <a id="navNews" class="active" onclick="updateFilter('cat', 'News')">ዜና</a>
+            <a id="navTourism" onclick="updateFilter('cat', 'Tourism')">ቱሪዝም</a>
+            <a id="navCulture" onclick="updateFilter('cat', 'Culture')">ባህል</a>
+            <a id="navPhilosophy" onclick="updateFilter('cat', 'Philosophy')">ፍልስፍና</a>
+            <a id="navLiterature" onclick="updateFilter('cat', 'Literature')">ፅነ-ፅሁፍ</a>
+            <a id="navVideo" onclick="updateFilter('cat', 'Video')">የቪዲዮ ጋለሪ</a>
+            <a id="navPhoto" onclick="updateFilter('cat', 'Photo')">የፎቶ ጋለሪ</a>
             
             <div class="lang-container">
                 <button class="lang-btn" id="btnOR" onclick="updateLanguage('OR')">Oro</button>
@@ -253,7 +215,7 @@
             <h3>የአድሚን የለፍ ቃል ያስገቡ</h3>
             <input type="password" id="adminPasswordInput" placeholder="Password">
             <button onclick="verifyPassword()">ግባ</button>
-            <button onclick="closeModal()" style="background:#e74c3c; margin-top:8px;">ሰርዝ</button>
+            <button style="background:#e74c3c; margin-top:8px;" onclick="closeModal()">ሰርዝ</button>
         </div>
     </div>
 
@@ -263,7 +225,7 @@
         </div>
     </div>
 
-    <div class="hero-banner">
+    <section class="hero-banner">
         <div class="firework-sky fs-left-1"></div>
         <div class="firework-sky fs-left-2"></div>
         <div class="firework-sky fs-right-1"></div>
@@ -273,13 +235,13 @@
             <div class="main-title">Mataaharaa Digital Hub</div>
             <div class="sub-title">መታሃራ - Metehara</div>
         </div>
-        <div class="adey-badge" id="badgeText">🌼 እንኳን ለ2019 ዓ.ም አዲስ ዓመት በሰላም አደረሳችሁ! 🌼</div>
+        <div class="adey-badge" id="badgeText">🎉 እንኳን ለ2019 ዓ.ም አዲስ ዓመት በሰላም አደረሳችሁ! 🌸</div>
         <h2 id="heroTitle">እንኳን ወደ መታሃራ ከተማ ዲጂታል መረጃ ማእከል በደህና መጡ</h2>
         <p id="heroSub">ፀሃይ የማትጠልቅባት ከተማ - መታሃራ-</p>
-    </div>
+    </section>
 
     <div class="marquee-container">
-        <marquee id="marqueeText">🌼 እንኳን ለ2019 አዲስ ዓመት በሰላም አደረሳችሁ! ወቅታዊ የከተማችን መረጃዎች እና በሰልፍ ላይ ያሉ መርሃ ግብሮች እዚህ ይከታተሉ። 🌼</marquee>
+        <marquee id="marqueeText">🔥 እንኳን ለ2019 አዲስ ዓመት በሰላም አደረሳችሁ! ወቅታዊ የከተማችን መረጃዎች እና በሰልፍ ላይ ያሉ መርሃ ግብሮች እዚህ ይከታተሉ። 🔥</marquee>
     </div>
 
     <div class="main-container">
@@ -289,7 +251,7 @@
                 <button class="close-admin-btn" onclick="closeAdminPanel()">❌ ከአድሚን ውጣ</button>
             </div>
             
-            <form id="newsForm" onsubmit="handleFormSubmit(event)">
+            <form id="newsForm">
                 <input type="hidden" id="editPostId">
                 <div class="form-group">
                     <select id="newsCategory">
@@ -321,71 +283,17 @@
                 <div class="form-group"><input type="text" id="titleEN" placeholder="English Title"></div>
                 <div class="form-group"><textarea id="contentEN" placeholder="English Content"></textarea></div>
 
-                <button type="submit" class="submit-btn" id="formSubmitBtn">በሶስቱም ቋንቋዎች ለጥፍ</button>
+                <button type="submit" class="submit-btn" id="formSubmitBtn">መረጃውን አስቀምጥ (Save)</button>
             </form>
         </div>
 
         <div class="flipbook-section" id="tourismFlipbookSection">
             <h3 style="color: #ff6600; font-size: 1.5rem; margin-bottom: 5px;" id="flipbookHeading">የመታሃራ ቱሪዝም መስህቦች ዲጂታል መጽሐፍ</h3>
-            <p style="color: #666; font-size: 0.95rem; margin-bottom: 15px;" id="flipbookSub">ፎቶዎቹን እንደ እውነተኛ መጽሐፍ ገጽ በገጽ በመገልጥ ይጎብኙ</p>
+            <p style="color: #666; font-size: 0.95rem;" id="flipbookSub">ፎቶዎቹን እንደ እውነተኛ መጽሐፍ ገጽ በገጽ በመገልጥ ይጎብኙ</p>
             
-            <div id="flipbook">
-                <div class="hard">
-                    <h1 id="cover-title" style="font-size: 1.5rem; margin-bottom: 10px;">በመታሃራ ከተማ የበሰቃ ሐይቅ ዳርቻ</h1>
-                    <p id="cover-sub" style="font-size: 0.95rem; color: #ffb700;">የመታሃራ ውበት፣ በበሰቃ ሐይቅ ዳርቻ ይታያል!</p>
-                </div>
-                
-                <div class="page">
-                    <img src="IMG-1 (1).jpg" alt="Matahara Lake Beseka">
-                    <div class="page-content">
-                        <h3 class="lang-text am">የበሰቃ ሐይቅ ዳርቻ ዕይታ</h3>
-                        <h3 class="lang-text or" style="display:none;">Qarqara Haroo Basaqaa</h3>
-                        <h3 class="lang-text en" style="display:none;">Along Lake Beseka</h3>
-                        <p class="lang-desc am">በመታሃራ ከተማ አስተዳደር የተገነቡና የተለያዩ የቱሪዝም ልማቶችን ያካተቱ ውብ የቱሪዝም መዳረሻዎች።</p>
-                        <p class="lang-desc or" style="display:none;">Magaalaa Mataaharaa keessatti, qarqara Haroo Basaqaa irratti, Bulchiinsa Magaalaa Mataaharaan kan ijaaraman fi misoomawwan hawwata turizimii.</p>
-                        <p class="lang-desc en" style="display:none;">A collection of beautiful tourism destinations developed by the Matahara City Administration along Lake Beseka.</p>
-                    </div>
-                </div>
-
-                <div class="page">
-                    <img src="IMG-1 (2).jpg" alt="Matahara Resort Area">
-                    <div class="page-content">
-                        <h3 class="lang-text am">መሠረተ ልማት እና መዝናኛዎች</h3>
-                        <h3 class="lang-text or" style="display:none;">Misoomawwan Hawwata Turizimii</h3>
-                        <h3 class="lang-text en" style="display:none;">Recreational Facilities</h3>
-                        <p class="lang-desc am">የመታሃራ ውበት በበሰቃ ሐይቅ ዳርቻ ላይ አዳዲስ የመዝናኛ ቦታዎችን በመገንባት ላይ ይገኛል።</p>
-                        <p class="lang-desc or" style="display:none;">Bareedinni Mataaharaa qarqara Haroo Basaqaa irratti misoomawwan hawwata qaban of keessatti hammatan.</p>
-                        <p class="lang-desc en" style="display:none;">Featuring a range of attractive tourism and recreational facilities highlighting Matahara's beauty.</p>
-                    </div>
-                </div>
-
-                <div class="page">
-                    <img src="IMG-1 (3).jpg" alt="Matahara Pathway">
-                    <div class="page-content">
-                        <h3 class="lang-text am">ለስንኝ እና ለእግር ጉዞ ምቹ መንገዶች</h3>
-                        <h3 class="lang-text or" style="display:none;">Daandii Miilaan Adeemuu</h3>
-                        <h3 class="lang-text en" style="display:none;">Scenic Walkways</h3>
-                        <p class="lang-desc am">ንጹህ አየር እና ማራኪ ዕይታን የሚሰጡ የከተማዋ የጎዳና እና የδροካ ልማቶች።</p>
-                        <p class="lang-desc or" style="display:none;">Qilleensa qulqulluu fi ilaalcha bareedaa kan qaban daandiiwwan miilaan adeemuu.</p>
-                        <p class="lang-desc en" style="display:none;">Paved walkways designed for visitors to enjoy fresh air and scenic views.</p>
-                    </div>
-                </div>
-
-                <div class="page">
-                    <img src="IMG-1 (7).jpg" alt="Swimming Pool Area">
-                    <div class="page-content">
-                        <h3 class="lang-text am">የመዋኛ ገንዳ እና መዝናኛ</h3>
-                        <h3 class="lang-text or" style="display:none;">Bakka Daakichaa (Pool)</h3>
-                        <h3 class="lang-text en" style="display:none;">Swimming Pool</h3>
-                        <p class="lang-desc am">ለጎብኚዎች ምቾት የተዘጋጀ ዘመናዊ የመዋኛ ገንዳ በሐይቁ ዳርቻ።</p>
-                        <p class="lang-desc or" style="display:none;">Daakichaa ammayyaa kan daawwattootaaf mijate qarqara harichaa irratti argamu.</p>
-                        <p class="lang-desc en" style="display:none;">Modern swimming pool facilities built along the lakeshore for visitors.</p>
-                    </div>
-                </div>
-
-                <div class="hard">
-                    <h2 id="back-cover-title" style="font-size: 1.3rem; margin-bottom: 10px;">ማንኛውም አስተያየት አለ?</h2>
-                    <p id="back-cover-sub" style="font-size: 0.9rem;">ደስ የሚል ጉብኝት ይሁንልዎ!</p>
+            <div class="flipbook-container">
+                <div class="flipbook-placeholder" id="flipbookPlaceholderText">
+                    የቱሪዝም ፎቶዎችዎን በማቀናበሪያ መሳሪያ (ለምሳሌ AnyFlip) ካቀናጁ በኋላ የሚሰጥዎትን <b>Embed Code (iframe)</b> በቀጥታ በዚህ ቦታ ይለጥፉ።
                 </div>
             </div>
         </div>
@@ -403,9 +311,9 @@
             <div class="footer-col">
                 <h4 id="subTitleHeading">ለአዳዲስ መረጃዎች ይመዝገቡ</h4>
                 <p id="subDescText">ኢሜይል አድራሻዎን ያስገቡ</p>
-                <form id="subscribeForm" style="display:flex; gap:5px; margin-top:8px;">
-                    <input type="email" id="subscriberEmail" placeholder="ኢሜይል አድራሻዎን ያስገቡ" required style="padding:7px; border:none; border-radius:4px; flex:1; font-size:0.85rem;">
-                    <button type="submit" id="subBtn" style="background:#ff6600; color:white; border:none; padding:7px 12px; border-radius:4px; font-weight:bold; cursor:pointer;">ይመዝገቡ</button>
+                <form id="subscribeForm">
+                    <input type="email" id="subscriberEmail" placeholder="ኢሜይል አድራሻዎን ያስገቡ" style="padding:8px; width:80%; border-radius:4px; border:none; margin-bottom:5px;" required>
+                    <button type="submit" id="subBtn" style="padding:8px; background:#ff6600; border:none; color:white; cursor:pointer; border-radius:4px;">ይመዝገቡ</button>
                 </form>
             </div>
             <div class="footer-col">
@@ -416,81 +324,38 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2019 Mataaharaa Digital Hub. Designed by Sami Online Advert & Promotion.</p>
+            <p>&copy; 2019 Mataaharaa Digital Hub. Designed by Sami Online Advert & Promotion.</p>
         </div>
     </footer>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = { 
+            apiKey: "AIzaSy...", 
+            authDomain: "mataaharaa-hub-2019.firebaseapp.com",
+            projectId: "mataaharaa-hub-2019",
+            storageBucket: "mataaharaa-hub-2019.appspot.com",
+            messagingSenderId: "538021472549",
+            appId: "1:538021472549:web:dae14f2a677582b9e6d2cc"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
         let currentCat = 'News';
         let currentLang = 'AM';
-        
-        let allPosts = [
-            {
-                id: '1',
-                category: 'News',
-                mediaUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600',
-                titleAM: 'የኦሮሚያ ክልል ፕሬዝዳንት አቶ ሽመልስ አብዲሳ የመታሃራ ከተማን የልማት ስራዎች ጎበኙ',
-                contentAM: 'የኦሮሚያ ክልል ፕሬዝዳንት አቶ ሽመልስ አብዲሳ እና የክልሉ ከፍተኛ የሥራ ሀላፊዎች በመታሃራ ከተማ በመገኘት የተከናወኑ አዳዲስ የልማት ስራዎችንና የከተማዋን እድገት ጎብኝተዋል።',
-                titleOR: 'Preezidaantiin Mootummaa Naannoo Oromiyaa Obbo Shimallis Abdiisaa hojiilee misoomaa Magaalaa Mataaharaa daawwatan',
-                contentOR: 'Preezidaantiin Mootummaa Naannoo Oromiyaa Obbo Shimallis Abdiisaa fi hoggantoonni olaanoo naannichaa magaalichaatti argamuun hojiilee misoomaa hojjetaman daawwateera.',
-                titleEN: 'Oromia Region President Mr. Shimelis Abdisa Visited Matahara City Development Works',
-                contentEN: 'Oromia Region President Mr. Shimelis Abdisa and high-level regional officials visited the new development activities and growth of Matahara city.'
-            },
-            {
-                id: '2',
-                category: 'News',
-                mediaUrl: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600',
-                titleAM: 'የመታሃራ ከተማ አስተዳደር አዳዲስ የኢንቨስትመንት ማዕቀፎችን ይፋ አደረገ',
-                contentAM: 'ከተማ አስተዳደሩ ባለሀብቶች በከተማው ውስጥ በግብርና፣ በቱሪዝም እና በንግድ ዘርፎች እንዲሰማሩ ሰፊ ዕድሎችን የሚፈጥር አዲስ ማዕቀፍ ይፋ አድርጓል።',
-                titleOR: 'Bulchiinsi Magaalaa Mataaharaa qajeelfamoota invastimantii haaraa ibse',
-                contentOR: 'Bulchiinsi magaalattii abbootiin qabeenyaa qonna, tuuriizimii fi daldala irratti akka hirmaatan carraa bal\'aa uumu danda\'u diriirseera.',
-                titleEN: 'Matahara City Administration Unveils New Investment Frameworks',
-                contentEN: 'The city administration has unveiled a new framework creating broad opportunities for investors to engage in agriculture, tourism, and trade.'
-            },
-            {
-                id: '3',
-                category: 'News',
-                mediaUrl: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600',
-                titleAM: 'በመታሃራ ከተማ የወጣቶች ስራ ዕድል ፈጠራ እና የክህሎት ስልጠና ተጀመረ',
-                contentAM: 'ለከተማችን ወጣቶች የስራ ዕድልን ለመፍጠር እና አቅማቸውን ለማሳደግ ያለመ አጠቃላይ የክህሎት ስልጠና መድረክ በይፋ ተጀምሯል።',
-                titleOR: 'Magaalaa Mataaharaatti carraan hojii dhabdootaa fi leenjiin dandeettii jalqabame',
-                contentOR: 'Dargaggoota magaalattii keenyaaf carraa hojii uumuu fi dandeettii isaanii guddisuuf leenjiin dandeettii eegalameera.',
-                titleEN: 'Youth Employment and Skill Training Started in Matahara City',
-                contentEN: 'A comprehensive skill training platform aimed at creating employment opportunities and enhancing the capacity of our youth has officially started.'
-            },
-            {
-                id: '4',
-                category: 'News',
-                mediaUrl: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600',
-                titleAM: 'የበሰቃ ሐይቅ ዳርቻ የቱሪዝም ልማት ፕሮጀክት ምዕራፍ ሁለት ተጠናቀቀ',
-                contentAM: 'ለጎብኚዎች ምቹ እና ማራኪ የሆነው የበሰቃ ሐይቅ የቱሪዝም ማዕከል ሁለተኛ ምዕራፍ ግንባታ ተጠናቆ ለአገልግሎት ክፍት ሆኗል።',
-                titleOR: 'Misooman turizimii qarqara Haroo Basaqaa sadarkaa lammaffaa xumurame',
-                contentOR: 'Bakki hawwata tuuriizimii qarqara Haroo Basaqaa daawwattootaaf mijataa ta\'e ijaarsi isaa sadarkaa lammaffaa xumurameera.',
-                titleEN: 'Phase Two of Lake Beseka Lakeshore Tourism Development Project Completed',
-                contentEN: 'The construction of the second phase of the Lake Beseka tourism center, designed to be attractive for visitors, has been completed and opened.'
-            },
-            {
-                id: '5',
-                category: 'Culture',
-                mediaUrl: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600',
-                titleAM: 'የባህል እሴቶች እና የህብረተሰባችን መገለጫዎች',
-                contentAM: 'የመታሃራ ህብረተሰብ የባህል ሃብቶች እና የጋራ ዕሴቶች በልዩ ሁኔታ እየተጠበቁ ይገኛሉ።',
-                titleOR: 'Aadaa fi duudhaawwan hawaasa keenyaa',
-                contentOR: 'Qabeenyota aadaa fi duudhaawwan waliinii hawaasa Mataaharaa kunuunfamaa jiru.',
-                titleEN: 'Cultural Values and Heritage of Our Community',
-                contentEN: 'The cultural resources and shared values of the Matahara community are being preserved exceptionally.'
-            }
-        ];
-        
+        let allPosts = [];
         let isAdminLoggedIn = false;
+
         let deletedStaticIds = JSON.parse(localStorage.getItem('deletedStaticIds') || '[]');
 
         const translations = {
             'AM': {
-                badgeText: "🌼 እንኳን ለ2019 ዓ.ም አዲስ ዓመት በሰላም አደረሳችሁ! - አደይ አበባ 🌼",
+                badgeText: "🎉 እንኳን ለ2019 ዓ.ም አዲስ ዓመት በሰላም አደረሳችሁ! 🌸",
                 heroTitle: "እንኳን ወደ መታሃራ ከተማ ዲጂታል መረጃ ማእከል በደህና መጡ",
                 heroSub: "ፀሃይ የማትጠልቅባት ከተማ - መታሃራ-",
-                marquee: "🌼 እንኳን ለ2019 አዲስ ዓመት በሰላም አደረሳችሁ! ወቅታዊ የከተማችን መረጃዎች እና የበዓል መልዕክቶች እዚህ ይከታተሉ። 🌼",
+                marquee: "🔥 እንኳን ለ2019 ዓ.ም አዲስ ዓመት በሰላም አደረሳችሁ! ወቅታዊ የከተማችን መረጃዎች እና የበዓል መልዕክቶች እዚህ ይከታተሉ። 🔥",
                 navNews: "ዜና", navTourism: "ቱሪዝም", navCulture: "ባህል",
                 navPhilosophy: "ፍልስፍና", navLiterature: "ፅነ-ፅሁፍ", navVideo: "የቪዲዮ ጋለሪ", navPhoto: "የፎቶ ጋለሪ",
                 sectionHeading: "ወቅታዊ መረጃዎች",
@@ -504,13 +369,14 @@
                 subButton: "ይመዝገቡ",
                 successMsg: "በተሳካ ሁኔታ ተመዝግበዋል! እናመሰግናለን።",
                 flipbookHead: "የመታሃራ ቱሪዝም መስህቦች ዲጂታል መጽሐፍ",
-                flipbookSubText: "ፎቶዎቹን እንደ እውነተኛ መጽሐፍ ገጽ በገጽ በመገልጥ ይጎብኙ"
+                flipbookSubText: "ፎቶዎቹን እንደ እውነተኛ መጽሐፍ ገጽ በገጽ በመገልጥ ይጎብኙ",
+                flipbookNote: "የቱሪዝም ፎቶዎችዎን በማቀናበሪያ መሳሪያ (ለምሳሌ AnyFlip) ካቀናጁ በኋላ የሚሰጥዎትን <b>Embed Code (iframe)</b> በቀጥታ በዚህ ቦታ ይለጥፉ።"
             },
             'OR': {
-                badgeText: "🌼 Baga Ayyaana Bara Haaraa 2019 Geessan! - Adey Abeba 🌼",
+                badgeText: "🎉 Baga Ayyaana Bara Haaraa 2019 Geessan! 🌸",
                 heroTitle: "Baga Nagaan Gara Wiirtuu Odeeffannoo Dijitaalaa Magaala Mataaharaa Dhuftan",
                 heroSub: "Mataaharaa Magaalaa Aduun itti hindhiine",
-                marquee: "🌼 Baga Ayyaana Bara Haaraa 2019n nagaan isin gahe! Odeeffannoowwan yeroo fi hawwii gaarii magaalattii as irratti argachuu dandeessu. 🌼",
+                marquee: "🔥 Baga Ayyaana Bara Haaraa 2019n nagaan isin gahe! Odeeffannoowwan yeroo fi hawwii gaarii magaalattii as irratti argachuu dandeessu. 🔥",
                 navNews: "Oduu", navTourism: "Tuuriizimii", navCulture: "Aadaa",
                 navPhilosophy: "Filoosofii", navLiterature: "Barruu", navVideo: "Gaalarii Viidiyoo", navPhoto: "Gaalarii Suuraa",
                 sectionHeading: "Odeeffannoo Yeroo Ammaa",
@@ -524,10 +390,11 @@
                 subButton: "Galmaa'i",
                 successMsg: "Milkaa'inaan galmoofteetta! Galatoomaa.",
                 flipbookHead: "Kitaaba Dijitaalaa Hawwata Tuuriizimii Mataaharaa",
-                flipbookSubText: "Suurota akka kitaaba dhugaa fuula fuulaan garagalchuun daawwadhaa"
+                flipbookSubText: "Suurota akka kitaaba dhugaa fuula fuulaan garagalchuun daawwadhaa",
+                flipbookNote: "Suurota tuuriizimii keessan meeshaa qindeessaa fayyadamuun (fakkeenyaaf AnyFlip) qopheessuudhaan booda <b>Embed Code (iframe)</b> kenname kana keessatti maxxansa."
             },
             'EN': {
-                badgeText: "🌼 Happy Ethiopian New Year 2019 - Adey Abeba 🌼",
+                badgeText: "🎉 Happy Ethiopian New Year 2019 - Adey Abeba 🌸",
                 heroTitle: "Welcome to Mataaharaa City Digital Information Center",
                 heroSub: "“Mataahara — The City Where the Sun Never Sets.” ☀️",
                 marquee: "🔥 Happy Ethiopian New Year 2019! Find the latest city updates, festive wishes, and news right here. 🔥",
@@ -544,33 +411,28 @@
                 subButton: "Subscribe",
                 successMsg: "Successfully subscribed! Thank you.",
                 flipbookHead: "Mataaharaa Tourism Digital Flipbook",
-                flipbookSubText: "Explore our beautiful tourist attractions by flipping through the digital book"
+                flipbookSubText: "Explore our beautiful tourist attractions by flipping through the digital book",
+                flipbookNote: "Paste your digital book <b>Embed Code (iframe)</b> right here after publishing your photos on a flipbook maker."
             }
         };
 
-        function updateFilter(val) {
-            currentCat = val;
-            document.querySelectorAll('nav a[id^="nav"]').forEach(a => a.classList.remove('active'));
-            const activeNav = document.getElementById('nav' + val);
-            if(activeNav) activeNav.classList.add('active');
-            
-            const flipbookSec = document.getElementById('tourismFlipbookSection');
-            const sectionHeading = document.getElementById('sectionHeading');
-            const newsContainer = document.getElementById('newsContainer');
-
-            if(val === 'Tourism') {
-                flipbookSec.classList.add('active');
-                sectionHeading.style.display = 'none';
-                newsContainer.style.display = 'none';
-            } else {
-                flipbookSec.classList.remove('active');
-                sectionHeading.style.display = 'inline-block';
-                newsContainer.style.display = 'grid';
+        window.updateFilter = (type, val) => {
+            if(type === 'cat') {
+                currentCat = val;
+                document.querySelectorAll('nav a[id^="nav"]').forEach(a => a.classList.remove('active'));
+                document.getElementById('nav' + val).classList.add('active');
+                
+                const flipbookSec = document.getElementById('tourismFlipbookSection');
+                if(val === 'Tourism') {
+                    flipbookSec.classList.add('active');
+                } else {
+                    flipbookSec.classList.remove('active');
+                }
             }
             render();
         }
 
-        function updateLanguage(lang) {
+        window.updateLanguage = (lang) => {
             currentLang = lang;
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('btn' + lang).classList.add('active');
@@ -592,218 +454,335 @@
             document.getElementById('footerAboutTitle').innerText = translations[lang].footerAboutTitle;
             document.getElementById('footerAboutText').innerText = translations[lang].footerAboutText;
             document.getElementById('footerContactTitle').innerText = translations[lang].footerContactTitle;
+
             document.getElementById('subTitleHeading').innerText = translations[lang].subHeading;
             document.getElementById('subDescText').innerText = translations[lang].subDesc;
-            document.getElementById('subBtn').innerText = translations[lang].subButton;
             document.getElementById('subscriberEmail').placeholder = translations[lang].subDesc;
+            document.getElementById('subBtn').innerText = translations[lang].subButton;
 
             document.getElementById('flipbookHeading').innerText = translations[lang].flipbookHead;
             document.getElementById('flipbookSub').innerText = translations[lang].flipbookSubText;
-
-            document.querySelectorAll('.lang-text').forEach(el => {
-                el.style.display = el.classList.contains(lang.toLowerCase()) ? 'block' : 'none';
-            });
-
-            document.querySelectorAll('.lang-desc').forEach(el => {
-                el.style.display = el.classList.contains(lang.toLowerCase()) ? 'block' : 'none';
-            });
+            document.getElementById('flipbookPlaceholderText').innerHTML = translations[lang].flipbookNote;
 
             render();
         }
 
-        function render() {
-            const container = document.getElementById('newsContainer');
-            if(currentCat === 'Tourism') return; 
+        document.getElementById("subscribeForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            const emailInput = document.getElementById("subscriberEmail").value;
+            const successMessage = translations[currentLang].successMsg;
 
-            let filtered = allPosts.filter(p => p.category === currentCat && !deletedStaticIds.includes(p.id));
+            try {
+                await addDoc(collection(db, "subscribers"), {
+                    email: emailInput,
+                    language: currentLang,
+                    subscribedAt: Date.now()
+                });
+                alert(successMessage);
+                this.reset();
+            } catch(err) {
+                console.error("Subscription Error: ", err);
+                alert(successMessage);
+                this.reset();
+            }
+        });
+
+        async function loadData() {
+            try {
+                const snap = await getDocs(collection(db, "news"));
+                let firestorePosts = [];
+                snap.forEach(d => {
+                    let data = d.data();
+                    firestorePosts.push({id: d.id, ...data});
+                });
+                
+                let activeStatic = [
+                    {
+                        id: 'clean_v5_am_1',
+                        category: 'News',
+                        lang: 'AM',
+                        title: 'የኦሮሚያ ክልል ፕሬዝዳንት አቶ ሽመልስ አብዲሳ የመታሃራ ከተማን የልማት ስራዎች ጎበኙ',
+                        content: 'የኦሮሚያ ክልል ፕሬዝዳንት አቶ ሽመልስ አብዲሳ እና የክልሉ ከፍተኛ የሥራ ሀላፊዎች በመታሃራ ከተማ በመገኘት የተከናወኑ አዳዲስ የልማት ስራዎችንና የከተማዋን እድገት ጎብኝተዋል።',
+                        media: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600',
+                        createdAt: 1769990000000
+                    },
+                    {
+                        id: 'clean_v5_am_2',
+                        category: 'News',
+                        lang: 'AM',
+                        title: 'የመታሃራ ከተማ አስተዳደር አዳዲስ የኢንቨስትመንት ማዕቀፎችን ይፋ አደረገ',
+                        content: 'ከተማ አስተዳደሩ ባለሀብቶች በከተማው ውስጥ በግብርና፣ በቱሪዝም እና በንግድ ዘርፎች እንዲሰማሩ ሰፊ ዕድሎችን የሚፈጥር አዲስ ማዕቀፍ ይፋ አድርጓል።',
+                        media: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600',
+                        createdAt: 1769989000000
+                    },
+                    {
+                        id: 'clean_v5_am_3',
+                        category: 'News',
+                        lang: 'AM',
+                        title: 'በመታሃራ ከተማ የወጣቶች ስራ ዕድል ፈጠራ እና የክህሎት ስልጠና ተጀመረ',
+                        content: 'ለከተማችን ወጣቶች የስራ ዕድልን ለመፍጠር እና አቅማቸውን ለማሳደግ ያለመ አጠቃላይ የክህሎት ስልጠና መድረክ በይፋ ተጀምሯል።',
+                        media: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600',
+                        createdAt: 1769988000000
+                    },
+                    {
+                        id: 'clean_v5_am_4',
+                        category: 'News',
+                        lang: 'AM',
+                        title: 'የበሰቃ ሐይቅ ዳርቻ የቱሪዝም ልማት ፕሮጀክት ምዕራፍ ሁለት ተጠናቀቀ',
+                        content: 'ለጎብኚዎች ምቹ እና ማራኪ የሆነው የበሰቃ ሐይቅ የቱሪዝም ማዕከል ሁለተኛ ምዕራፍ ግንባታ ተጠናቆ ለአገልግሎት ክፍት ሆኗል።',
+                        media: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600',
+                        createdAt: 1769987000000
+                    },
+                    {
+                        id: 'clean_v5_or_1',
+                        category: 'News',
+                        lang: 'OR',
+                        title: 'Preezidaantiin Mootummaa Naannoo Oromiyaa Obbo Shimallis Abdiisaa hojiilee misoomaa daawwatan',
+                        content: 'Preezidaantiin Mootummaa Naannoo Oromiyaa Obbo Shimallis Abdiisaa fi hoggantoonni olaanoo naannichaa magaalichaatti argamuun hojiilee misoomaa daawwateera.',
+                        media: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600',
+                        createdAt: 1769985000000
+                    },
+                    {
+                        id: 'clean_v5_en_1',
+                        category: 'News',
+                        lang: 'EN',
+                        title: 'Oromia Region President Mr. Shimelis Abdisa Visited Matahara City Development',
+                        content: 'Oromia Region President Mr. Shimelis Abdisa and high-level regional officials visited the new development activities of Matahara city.',
+                        media: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600',
+                        createdAt: 1769980000000
+                    }
+                ].filter(p => !deletedStaticIds.includes(p.id));
+
+                let combinedPosts = [...activeStatic, ...firestorePosts];
+                
+                allPosts = combinedPosts.map(post => {
+                    let title = (post.title || "").trim();
+                    let content = (post.content || "").trim();
+                    let media = (post.media || "").trim();
+                    // ከፌስቡክ ጊዜያዊ ሊንክ ከሆነ አስተማማኝ በሆነ ቋሚ ፎቶ እንተካዋለን እንዳይጠፋ
+                    if(media.includes('fbcdn.net') || media === '') {
+                        media = 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600';
+                    }
+                    return { ...post, title, content, media };
+                });
+                
+                allPosts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                render();
+            } catch(err) {
+                console.error(err);
+                allPosts = [];
+                render();
+            }
+        }
+
+        function getMediaHtml(mediaUrl) {
+            if (!mediaUrl) mediaUrl = 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600';
+            let trimmedUrl = mediaUrl.trim();
+            if (trimmedUrl.includes('youtube.com') || trimmedUrl.includes('youtu.be')) {
+                let videoId = '';
+                if (trimmedUrl.includes('youtu.be/')) {
+                    videoId = trimmedUrl.split('youtu.be/')[1].split('?')[0];
+                } else if (trimmedUrl.includes('v=')) {
+                    videoId = trimmedUrl.split('v=')[1].split('&')[0];
+                } else if (trimmedUrl.includes('embed/')) {
+                    videoId = trimmedUrl.split('embed/')[1].split('?')[0];
+                }
+                if (videoId) {
+                    return `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+                }
+            }
+            return `<img src="${trimmedUrl}" alt="Media Image" onerror="this.src='https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600'">`;
+        }
+
+        async function render() {
+            const container = document.getElementById("newsContainer");
+            container.innerHTML = "";
+            
+            const filtered = allPosts.filter(p => {
+                let pLang = p.lang ? p.lang.trim().toUpperCase() : 'AM';
+                let cLang = currentLang.trim().toUpperCase();
+                return (p.category === currentCat) && (pLang === cLang);
+            });
 
             if(filtered.length === 0) {
-                container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #777; padding: 20px;">${translations[currentLang].noData}</p>`;
+                container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #775; padding: 20px;">${translations[currentLang].noData}</p>`;
                 return;
             }
 
-            container.innerHTML = filtered.map(post => {
-                let title = post['title' + currentLang] || post['titleAM'] || '';
-                let content = post['content' + currentLang] || post['contentAM'] || '';
-                let shortContent = content.length > 110 ? content.substring(0, 110) + '...' : content;
-                
-                let mediaTag = '';
-                if(post.mediaUrl) {
-                    if(post.mediaUrl.includes('youtube.com') || post.mediaUrl.includes('youtu.be')) {
-                        let embedUrl = post.mediaUrl.includes('watch?v=') ? post.mediaUrl.replace('watch?v=', 'embed/') : post.mediaUrl;
-                        mediaTag = `<iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe>`;
-                    } else {
-                        mediaTag = `<img src="${post.mediaUrl}" alt="Media">`;
-                    }
-                }
+            filtered.forEach((p) => {
+                let mediaHtml = getMediaHtml(p.media);
+                let shortContent = p.content.length > 90 ? p.content.substring(0, 90) + "..." : p.content;
+                let adminControlsClass = isAdminLoggedIn ? "admin-controls active" : "admin-controls";
 
-                return `
+                container.innerHTML += `
                     <div class="news-card">
-                        <div>
-                            ${mediaTag}
-                            <span class="cat">${post.category}</span>
-                            <h3>${title}</h3>
+                        <div class="card-body-content">
+                            ${mediaHtml}
+                            <span class="cat">${p.category}</span>
+                            <h3>${p.title}</h3>
                             <p>${shortContent}</p>
                         </div>
                         <div class="card-actions">
-                            <button class="read-more-btn" onclick="openDetail('${post.id}')">${translations[currentLang].readMore}</button>
-                            <div class="admin-controls ${isAdminLoggedIn ? 'active' : ''}">
-                                <button class="edit-btn" onclick="editPost('${post.id}')">አስተካክል</button>
-                                <button class="delete-btn" onclick="deletePost('${post.id}')">ሰርዝ</button>
+                            <button class="read-more-btn" onclick="openDetailModal('${p.id}')">${translations[currentLang].readMore}</button>
+                            <div class="${adminControlsClass}">
+                                <button class="edit-btn" onclick="editPost('${p.id}')">አስተካክል</button>
+                                <button class="delete-btn" onclick="deletePost('${p.id}')">ሰርዝ</button>
                             </div>
                         </div>
                     </div>
                 `;
-            }).join('');
+            });
         }
 
-        function openDetail(id) {
-            let post = allPosts.find(p => p.id === id);
-            if(!post) return;
-            let title = post['title' + currentLang] || post['titleAM'] || '';
-            let content = post['content' + currentLang] || post['contentAM'] || '';
-            let mediaTag = '';
-            if(post.mediaUrl) {
-                if(post.mediaUrl.includes('youtube.com') || post.mediaUrl.includes('youtu.be')) {
-                    let embedUrl = post.mediaUrl.includes('watch?v=') ? post.mediaUrl.replace('watch?v=', 'embed/') : post.mediaUrl;
-                    mediaTag = `<iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe>`;
-                } else {
-                    mediaTag = `<img src="${post.mediaUrl}" alt="Media">`;
-                }
-            }
+        window.openDetailModal = (id) => {
+            const p = allPosts.find(item => item.id === id);
+            if(!p) return;
 
-            document.getElementById('detailModalContent').innerHTML = `
+            let mediaHtml = getMediaHtml(p.media);
+
+            const modalContent = document.getElementById("detailModalContent");
+            modalContent.innerHTML = `
                 <button class="close-detail-btn" onclick="closeDetailModal()">✖ ዝጋ</button>
-                ${mediaTag}
-                <h2>${title}</h2>
-                <p>${content}</p>
+                ${mediaHtml}
+                <span class="cat">${p.category}</span>
+                <h2>${p.title}</h2>
+                <p>${p.content}</p>
             `;
-            document.getElementById('detailModal').classList.add('active');
+            document.getElementById("detailModal").classList.add("active");
         }
 
-        function closeDetailModal() {
-            document.getElementById('detailModal').classList.remove('active');
+        window.closeDetailModal = () => {
+            document.getElementById("detailModal").classList.remove("active");
         }
 
-        function checkPassword() {
-            document.getElementById('passwordModal').classList.add('active');
+        window.checkPassword = () => {
+            document.getElementById("passwordModal").classList.add("active");
         }
-
-        function closeModal() {
-            document.getElementById('passwordModal').classList.remove('active');
-            document.getElementById('adminPasswordInput').value = '';
+        window.closeModal = () => {
+            document.getElementById("passwordModal").classList.remove("active");
+            document.getElementById("adminPasswordInput").value = "";
         }
-
-        function verifyPassword() {
-            let pass = document.getElementById('adminPasswordInput').value;
-            if(pass === 'sami2all@8080' || pass === 'admin123') {
+        window.verifyPassword = () => {
+            const pass = document.getElementById("adminPasswordInput").value;
+            if(pass === "sami2all@8080") { 
                 isAdminLoggedIn = true;
-                closeModal();
-                document.getElementById('adminSection').classList.add('active');
+                document.getElementById("passwordModal").classList.remove("active");
+                document.getElementById("adminSection").classList.add("active");
+                document.getElementById("adminPasswordInput").value = "";
                 render();
             } else {
-                alert('የለፍ ቃል ስህተት ነው!');
+                alert("የገባው የለፍ ቃል ስህተት ነው!");
             }
         }
 
-        function closeAdminPanel() {
+        window.closeAdminPanel = () => {
             isAdminLoggedIn = false;
-            document.getElementById('adminSection').classList.remove('active');
+            document.getElementById("adminSection").classList.remove("active");
+            document.getElementById("newsForm").reset();
+            document.getElementById("editPostId").value = "";
             render();
         }
 
-        function deletePost(id) {
-            if(confirm('ይህን መረጃ መሰረዝ ይፈልጋሉ?')) {
-                deletedStaticIds.push(id);
-                localStorage.setItem('deletedStaticIds', JSON.stringify(deletedStaticIds));
+        window.editPost = (id) => {
+            const p = allPosts.find(item => item.id === id);
+            if(!p) return;
+
+            document.getElementById("editPostId").value = p.id;
+            document.getElementById("newsCategory").value = p.category;
+            document.getElementById("mediaUrl").value = p.media || "";
+            
+            let pLang = p.lang || currentLang;
+            if(pLang === 'AM') {
+                document.getElementById("titleAM").value = p.title || "";
+                document.getElementById("contentAM").value = p.content || "";
+            } else if(pLang === 'OR') {
+                document.getElementById("titleOR").value = p.title || "";
+                document.getElementById("contentOR").value = p.content || "";
+            } else if(pLang === 'EN') {
+                document.getElementById("titleEN").value = p.title || "";
+                document.getElementById("contentEN").value = p.content || "";
+            }
+
+            document.getElementById("adminSection").scrollIntoView({ behavior: 'smooth' });
+        }
+
+        window.deletePost = async (id) => {
+            if(confirm("ይህን መረጃ በእርግጥ መሰረዝ ትፈልጋለህ?")) {
+                if(id.startsWith('clean_v5_')) {
+                    deletedStaticIds.push(id);
+                    localStorage.setItem('deletedStaticIds', JSON.stringify(deletedStaticIds));
+                } else {
+                    try { await deleteDoc(doc(db, "news", id)); } catch(err) { console.error(err); }
+                }
+                
+                allPosts = allPosts.filter(item => item.id !== id);
+                alert("መረጃው በተሳካ ሁኔታ ተሰርዟል!");
                 render();
             }
         }
 
-        function editPost(id) {
-            let post = allPosts.find(p => p.id === id);
-            if(!post) return;
-            document.getElementById('editPostId').value = post.id;
-            document.getElementById('newsCategory').value = post.category;
-            document.getElementById('mediaUrl').value = post.mediaUrl || '';
-            document.getElementById('titleAM').value = post.titleAM || '';
-            document.getElementById('contentAM').value = post.contentAM || '';
-            document.getElementById('titleOR').value = post.titleOR || '';
-            document.getElementById('contentOR').value = post.contentOR || '';
-            document.getElementById('titleEN').value = post.titleEN || '';
-            document.getElementById('contentEN').value = post.contentEN || '';
-            document.getElementById('adminSection').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function handleFormSubmit(event) {
-            event.preventDefault();
-            let editId = document.getElementById('editPostId').value;
-            let category = document.getElementById('newsCategory').value;
-            let mediaUrl = document.getElementById('mediaUrl').value;
-            let titleAM = document.getElementById('titleAM').value;
-            let contentAM = document.getElementById('contentAM').value;
-            let titleOR = document.getElementById('titleOR').value;
-            let contentOR = document.getElementById('contentOR').value;
-            let titleEN = document.getElementById('titleEN').value;
-            let contentEN = document.getElementById('contentEN').value;
-
-            if(editId) {
-                let post = allPosts.find(p => p.id === editId);
-                if(post) {
-                    post.category = category;
-                    post.mediaUrl = mediaUrl;
-                    post.titleAM = titleAM;
-                    post.contentAM = contentAM;
-                    post.titleOR = titleOR;
-                    post.contentOR = contentOR;
-                    post.titleEN = titleEN;
-                    post.contentEN = contentEN;
-                }
-                document.getElementById('editPostId').value = '';
-            } else {
-                let newPost = {
-                    id: Date.now().toString(),
-                    category,
-                    mediaUrl,
-                    titleAM, contentAM,
-                    titleOR, contentOR,
-                    titleEN, contentEN
-                };
-                allPosts.unshift(newPost);
+        document.getElementById("newsForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const editId = document.getElementById("editPostId").value;
+            const category = document.getElementById("newsCategory").value;
+            let media = document.getElementById("mediaUrl").value.trim();
+            if(!media || media.includes('fbcdn.net')) {
+                media = 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600';
             }
 
-            document.getElementById('newsForm').reset();
-            updateFilter(category);
-            alert('በተሳካ ሁኔታ ተመዝግቧል!');
-        }
+            const tAM = document.getElementById("titleAM").value.trim();
+            const cAM = document.getElementById("contentAM").value.trim();
+            const tOR = document.getElementById("titleOR").value.trim();
+            const cOR = document.getElementById("contentOR").value.trim();
+            const tEN = document.getElementById("titleEN").value.trim();
+            const cEN = document.getElementById("contentEN").value.trim();
 
-        $(document).ready(function() {
-            setTimeout(function() {
-                if($.fn.turn) {
-                    $('#flipbook').turn({
-                        width: 900,
-                        height: 500,
-                        autoCenter: true,
-                        gradients: true,
-                        elevation: 50
-                    });
+            if(!tAM && !tOR && !tEN) {
+                alert("እባክዎ ቢያንስ የአንድ ቋንቋ ርዕስ ያስገቡ!");
+                return;
+            }
+
+            try {
+                let postsToSave = [];
+                if(tAM) postsToSave.push({ lang: 'AM', title: tAM, content: cAM });
+                if(tOR) postsToSave.push({ lang: 'OR', title: tOR, content: cOR });
+                if(tEN) postsToSave.push({ lang: 'EN', title: tEN, content: cEN });
+
+                if(editId) {
+                    if(!editId.startsWith('clean_v5_')) {
+                        let singlePost = postsToSave[0] || { lang: currentLang, title: tAM || tOR || tEN, content: cAM || cOR || cEN };
+                        const postData = { category, media, lang: singlePost.lang, title: singlePost.title, content: singlePost.content };
+                        await updateDoc(doc(db, "news", editId), postData);
+                        allPosts = allPosts.map(p => p.id === editId ? { ...p, ...postData } : p);
+                    }
+                    alert("መረጃው በተሳካ ሁኔታ ተስተካክሏል!");
+                } else {
+                    for(let sp of postsToSave) {
+                        const newPostData = {
+                            category,
+                            media,
+                            lang: sp.lang,
+                            title: sp.title,
+                            content: sp.content,
+                            createdAt: Date.now()
+                        };
+                        const docRef = await addDoc(collection(db, "news"), newPostData);
+                        allPosts.unshift({ id: docRef.id, ...newPostData });
+                    }
+                    alert("መረጃው በተሳካ ሁኔታ በሶስቱም ቋንቋዎች ተለጠፈ!");
                 }
-            }, 500);
 
-            window.updateLanguage('AM');
-            updateFilter('News');
-        });
-
-        $(window).resize(function() {
-            var width = $(window).width();
-            if(width < 950 && width > 768) {
-                $('#flipbook').turn('size', 700, 400);
-            } else if(width <= 768) {
-                $('#flipbook').turn('size', width - 40, 320);
-            } else {
-                $('#flipbook').turn('size', 900, 500);
+                document.getElementById("newsForm").reset();
+                document.getElementById("editPostId").value = "";
+                document.getElementById("adminSection").classList.remove("active");
+                render();
+            } catch(err) {
+                console.error("Error saving post: ", err.message);
+                alert("መረጃውን ማስቀመጥ አልተቻለም: " + err.message);
             }
         });
+
+        loadData();
     </script>
 </body>
 </html>
