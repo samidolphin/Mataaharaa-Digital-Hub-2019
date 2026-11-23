@@ -83,25 +83,25 @@
         .marquee-container { background: #ff6600; color: white; padding: 9px 0; font-size: 0.90rem; font-weight: bold; overflow: hidden; white-space: nowrap; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .marquee-container marquee { width: 100%; }
 
-        nav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; position: relative; z-index: 1001; }
+        nav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; position: relative; z-index: 1005; }
         nav a { text-decoration: none; color: #333; font-weight: 600; font-size: 0.82rem; transition: all 0.2s; padding: 6px 10px; border-radius: 4px; cursor: pointer; display: inline-block; }
         nav a:hover, nav a.active { color: #ff6600; background: #fff3ed; border-bottom: 2px solid #ff6600; }
         
         .lang-container { display: flex; align-items: center; gap: 4px; background: #eee; padding: 4px; border-radius: 20px; }
-        .lang-btn { background: transparent; border: none; padding: 4px 10px; border-radius: 15px; cursor: pointer; font-size: 0.78rem; font-weight: bold; color: #555; transition: all 0.2s; }
+        .lang-btn { background: transparent; border: none; padding: 5px 11px; border-radius: 15px; cursor: pointer; font-size: 0.78rem; font-weight: bold; color: #555; transition: all 0.2s; }
         .lang-btn:hover { background: #ddd; }
         .lang-btn.active { background: #ff6600; color: white; }
 
         .admin-btn { background: #ff6600; color: white !important; padding: 7px 15px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; border: none; font-weight: bold; transition: background 0.2s; }
         .admin-btn:hover { background: #e65c00; }
         
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center; padding: 15px; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 5000; justify-content: center; align-items: center; padding: 15px; }
         .modal.active { display: flex; }
         .modal-content { background: white; padding: 25px; border-radius: 8px; width: 100%; max-width: 320px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        .modal-content input { width: 100%; padding: 10px; margin: 15px 0; border: 1px solid #ccc; border-radius: 4px; }
-        .modal-content button { background: #ff6600; color: white; border: none; padding: 9px 15px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; }
+        .modal-content input { width: 100%; padding: 10px; margin: 15px 0; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; }
+        .modal-content button { background: #ff6600; color: white; border: none; padding: 10px 15px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; font-size: 0.95rem; }
 
-        .detail-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 3000; justify-content: center; align-items: center; padding: 15px; }
+        .detail-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 6000; justify-content: center; align-items: center; padding: 15px; }
         .detail-modal.active { display: flex; }
         .detail-content { background: white; padding: 25px; border-radius: 10px; max-width: 700px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 5px 20px rgba(0,0,0,0.3); position: relative; }
         .detail-content img, .detail-content iframe { width: 100%; height: 280px; object-fit: cover; border-radius: 6px; margin-bottom: 15px; }
@@ -119,7 +119,7 @@
         .form-group { margin-bottom: 14px; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 0.92rem; }
         .form-group textarea { height: 95px; resize: vertical; }
-        .submit-btn { background: #ff6600; color: white; border: none; padding: 11px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; }
+        .submit-btn { background: #ff6600; color: white; border: none; padding: 11px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; font-size: 1rem; }
 
         .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
         .news-card { background: white; border-radius: 8px; padding: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.06); transition: transform 0.3s; display: flex; flex-direction: column; justify-content: space-between; }
@@ -193,38 +193,38 @@
         <div class="logo-area">
             <div class="logo-text"><h1>Mataaharaa / መታሃራ / Metehara</h1></div>
         </div>
-        <nav>
-            <a id="navNews" class="active" onclick="updateFilter('cat', 'News')">ዜና</a>
-            <a id="navTourism" onclick="updateFilter('cat', 'Tourism')">ቱሪዝም</a>
-            <a id="navCulture" onclick="updateFilter('cat', 'Culture')">ባህል</a>
-            <a id="navHistory" onclick="updateFilter('cat', 'History')">ስለ ከተማው አመሰራረት</a>
-            <a id="navPhilosophy" onclick="updateFilter('cat', 'Philosophy')">ፍልስፍና</a>
-            <a id="navLiterature" onclick="updateFilter('cat', 'Literature')">ፅነ-ፅሁፍ</a>
-            <a id="navVideo" onclick="updateFilter('cat', 'Video')">የቪዲዮ ጋለሪ</a>
-            <a id="navPhoto" onclick="updateFilter('cat', 'Photo')">የፎቶ ጋለሪ</a>
+        <nav id="mainNav">
+            <a id="navNews" class="active" data-cat="News">ዜና</a>
+            <a id="navTourism" data-cat="Tourism">ቱሪዝም</a>
+            <a id="navCulture" data-cat="Culture">ባህል</a>
+            <a id="navHistory" data-cat="History">ስለ ከተማው አመሰራረት</a>
+            <a id="navPhilosophy" data-cat="Philosophy">ፍልስፍና</a>
+            <a id="navLiterature" data-cat="Literature">ፅነ-ፅሁፍ</a>
+            <a id="navVideo" data-cat="Video">የቪዲዮ ጋለሪ</a>
+            <a id="navPhoto" data-cat="Photo">የፎቶ ጋለሪ</a>
             
             <div class="lang-container">
-                <button type="button" class="lang-btn" id="btnOR" onclick="updateLanguage('OR')">Oro</button>
-                <button type="button" class="lang-btn active" id="btnAM" onclick="updateLanguage('AM')">Am</button>
-                <button type="button" class="lang-btn" id="btnEN" onclick="updateLanguage('EN')">Eng</button>
+                <button type="button" class="lang-btn" id="btnOR" data-lang="OR">Oro</button>
+                <button type="button" class="lang-btn active" id="btnAM" data-lang="AM">Am</button>
+                <button type="button" class="lang-btn" id="btnEN" data-lang="EN">Eng</button>
             </div>
 
-            <button type="button" class="admin-btn" onclick="checkPassword()">አድሚን</button>
+            <button type="button" class="admin-btn" id="openAdminBtn">አድሚን</button>
         </nav>
     </header>
 
     <div class="modal" id="passwordModal">
         <div class="modal-content">
             <h3>የአድሚን የለፍ ቃል ያስገቡ</h3>
-            <input type="password" id="adminPasswordInput" placeholder="Password" onkeypress="if(event.key === 'Enter') verifyPassword()">
-            <button type="button" onclick="verifyPassword()">ግባ</button>
-            <button type="button" style="background:#e74c3c; margin-top:8px;" onclick="closeModal()">ሰርዝ</button>
+            <input type="password" id="adminPasswordInput" placeholder="Password">
+            <button type="button" id="verifyPassBtn">ግባ</button>
+            <button type="button" id="cancelPassBtn" style="background:#e74c3c; margin-top:8px;">ሰርዝ</button>
         </div>
     </div>
 
     <div class="detail-modal" id="detailModal">
         <div class="detail-content" id="detailModalContent">
-            <button type="button" class="close-detail-btn" onclick="closeDetailModal()">✖ ዝጋ</button>
+            <button type="button" class="close-detail-btn" id="closeDetailBtn">✖ ዝጋ</button>
         </div>
     </div>
 
@@ -251,7 +251,7 @@
         <div class="admin-section" id="adminSection">
             <div class="admin-header-flex">
                 <h3 style="color: #ff6600;">መረጃ መጫኛ (Admin Panel)</h3>
-                <button type="button" class="close-admin-btn" onclick="closeAdminPanel()">❌ ከአድሚን ውጣ</button>
+                <button type="button" class="close-admin-btn" id="closeAdminBtn">❌ ከአድሚን ውጣ</button>
             </div>
             
             <form id="newsForm">
@@ -333,196 +333,210 @@
     </footer>
 
     <script>
-        // ሁሉም አዝራሮች በቀጥታ እና በፍጥነት እንዲሰሩ በGlobal Scope ተዘጋጅተዋል
-        let currentCat = 'News';
-        let currentLang = 'AM';
-        let allPosts = [];
-        let isAdminLoggedIn = false;
+        (function() {
+            let currentCat = 'News';
+            let currentLang = 'AM';
+            let allPosts = [];
+            let isAdminLoggedIn = false;
 
-        const STORAGE_KEY = 'mataaharaa_saved_posts_2019';
-        const SUB_KEY = 'mataaharaa_subscribers_2019';
+            const STORAGE_KEY = 'mataaharaa_saved_posts_v3';
+            const SUB_KEY = 'mataaharaa_subscribers_v3';
 
-        const translations = {
-            'AM': {
-                badgeText: "🎉 እንኳን ለ2019 ዓ.ም አዲስ ዓመት በሰላም አደረሳችሁ! 🌸",
-                heroTitle: "እንኳን ወደ መታሃራ ከተማ ዲጂታል መረጃ ማእከል በደህና መጡ",
-                heroSub: "ፀሃይ የማትጠልቅባት ከተማ - መታሃራ-",
-                marquee: "🔥 እንኳን ለ2019 ዓ.ም አዲስ ዓመት በሰላም አደረሳችሁ! ወቅታዊ የከተማችን መረጃዎች እና የበዓል መልዕክቶች እዚህ ይከታተሉ። 🔥",
-                navNews: "ዜና", navTourism: "ቱሪዝም", navCulture: "ባህል", navHistory: "ስለ ከተማው አመሰራረት",
-                navPhilosophy: "ፍልስፍና", navLiterature: "ፅነ-ፅሁፍ", navVideo: "የቪዲዮ ጋለሪ", navPhoto: "የፎቶ ጋለሪ",
-                sectionHeading: "ወቅታዊ መረጃዎች",
-                readMore: "ተጨማሪ ለማንበብ...",
-                footerAboutTitle: "ስለ መታሃራ ዲጂታል 2019",
-                footerAboutText: "መታሃራ ዲጂታል 2019 የከተማችንን ቱሪዝም፣ ባህል፣ ልማት እና ወቅታዊ መረጃዎች በሶስት ቋንቋዎች ለህብረተሰቡ የሚያደርስ መድረክ ነው።",
-                footerContactTitle: "አግኙን / Contact Us",
-                noData: "በዚህ ቋንቋ ወይም ምድብ የተለጠፈ መረጃ የለም። በአድሚን ፓነል መረጃ ይጫኑ።",
-                subHeading: "ለአዳዲስ መረጃዎች ይመዝገቡ",
-                subDesc: "ኢሜይል አድራሻዎን ያስገቡ",
-                subButton: "ይመዝገቡ",
-                successMsg: "በተሳካ ሁኔታ ተመዝግበዋል! እናመሰግናለን።",
-                flipbookHead: "የመታሃራ ቱሪዝም መስህቦች ዲጂታል መጽሐፍ",
-                flipbookSubText: "ፎቶዎቹን እንደ እውነተኛ መጽሐፍ ገጽ በገጽ በመገልጥ ይጎብኙ",
-                flipbookNote: "የቱሪዝም ፎቶዎችዎን በማቀናበሪያ መሳሪያ (ለምሳሌ AnyFlip) ካቀናጁ በኋላ የሚሰጥዎትን <b>Embed Code (iframe)</b> በቀጥታ በዚህ ቦታ ይለጥፉ።"
-            },
-            'OR': {
-                badgeText: "🎉 Baga Ayyaana Bara Haaraa 2019 Geessan! 🌸",
-                heroTitle: "Baga Nagaan Gara Wiirtuu Odeeffannoo Dijitaalaa Magaala Mataaharaa Dhuftan",
-                heroSub: "Mataaharaa Magaalaa Aduun itti hindhiine",
-                marquee: "🔥 Baga Ayyaana Bara Haaraa 2019n nagaan isin gahe! Odeeffannoowwan yeroo fi hawwii gaarii magaalattii as irratti argachuu dandeessu. 🔥",
-                navNews: "Oduu", navTourism: "Tuuriizimii", navCulture: "Aadaa", navHistory: "Waa'ee Hundeeffama Magaalichaa",
-                navPhilosophy: "Filoosofii", navLiterature: "Barruu", navVideo: "Gaalarii Viidiyoo", navPhoto: "Gaalarii Suuraa",
-                sectionHeading: "Odeeffannoo Yeroo Ammaa",
-                readMore: "Dabalataan Dubbisuuf...",
-                footerAboutTitle: "Waa'ee Mataaharaa Digital 2019",
-                footerAboutText: "Mataaharaa Digital 2019 wiirtuu odeeffannoo tuuriizimii, aadaa fi misiyoonsii magaalattii afaan sadiin dhiyeessuudha.",
-                footerContactTitle: "Nu Quunnamaa",
-                noData: "Odeeffannoon afaan kana ykn ramaddii kanaan hin jiru.",
-                subHeading: "Odeeffannoowwan Haaraaf Galmaa'aa",
-                subDesc: "Teessoo imeelii keessanii galchaa",
-                subButton: "Galmaa'i",
-                successMsg: "Milkaa'inaan galmoofteetta! Galatoomaa.",
-                flipbookHead: "Kitaaba Dijitaalaa Hawwata Tuuriizimii Mataaharaa",
-                flipbookSubText: "Suurota akka kitaaba dhugaa fuula fuulaan garagalchuun daawwadhaa",
-                flipbookNote: "Suurota tuuriizimii keessan meeshaa qindeessaa fayyadamuun (fakkeenyaaf AnyFlip) qopheessuudhaan booda <b>Embed Code (iframe)</b> kenname kana keessatti maxxansa."
-            },
-            'EN': {
-                badgeText: "🎉 Happy Ethiopian New Year 2019 - Adey Abeba 🌸",
-                heroTitle: "Welcome to Mataaharaa City Digital Information Center",
-                heroSub: "“Mataahara — The City Where the Sun Never Sets.” ☀️",
-                marquee: "🔥 Happy Ethiopian New Year 2019! Find the latest city updates, festive wishes, and news right here. 🔥",
-                navNews: "News", navTourism: "Tourism", navCulture: "Culture", navHistory: "History of the Town",
-                navPhilosophy: "Philosophy", navLiterature: "Literature", navVideo: "Video Gallery", navPhoto: "Photo Gallery",
-                sectionHeading: "Latest Updates",
-                readMore: "Read More...",
-                footerAboutTitle: "About Mataaharaa Digital 2019",
-                footerAboutText: "Mataaharaa Digital 2019 is a comprehensive platform sharing tourism, culture, development, and news in three languages.",
-                footerContactTitle: "Contact Us",
-                noData: "No posts available in this language or category yet.",
-                subHeading: "Subscribe for Updates",
-                subDesc: "Enter your email address",
-                subButton: "Subscribe",
-                successMsg: "Successfully subscribed! Thank you.",
-                flipbookHead: "Mataaharaa Tourism Digital Flipbook",
-                flipbookSubText: "Explore our beautiful tourist attractions by flipping through the digital book",
-                flipbookNote: "Paste your digital book <b>Embed Code (iframe)</b> right here after publishing your photos on a flipbook maker."
-            }
-        };
+            const translations = {
+                'AM': {
+                    badgeText: "🎉 እንኳን ለ2019 ዓ.ም አዲስ ዓመት በሰላም አደረሳችሁ! 🌸",
+                    heroTitle: "እንኳን ወደ መታሃራ ከተማ ዲጂታል መረጃ ማእከል በደህና መጡ",
+                    heroSub: "ፀሃይ የማትጠልቅባት ከተማ - መታሃራ-",
+                    marquee: "🔥 እንኳን ለ2019 ዓ.ም አዲስ ዓመት በሰላም አደረሳችሁ! ወቅታዊ የከተማችን መረጃዎች እና የበዓል መልዕክቶች እዚህ ይከታተሉ። 🔥",
+                    navNews: "ዜና", navTourism: "ቱሪዝም", navCulture: "ባህል", navHistory: "ስለ ከተማው አመሰራረት",
+                    navPhilosophy: "ፍልስፍና", navLiterature: "ፅነ-ፅሁፍ", navVideo: "የቪዲዮ ጋለሪ", navPhoto: "የፎቶ ጋለሪ",
+                    sectionHeading: "ወቅታዊ መረጃዎች",
+                    readMore: "ተጨማሪ ለማንበብ...",
+                    footerAboutTitle: "ስለ መታሃራ ዲጂታል 2019",
+                    footerAboutText: "መታሃራ ዲጂታል 2019 የከተማችንን ቱሪዝም፣ ባህል፣ ልማት እና ወቅታዊ መረጃዎች በሶስት ቋንቋዎች ለህብረተሰቡ የሚያደርስ መድረክ ነው።",
+                    footerContactTitle: "አግኙን / Contact Us",
+                    noData: "በዚህ ቋንቋ ወይም ምድብ የተለጠፈ መረጃ የለም። በአድሚን ፓነል መረጃ ይጫኑ።",
+                    subHeading: "ለአዳዲስ መረጃዎች ይመዝገቡ",
+                    subDesc: "ኢሜይል አድራሻዎን ያስገቡ",
+                    subButton: "ይመዝገቡ",
+                    successMsg: "በተሳካ ሁኔታ ተመዝግበዋል! እናመሰግናለን።",
+                    flipbookHead: "የመታሃራ ቱሪዝም መስህቦች ዲጂታል መጽሐፍ",
+                    flipbookSubText: "ፎቶዎቹን እንደ እውነተኛ መጽሐፍ ገጽ በገጽ በመገልጥ ይጎብኙ",
+                    flipbookNote: "የቱሪዝም ፎቶዎችዎን በማቀናበሪያ መሳሪያ (ለምሳሌ AnyFlip) ካቀናጁ በኋላ የሚሰጥዎትን <b>Embed Code (iframe)</b> በቀጥታ በዚህ ቦታ ይለጥፉ።"
+                },
+                'OR': {
+                    badgeText: "🎉 Baga Ayyaana Bara Haaraa 2019 Geessan! 🌸",
+                    heroTitle: "Baga Nagaan Gara Wiirtuu Odeeffannoo Dijitaalaa Magaala Mataaharaa Dhuftan",
+                    heroSub: "Mataaharaa Magaalaa Aduun itti hindhiine",
+                    marquee: "🔥 Baga Ayyaana Bara Haaraa 2019n nagaan isin gahe! Odeeffannoowwan yeroo fi hawwii gaarii magaalattii as irratti argachuu dandeessu. 🔥",
+                    navNews: "Oduu", navTourism: "Tuuriizimii", navCulture: "Aadaa", navHistory: "Waa'ee Hundeeffama Magaalichaa",
+                    navPhilosophy: "Filoosofii", navLiterature: "Barruu", navVideo: "Gaalarii Viidiyoo", navPhoto: "Gaalarii Suuraa",
+                    sectionHeading: "Odeeffannoo Yeroo Ammaa",
+                    readMore: "Dabalataan Dubbisuuf...",
+                    footerAboutTitle: "Waa'ee Mataaharaa Digital 2019",
+                    footerAboutText: "Mataaharaa Digital 2019 wiirtuu odeeffannoo tuuriizimii, aadaa fi misiyoonsii magaalattii afaan sadiin dhiyeessuudha.",
+                    footerContactTitle: "Nu Quunnamaa",
+                    noData: "Odeeffannoon afaan kana ykn ramaddii kanaan hin jiru.",
+                    subHeading: "Odeeffannoowwan Haaraaf Galmaa'aa",
+                    subDesc: "Teessoo imeelii keessanii galchaa",
+                    subButton: "Galmaa'i",
+                    successMsg: "Milkaa'inaan galmoofteetta! Galatoomaa.",
+                    flipbookHead: "Kitaaba Dijitaalaa Hawwata Tuuriizimii Mataaharaa",
+                    flipbookSubText: "Suurota akka kitaaba dhugaa fuula fuulaan garagalchuun daawwadhaa",
+                    flipbookNote: "Suurota tuuriizimii keessan meeshaa qindeessaa fayyadamuun (fakkeenyaaf AnyFlip) qopheessuudhaan booda <b>Embed Code (iframe)</b> kenname kana keessatti maxxansa."
+                },
+                'EN': {
+                    badgeText: "🎉 Happy Ethiopian New Year 2019 - Adey Abeba 🌸",
+                    heroTitle: "Welcome to Mataaharaa City Digital Information Center",
+                    heroSub: "“Mataahara — The City Where the Sun Never Sets.” ☀️",
+                    marquee: "🔥 Happy Ethiopian New Year 2019! Find the latest city updates, festive wishes, and news right here. 🔥",
+                    navNews: "News", navTourism: "Tourism", navCulture: "Culture", navHistory: "History of the Town",
+                    navPhilosophy: "Philosophy", navLiterature: "Literature", navVideo: "Video Gallery", navPhoto: "Photo Gallery",
+                    sectionHeading: "Latest Updates",
+                    readMore: "Read More...",
+                    footerAboutTitle: "About Mataaharaa Digital 2019",
+                    footerAboutText: "Mataaharaa Digital 2019 is a comprehensive platform sharing tourism, culture, development, and news in three languages.",
+                    footerContactTitle: "Contact Us",
+                    noData: "No posts available in this language or category yet.",
+                    subHeading: "Subscribe for Updates",
+                    subDesc: "Enter your email address",
+                    subButton: "Subscribe",
+                    successMsg: "Successfully subscribed! Thank you.",
+                    flipbookHead: "Mataaharaa Tourism Digital Flipbook",
+                    flipbookSubText: "Explore our beautiful tourist attractions by flipping through the digital book",
+                    flipbookNote: "Paste your digital book <b>Embed Code (iframe)</b> right here after publishing your photos on a flipbook maker."
+                }
+            };
 
-        function updateFilter(type, val) {
-            if(type === 'cat') {
-                currentCat = val;
-                document.querySelectorAll('nav a[id^="nav"]').forEach(a => a.classList.remove('active'));
-                const targetNav = document.getElementById('nav' + val);
-                if(targetNav) targetNav.classList.add('active');
+            function setCategory(cat) {
+                currentCat = cat;
+                document.querySelectorAll('#mainNav a[data-cat]').forEach(a => {
+                    if(a.getAttribute('data-cat') === cat) {
+                        a.classList.add('active');
+                    } else {
+                        a.classList.remove('active');
+                    }
+                });
                 
                 const flipbookSec = document.getElementById('tourismFlipbookSection');
-                if(val === 'Tourism') {
-                    flipbookSec.classList.add('active');
-                } else {
-                    flipbookSec.classList.remove('active');
+                if(flipbookSec) {
+                    if(cat === 'Tourism') {
+                        flipbookSec.classList.add('active');
+                    } else {
+                        flipbookSec.classList.remove('active');
+                    }
                 }
-            }
-            render();
-        }
-
-        function updateLanguage(lang) {
-            currentLang = lang;
-            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-            const targetBtn = document.getElementById('btn' + lang);
-            if(targetBtn) targetBtn.classList.add('active');
-            
-            document.getElementById('badgeText').innerText = translations[lang].badgeText;
-            document.getElementById('heroTitle').innerText = translations[lang].heroTitle;
-            document.getElementById('heroSub').innerText = translations[lang].heroSub;
-            document.getElementById('marqueeText').innerText = translations[lang].marquee;
-            
-            document.getElementById('navNews').innerText = translations[lang].navNews;
-            document.getElementById('navTourism').innerText = translations[lang].navTourism;
-            document.getElementById('navCulture').innerText = translations[lang].navCulture;
-            document.getElementById('navHistory').innerText = translations[lang].navHistory;
-            document.getElementById('navPhilosophy').innerText = translations[lang].navPhilosophy;
-            document.getElementById('navLiterature').innerText = translations[lang].navLiterature;
-            document.getElementById('navVideo').innerText = translations[lang].navVideo;
-            document.getElementById('navPhoto').innerText = translations[lang].navPhoto;
-
-            document.getElementById('sectionHeading').innerText = translations[lang].sectionHeading;
-            document.getElementById('footerAboutTitle').innerText = translations[lang].footerAboutTitle;
-            document.getElementById('footerAboutText').innerText = translations[lang].footerAboutText;
-            document.getElementById('footerContactTitle').innerText = translations[lang].footerContactTitle;
-
-            document.getElementById('subTitleHeading').innerText = translations[lang].subHeading;
-            document.getElementById('subDescText').innerText = translations[lang].subDesc;
-            document.getElementById('subscriberEmail').placeholder = translations[lang].subDesc;
-            document.getElementById('subBtn').innerText = translations[lang].subButton;
-
-            document.getElementById('flipbookHeading').innerText = translations[lang].flipbookHead;
-            document.getElementById('flipbookSub').innerText = translations[lang].flipbookSubText;
-            document.getElementById('flipbookPlaceholderText').innerHTML = translations[lang].flipbookNote;
-
-            render();
-        }
-
-        document.getElementById("subscribeForm").addEventListener("submit", function(e) {
-            e.preventDefault();
-            const emailInput = document.getElementById("subscriberEmail").value;
-            const subs = JSON.parse(localStorage.getItem(SUB_KEY) || '[]');
-            subs.push({ email: emailInput, language: currentLang, subscribedAt: Date.now() });
-            localStorage.setItem(SUB_KEY, JSON.stringify(subs));
-            alert(translations[currentLang].successMsg);
-            this.reset();
-        });
-
-        function saveToLocal(posts) {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
-        }
-
-        function loadData() {
-            const localPosts = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-            allPosts = localPosts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-            render();
-        }
-
-        function getMediaHtml(mediaUrl) {
-            if (!mediaUrl || mediaUrl.trim() === '') return '';
-            let trimmedUrl = mediaUrl.trim();
-            if (trimmedUrl.includes('youtube.com') || trimmedUrl.includes('youtu.be')) {
-                let videoId = '';
-                if (trimmedUrl.includes('youtu.be/')) {
-                    videoId = trimmedUrl.split('youtu.be/')[1].split('?')[0];
-                } else if (trimmedUrl.includes('v=')) {
-                    videoId = trimmedUrl.split('v=')[1].split('&')[0];
-                } else if (trimmedUrl.includes('embed/')) {
-                    videoId = trimmedUrl.split('embed/')[1].split('?')[0];
-                }
-                if (videoId) {
-                    return `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
-                }
-            }
-            return `<img src="${trimmedUrl}" alt="Media Image" onerror="this.style.display='none'">`;
-        }
-
-        function render() {
-            const container = document.getElementById("newsContainer");
-            container.innerHTML = "";
-            
-            const filtered = allPosts.filter(p => {
-                let pLang = p.lang ? p.lang.trim().toUpperCase() : 'AM';
-                let cLang = currentLang.trim().toUpperCase();
-                return (p.category === currentCat) && (pLang === cLang);
-            });
-
-            if(filtered.length === 0) {
-                container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #777; padding: 30px; background: #fff; border-radius: 8px;">${translations[currentLang].noData}</p>`;
-                return;
+                render();
             }
 
-            filtered.forEach((p) => {
-                let mediaHtml = getMediaHtml(p.media);
-                let shortContent = p.content.length > 100 ? p.content.substring(0, 100) + "..." : p.content;
-                let adminControlsClass = isAdminLoggedIn ? "admin-controls active" : "admin-controls";
+            function setLanguage(lang) {
+                currentLang = lang;
+                document.querySelectorAll('.lang-btn').forEach(b => {
+                    if(b.getAttribute('data-lang') === lang) {
+                        b.classList.add('active');
+                    } else {
+                        b.classList.remove('active');
+                    }
+                });
+                
+                const t = translations[lang];
+                document.getElementById('badgeText').innerText = t.badgeText;
+                document.getElementById('heroTitle').innerText = t.heroTitle;
+                document.getElementById('heroSub').innerText = t.heroSub;
+                document.getElementById('marqueeText').innerText = t.marquee;
+                
+                document.getElementById('navNews').innerText = t.navNews;
+                document.getElementById('navTourism').innerText = t.navTourism;
+                document.getElementById('navCulture').innerText = t.navCulture;
+                document.getElementById('navHistory').innerText = t.navHistory;
+                document.getElementById('navPhilosophy').innerText = t.navPhilosophy;
+                document.getElementById('navLiterature').innerText = t.navLiterature;
+                document.getElementById('navVideo').innerText = t.navVideo;
+                document.getElementById('navPhoto').innerText = t.navPhoto;
 
-                container.innerHTML += `
-                    <div class="news-card">
+                document.getElementById('sectionHeading').innerText = t.sectionHeading;
+                document.getElementById('footerAboutTitle').innerText = t.footerAboutTitle;
+                document.getElementById('footerAboutText').innerText = t.footerAboutText;
+                document.getElementById('footerContactTitle').innerText = t.footerContactTitle;
+
+                document.getElementById('subTitleHeading').innerText = t.subHeading;
+                document.getElementById('subDescText').innerText = t.subDesc;
+                document.getElementById('subscriberEmail').placeholder = t.subDesc;
+                document.getElementById('subBtn').innerText = t.subButton;
+
+                document.getElementById('flipbookHeading').innerText = t.flipbookHead;
+                document.getElementById('flipbookSub').innerText = t.flipbookSubText;
+                document.getElementById('flipbookPlaceholderText').innerHTML = t.flipbookNote;
+
+                render();
+            }
+
+            function saveToLocal(posts) {
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+                } catch(e) {
+                    console.error("Save error:", e);
+                }
+            }
+
+            function loadData() {
+                try {
+                    const raw = localStorage.getItem(STORAGE_KEY);
+                    const parsed = raw ? JSON.parse(raw) : [];
+                    allPosts = Array.isArray(parsed) ? parsed : [];
+                } catch(e) {
+                    allPosts = [];
+                    localStorage.removeItem(STORAGE_KEY);
+                }
+                allPosts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                render();
+            }
+
+            function getMediaHtml(mediaUrl) {
+                if (!mediaUrl || mediaUrl.trim() === '') return '';
+                let trimmedUrl = mediaUrl.trim();
+                if (trimmedUrl.includes('youtube.com') || trimmedUrl.includes('youtu.be')) {
+                    let videoId = '';
+                    if (trimmedUrl.includes('youtu.be/')) {
+                        videoId = trimmedUrl.split('youtu.be/')[1].split('?')[0];
+                    } else if (trimmedUrl.includes('v=')) {
+                        videoId = trimmedUrl.split('v=')[1].split('&')[0];
+                    } else if (trimmedUrl.includes('embed/')) {
+                        videoId = trimmedUrl.split('embed/')[1].split('?')[0];
+                    }
+                    if (videoId) {
+                        return `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+                    }
+                }
+                return `<img src="${trimmedUrl}" alt="Media Image" onerror="this.style.display='none'">`;
+            }
+
+            function render() {
+                const container = document.getElementById("newsContainer");
+                if(!container) return;
+                container.innerHTML = "";
+                
+                const filtered = allPosts.filter(p => {
+                    let pLang = p.lang ? p.lang.trim().toUpperCase() : 'AM';
+                    let cLang = currentLang.trim().toUpperCase();
+                    return (p.category === currentCat) && (pLang === cLang);
+                });
+
+                if(filtered.length === 0) {
+                    container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #777; padding: 30px; background: #fff; border-radius: 8px;">${translations[currentLang].noData}</p>`;
+                    return;
+                }
+
+                filtered.forEach((p) => {
+                    const card = document.createElement('div');
+                    card.className = 'news-card';
+                    
+                    let mediaHtml = getMediaHtml(p.media);
+                    let contentText = p.content || "";
+                    let shortContent = contentText.length > 100 ? contentText.substring(0, 100) + "..." : contentText;
+                    let adminControlsClass = isAdminLoggedIn ? "admin-controls active" : "admin-controls";
+
+                    card.innerHTML = `
                         <div class="card-body-content">
                             ${mediaHtml}
                             <span class="cat">${p.category}</span>
@@ -530,99 +544,195 @@
                             <p>${shortContent}</p>
                         </div>
                         <div class="card-actions">
-                            <button type="button" class="read-more-btn" onclick="openDetailModal('${p.id}')">${translations[currentLang].readMore}</button>
+                            <button type="button" class="read-more-btn">${translations[currentLang].readMore}</button>
                             <div class="${adminControlsClass}">
-                                <button type="button" class="edit-btn" onclick="editPost('${p.id}')">አስተካክል</button>
-                                <button type="button" class="delete-btn" onclick="deletePost('${p.id}')">ሰርዝ</button>
+                                <button type="button" class="edit-btn">አስተካክል</button>
+                                <button type="button" class="delete-btn">ሰርዝ</button>
                             </div>
                         </div>
-                    </div>
+                    `;
+
+                    card.querySelector('.read-more-btn').addEventListener('click', () => openDetailModal(p.id));
+                    const editBtn = card.querySelector('.edit-btn');
+                    const delBtn = card.querySelector('.delete-btn');
+                    if(editBtn) editBtn.addEventListener('click', () => editPost(p.id));
+                    if(delBtn) delBtn.addEventListener('click', () => deletePost(p.id));
+
+                    container.appendChild(card);
+                });
+            }
+
+            function openDetailModal(id) {
+                const p = allPosts.find(item => item.id === id);
+                if(!p) return;
+
+                let mediaHtml = getMediaHtml(p.media);
+                const modalContent = document.getElementById("detailModalContent");
+                modalContent.innerHTML = `
+                    <button type="button" class="close-detail-btn" id="dynamicCloseDetail">✖ ዝጋ</button>
+                    ${mediaHtml}
+                    <span class="cat">${p.category}</span>
+                    <h2>${p.title}</h2>
+                    <p>${p.content}</p>
                 `;
+                document.getElementById("dynamicCloseDetail").addEventListener('click', () => {
+                    document.getElementById("detailModal").classList.remove("active");
+                });
+                document.getElementById("detailModal").classList.add("active");
+            }
+
+            function verifyPassword() {
+                const pass = document.getElementById("adminPasswordInput").value;
+                if(pass === "sami2all@8080") { 
+                    isAdminLoggedIn = true;
+                    document.getElementById("passwordModal").classList.remove("active");
+                    document.getElementById("adminSection").classList.add("active");
+                    document.getElementById("adminPasswordInput").value = "";
+                    render();
+                } else {
+                    alert("የገባው የለፍ ቃል ስህተት ነው!");
+                }
+            }
+
+            function editPost(id) {
+                const p = allPosts.find(item => item.id === id);
+                if(!p) return;
+
+                document.getElementById("editPostId").value = p.id;
+                document.getElementById("newsCategory").value = p.category;
+                document.getElementById("mediaUrl").value = p.media || "";
+                
+                let pLang = p.lang || currentLang;
+                if(pLang === 'AM') {
+                    document.getElementById("titleAM").value = p.title || "";
+                    document.getElementById("contentAM").value = p.content || "";
+                } else if(pLang === 'OR') {
+                    document.getElementById("titleOR").value = p.title || "";
+                    document.getElementById("contentOR").value = p.content || "";
+                } else if(pLang === 'EN') {
+                    document.getElementById("titleEN").value = p.title || "";
+                    document.getElementById("contentEN").value = p.content || "";
+                }
+
+                document.getElementById("adminSection").scrollIntoView({ behavior: 'smooth' });
+            }
+
+            function deletePost(id) {
+                if(confirm("ይህን መረጃ በእርግጥ መሰረዝ ትፈልጋለህ?")) {
+                    allPosts = allPosts.filter(item => item.id !== id);
+                    saveToLocal(allPosts);
+                    render();
+                    alert("መረጃው በተሳካ ሁኔታ ተሰርዟል!");
+                }
+            }
+
+            // ሁሉንም አዝራሮች በቀጥታ ማገናኘት (Event Listeners)
+            document.querySelectorAll('#mainNav a[data-cat]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    setCategory(this.getAttribute('data-cat'));
+                });
             });
-        }
 
-        function openDetailModal(id) {
-            const p = allPosts.find(item => item.id === id);
-            if(!p) return;
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    setLanguage(this.getAttribute('data-lang'));
+                });
+            });
 
-            let mediaHtml = getMediaHtml(p.media);
+            document.getElementById('openAdminBtn').addEventListener('click', function() {
+                document.getElementById("passwordModal").classList.add("active");
+                setTimeout(() => document.getElementById("adminPasswordInput").focus(), 100);
+            });
 
-            const modalContent = document.getElementById("detailModalContent");
-            modalContent.innerHTML = `
-                <button type="button" class="close-detail-btn" onclick="closeDetailModal()">✖ ዝጋ</button>
-                ${mediaHtml}
-                <span class="cat">${p.category}</span>
-                <h2>${p.title}</h2>
-                <p>${p.content}</p>
-            `;
-            document.getElementById("detailModal").classList.add("active");
-        }
-
-        function closeDetailModal() {
-            document.getElementById("detailModal").classList.remove("active");
-        }
-
-        function checkPassword() {
-            document.getElementById("passwordModal").classList.add("active");
-            setTimeout(() => document.getElementById("adminPasswordInput").focus(), 100);
-        }
-
-        function closeModal() {
-            document.getElementById("passwordModal").classList.remove("active");
-            document.getElementById("adminPasswordInput").value = "";
-        }
-
-        function verifyPassword() {
-            const pass = document.getElementById("adminPasswordInput").value;
-            if(pass === "sami2all@8080") { 
-                isAdminLoggedIn = true;
+            document.getElementById('cancelPassBtn').addEventListener('click', function() {
                 document.getElementById("passwordModal").classList.remove("active");
-                document.getElementById("adminSection").classList.add("active");
                 document.getElementById("adminPasswordInput").value = "";
+            });
+
+            document.getElementById('verifyPassBtn').addEventListener('click', verifyPassword);
+
+            document.getElementById('adminPasswordInput').addEventListener('keypress', function(e) {
+                if(e.key === 'Enter') verifyPassword();
+            });
+
+            document.getElementById('closeAdminBtn').addEventListener('click', function() {
+                isAdminLoggedIn = false;
+                document.getElementById("adminSection").classList.remove("active");
+                document.getElementById("newsForm").reset();
+                document.getElementById("editPostId").value = "";
                 render();
-            } else {
-                alert("የገባው የለፍ ቃል ስህተት ነው!");
-            }
-        }
+            });
 
-        function closeAdminPanel() {
-            isAdminLoggedIn = false;
-            document.getElementById("adminSection").classList.remove("active");
-            document.getElementById("newsForm").reset();
-            document.getElementById("editPostId").value = "";
-            render();
-        }
+            document.getElementById("subscribeForm").addEventListener("submit", function(e) {
+                e.preventDefault();
+                const emailInput = document.getElementById("subscriberEmail").value;
+                try {
+                    const subs = JSON.parse(localStorage.getItem(SUB_KEY) || '[]');
+                    subs.push({ email: emailInput, language: currentLang, subscribedAt: Date.now() });
+                    localStorage.setItem(SUB_KEY, JSON.stringify(subs));
+                } catch(err) {}
+                alert(translations[currentLang].successMsg);
+                this.reset();
+            });
 
-        function editPost(id) {
-            const p = allPosts.find(item => item.id === id);
-            if(!p) return;
+            document.getElementById("newsForm").addEventListener("submit", function(e) {
+                e.preventDefault();
+                const editId = document.getElementById("editPostId").value;
+                const category = document.getElementById("newsCategory").value;
+                const media = document.getElementById("mediaUrl").value.trim();
 
-            document.getElementById("editPostId").value = p.id;
-            document.getElementById("newsCategory").value = p.category;
-            document.getElementById("mediaUrl").value = p.media || "";
-            
-            let pLang = p.lang || currentLang;
-            if(pLang === 'AM') {
-                document.getElementById("titleAM").value = p.title || "";
-                document.getElementById("contentAM").value = p.content || "";
-            } else if(pLang === 'OR') {
-                document.getElementById("titleOR").value = p.title || "";
-                document.getElementById("contentOR").value = p.content || "";
-            } else if(pLang === 'EN') {
-                document.getElementById("titleEN").value = p.title || "";
-                document.getElementById("contentEN").value = p.content || "";
-            }
+                const tAM = document.getElementById("titleAM").value.trim();
+                const cAM = document.getElementById("contentAM").value.trim();
+                const tOR = document.getElementById("titleOR").value.trim();
+                const cOR = document.getElementById("contentOR").value.trim();
+                const tEN = document.getElementById("titleEN").value.trim();
+                const cEN = document.getElementById("contentEN").value.trim();
 
-            document.getElementById("adminSection").scrollIntoView({ behavior: 'smooth' });
-        }
+                if(!tAM && !tOR && !tEN) {
+                    alert("እባክዎ ቢያንስ የአንድ ቋንቋ ርዕስ ያስገቡ!");
+                    return;
+                }
 
-        function deletePost(id) {
-            if(confirm("ይህን መረጃ በእርግጥ መሰረዝ ትፈልጋለህ?")) {
-                allPosts = allPosts.filter(item => item.id !== id);
-                saveToLocal(allPosts);
+                let postsToSave = [];
+                if(tAM) postsToSave.push({ lang: 'AM', title: tAM, content: cAM });
+                if(tOR) postsToSave.push({ lang: 'OR', title: tOR, content: cOR });
+                if(tEN) postsToSave.push({ lang: 'EN', title: tEN, content: cEN });
+
+                if(editId) {
+                    let singlePost = postsToSave[0] || { lang: currentLang, title: tAM || tOR || tEN, content: cAM || cOR || cEN };
+                    const postData = { category, media, lang: singlePost.lang, title: singlePost.title, content: singlePost.content };
+                    
+                    allPosts = allPosts.map(p => p.id === editId ? { ...p, ...postData } : p);
+                    saveToLocal(allPosts);
+                    alert("መረጃው በተሳካ ሁኔታ ተስተካክሏል!");
+                } else {
+                    for(let sp of postsToSave) {
+                        const newPostData = {
+                            id: 'post_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5) + '_' + sp.lang,
+                            category,
+                            media,
+                            lang: sp.lang,
+                            title: sp.title,
+                            content: sp.content,
+                            createdAt: Date.now()
+                        };
+                        allPosts.unshift(newPostData);
+                    }
+                    saveToLocal(allPosts);
+                    alert("መረጃው በተሳካ ሁኔታ ተለጥፏል!");
+                }
+
+                document.getElementById("newsForm").reset();
+                document.getElementById("editPostId").value = "";
+                document.getElementById("adminSection").classList.remove("active");
+                isAdminLoggedIn = false;
                 render();
-                alert("መረጃው በተሳካ ሁኔታ ተሰርዟል!");
-            }
-        }
+            });
 
-        document.getElement
+            loadData();
+        })();
+    </script>
+</body>
+</html>
