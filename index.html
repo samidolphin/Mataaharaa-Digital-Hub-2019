@@ -261,7 +261,7 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="text" id="mediaUrl" placeholder="የፎቶ ስም (ለምሳሌ water.jpg) ወይም የዩቲዩብ ቪዲዮ ሊንክ ያስገቡ">
+                    <input type="text" id="mediaUrl" placeholder="የፎቶ ሊንክ/ስም (ለምሳሌ https://... ወይም water.jpg) ወይም ዩቲዩብ ሊንክ">
                 </div>
 
                 <hr style="margin: 15px 0; border: 0; border-top: 1px solid #ddd;">
@@ -330,7 +330,7 @@
             let allPosts = [];
             let isAdminLoggedIn = false;
 
-            // የድሮውንም ሆነ የአዲሱን ቁልፎች በሙሉ በአንድ ላይ እንፈልጋለን
+            // የሁሉም ሊሆኑ የሚችሉ የLocalStorage ቁልፎች ዝርዝር
             const STORAGE_KEYS = [
                 'mataaharaa_saved_posts_2019', 
                 'mataaharaa_saved_posts_v3', 
@@ -512,16 +512,37 @@
             function loadData() {
                 let userPosts = [];
                 try {
-                    // በሁሉም የ STORAGE_KEYS ማህደሮች ውስጥ የተጠቃሚው ዜና መኖሩን እንፈልጋለን
+                    // በሁለቱም በ STORAGE_KEYS እና በቀጥታ በ localStorage ያሉትን ፋይሎች በሙሉ እንፈትሻለን
+                    for (let i = 0; i < localStorage.length; i++) {
+                        const key = localStorage.key(i);
+                        if (key && (key.includes('post') || key.includes('saved') || key.includes('mataaharaa'))) {
+                            const raw = localStorage.getItem(key);
+                            if (raw) {
+                                try {
+                                    const parsed = JSON.parse(raw);
+                                    if (Array.isArray(parsed)) {
+                                        parsed.forEach(item => {
+                                            if (item && item.title && !item.id?.startsWith('default_')) {
+                                                if (!userPosts.some(p => p.title === item.title && p.category === item.category && p.lang === item.lang)) {
+                                                    userPosts.push(item);
+                                                }
+                                            }
+                                        });
+                                    }
+                                } catch(err) {}
+                            }
+                        }
+                    }
+
+                    // እንዲሁም በ STORAGE_KEYS ዝርዝር ውስጥ ያሉትን በግልጽ እንፈትሻለን
                     STORAGE_KEYS.forEach(key => {
                         const raw = localStorage.getItem(key);
                         if(raw) {
                             const parsed = JSON.parse(raw);
                             if(Array.isArray(parsed)) {
                                 parsed.forEach(item => {
-                                    if(item && item.id && !item.id.startsWith('default_')) {
-                                        // እንዳይደጋገሙ በ id አመሳክረን እንይዛለን
-                                        if(!userPosts.some(p => p.id === item.id)) {
+                                    if(item && item.title && !item.id?.startsWith('default_')) {
+                                        if(!userPosts.some(p => p.title === item.title && p.category === item.category && p.lang === item.lang)) {
                                             userPosts.push(item);
                                         }
                                     }
@@ -535,14 +556,15 @@
 
                 const map = new Map();
                 
-                // 1. መጀመሪያ አንተ የጫንካቸውን ትክክለኛ ዜናዎች እንጭናለን (በፊት እንዲመጡ)
+                // 1. መጀመሪያ የተጠቃሚው ዜናዎችና ምስሎች ቅድሚያ ተሰጥቷቸው ይጫናሉ
                 userPosts.forEach(item => {
-                    map.set(item.id, item);
+                    const uniqueKey = item.id || (item.title + '_' + item.category + '_' + item.lang);
+                    map.set(uniqueKey, item);
                 });
 
-                // 2. ቀጥሎ ነባሪዎቹን (defaultPosts) እንጨምራለን (የተጠቃሚው ዜና ከሌለ ብቻ እንዲታዩ)
+                // 2. ቀጥሎ ነባሪዎቹን (defaultPosts) እንጨምራለን (የተጠቃሚው ዜና ከሌለ ብቻ)
                 defaultPosts.forEach(item => {
-                    if(!map.has(item.id)) {
+                    if(!Array.from(map.values()).some(p => p.category === item.category && p.lang === item.lang && p.title === item.title)) {
                         map.set(item.id, item);
                     }
                 });
@@ -550,7 +572,6 @@
                 allPosts = Array.from(map.values());
                 allPosts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
                 
-                // የጫንካቸው ዜናዎች በሙሉ በሁሉም ኪዮች ውስጥ እንዲቀመጡ እናረጋግጣለን
                 if(userPosts.length > 0) {
                     saveToLocal(allPosts);
                 }
@@ -686,7 +707,7 @@
             function deletePost(id) {
                 if(confirm("ይህን መረጃ በእርግጥ መሰረዝ ትፈልጋለህ?")) {
                     allPosts = allPosts.filter(item => item.id !== id);
-                    saveToLocal(allPosts);
+                    saveToLocal(allPosts.filter(p => !p.id?.startsWith('default_')));
                     loadData();
                     alert("መረጃው በተሳካ ሁኔታ ተሰርዟል!");
                 }
@@ -742,64 +763,4 @@
                 this.reset();
             });
 
-            document.getElementById("newsForm").addEventListener("submit", function(e) {
-                e.preventDefault();
-                const editId = document.getElementById("editPostId").value;
-                const category = document.getElementById("newsCategory").value;
-                const media = document.getElementById("mediaUrl").value.trim();
-
-                const tAM = document.getElementById("titleAM").value.trim();
-                const cAM = document.getElementById("contentAM").value.trim();
-                const tOR = document.getElementById("titleOR").value.trim();
-                const cOR = document.getElementById("contentOR").value.trim();
-                const tEN = document.getElementById("titleEN").value.trim();
-                const cEN = document.getElementById("contentEN").value.trim();
-
-                if(!tAM && !tOR && !tEN) {
-                    alert("እባክዎ ቢያንስ የአንድ ቋንቋ ርዕስ ያስገቡ!");
-                    return;
-                }
-
-                let postsToSave = [];
-                if(tAM) postsToSave.push({ lang: 'AM', title: tAM, content: cAM });
-                if(tOR) postsToSave.push({ lang: 'OR', title: tOR, content: cOR });
-                if(tEN) postsToSave.push({ lang: 'EN', title: tEN, content: cEN });
-
-                let currentSaved = allPosts.filter(p => !p.id.startsWith('default_'));
-
-                if(editId) {
-                    let singlePost = postsToSave[0] || { lang: currentLang, title: tAM || tOR || tEN, content: cAM || cOR || cEN };
-                    const postData = { category, media, lang: singlePost.lang, title: singlePost.title, content: singlePost.content };
-                    
-                    currentSaved = currentSaved.map(p => p.id === editId ? { ...p, ...postData } : p);
-                    saveToLocal(currentSaved);
-                    alert("መረጃው በተሳካ ሁኔታ ተስተካክሏል!");
-                } else {
-                    for(let sp of postsToSave) {
-                        const newPostData = {
-                            id: 'post_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5) + '_' + sp.lang,
-                            category,
-                            media,
-                            lang: sp.lang,
-                            title: sp.title,
-                            content: sp.content,
-                            createdAt: Date.now()
-                        };
-                        currentSaved.unshift(newPostData);
-                    }
-                    saveToLocal(currentSaved);
-                    alert("መረጃው በተሳካ ሁኔታ ተለጥፏል!");
-                }
-
-                document.getElementById("newsForm").reset();
-                document.getElementById("editPostId").value = "";
-                document.getElementById("adminSection").classList.remove("active");
-                isAdminLoggedIn = false;
-                loadData();
-            });
-
-            loadData();
-        })();
-    </script>
-</body>
-</html>
+            document.
