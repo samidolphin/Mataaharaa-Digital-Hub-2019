@@ -6,9 +6,11 @@
     <title>Mataaharaa Digital Hub 2019</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #f4f7f6; color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }    
+        body { background-color: #f4f7f6; color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }    
         
-        header { display: flex; justify-content: space-between; align-items: center; padding: 12px 3%; background: #ffffff; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 100%; gap: 10px; }        
+        /* Header & Responsive Layout */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 12px 3%; background: #ffffff; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 100%; flex-wrap: wrap; gap: 10px; }        
+        
         .logo-area { display: flex; align-items: center; flex-shrink: 0; }
         .logo-text {
             border: 2px solid #ff6600;
@@ -19,24 +21,34 @@
         }
         .logo-text h1 { font-size: 0.95rem; color: #ff6600; font-weight: bold; white-space: nowrap; }
 
-        nav { display: flex; align-items: center; gap: 4px; flex-wrap: nowrap; overflow-x: auto; max-width: 100%; padding: 4px 0; -webkit-overflow-scrolling: touch; }
-        nav::-webkit-scrollbar { display: none; }
-        nav a { text-decoration: none; color: #333; font-weight: 600; font-size: 0.78rem; transition: all 0.2s; padding: 5px 8px; border-radius: 4px; cursor: pointer; white-space: nowrap; display: inline-block; flex-shrink: 0; }
-        nav a:hover, nav a.active { color: #ff6600; background: #fff3ed; border-bottom: 2px solid #ff6600; }
+        /* Navigation Links */
+        nav { display: flex; align-items: center; gap: 5px; flex-wrap: nowrap; overflow-x: auto; max-width: 100%; padding: 5px 0; -webkit-overflow-scrolling: touch; }
+        nav::-webkit-scrollbar { height: 3px; }
+        nav::-webkit-scrollbar-thumb { background: #ff6600; border-radius: 3px; }
+        nav a { text-decoration: none; color: #333; font-weight: 600; font-size: 0.8rem; transition: all 0.2s; padding: 6px 10px; border-radius: 4px; cursor: pointer; white-space: nowrap; display: inline-block; flex-shrink: 0; background: #f9f9f9; border: 1px solid #eee; }
+        nav a:hover, nav a.active { color: #ffffff; background: #ff6600; border-color: #ff6600; }
         
         .nav-right-group { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
         .lang-container { display: flex; align-items: center; gap: 2px; background: #eee; padding: 3px; border-radius: 20px; }
-        .lang-btn { background: transparent; border: none; padding: 4px 8px; border-radius: 15px; cursor: pointer; font-size: 0.75rem; font-weight: bold; color: #555; transition: all 0.2s; white-space: nowrap; }
+        .lang-btn { background: transparent; border: none; padding: 4px 9px; border-radius: 15px; cursor: pointer; font-size: 0.75rem; font-weight: bold; color: #555; transition: all 0.2s; white-space: nowrap; }
         .lang-btn:hover { background: #ddd; }
         .lang-btn.active { background: #ff6600; color: white; }
 
-        .admin-btn { background: #ff6600; color: white !important; padding: 6px 12px; border-radius: 4px; font-size: 0.78rem; cursor: pointer; border: none; font-weight: bold; transition: background 0.2s; white-space: nowrap; }
-        .admin-btn:hover { background: #e65c00; }
+        .admin-btn { background: #222; color: white !important; padding: 6px 12px; border-radius: 4px; font-size: 0.78rem; cursor: pointer; border: none; font-weight: bold; transition: background 0.2s; white-space: nowrap; }
+        .admin-btn:hover { background: #ff6600; }
+
+        /* Mobile Specific Adjustments */
+        @media (max-width: 900px) {
+            header { flex-direction: column; align-items: stretch; padding: 10px 3%; gap: 8px; }
+            .logo-area { justify-content: center; width: 100%; }
+            .nav-right-group { justify-content: center; width: 100%; order: 2; }
+            nav { width: 100%; order: 3; border-top: 1px solid #eee; padding-top: 8px; justify-content: flex-start; }
+        }
 
         .hero-banner { 
             background: linear-gradient(rgba(5,15,35,0.85), rgba(10,25,50,0.85)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200') no-repeat center center/cover; 
             color: white; 
-            padding: 60px 20px 70px 20px; 
+            padding: 50px 20px 60px 20px; 
             text-align: center; 
             border-bottom: 5px solid #ff6600;
             position: relative;
@@ -75,25 +87,25 @@
             }
         }
 
-        .brand-display { margin-bottom: 20px; position: relative; z-index: 15; }
-        .brand-display .main-title { font-size: 2.2rem; font-weight: bold; color: #ffffff; letter-spacing: 1px; text-shadow: 2px 2px 10px rgba(0,0,0,0.9); }
-        .brand-display .sub-title { font-size: 1.6rem; color: #ffb700; font-weight: bold; margin-top: -5px; text-shadow: 2px 2px 8px rgba(0,0,0,0.9); }
+        .brand-display { margin-bottom: 18px; position: relative; z-index: 15; }
+        .brand-display .main-title { font-size: 2rem; font-weight: bold; color: #ffffff; letter-spacing: 1px; text-shadow: 2px 2px 10px rgba(0,0,0,0.9); }
+        .brand-display .sub-title { font-size: 1.45rem; color: #ffb700; font-weight: bold; margin-top: -3px; text-shadow: 2px 2px 8px rgba(0,0,0,0.9); }
         .adey-badge {
             display: inline-block;
             background: linear-gradient(135deg, #ff6600, #ffb300);
             color: #fff;
-            padding: 6px 18px;
+            padding: 6px 16px;
             border-radius: 25px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: bold;
-            margin-bottom: 18px;
+            margin-bottom: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
             border: 1px solid #ffe600;
             position: relative;
             z-index: 15;
         }
-        .hero-banner h2 { font-size: 1.6rem; margin-bottom: 10px; font-weight: bold; text-shadow: 2px 2px 6px rgba(0,0,0,0.8); color: #fff; position: relative; z-index: 15; }
-        .hero-banner p { font-size: 1.05rem; opacity: 0.95; font-weight: 500; text-shadow: 1px 1px 4px rgba(0,0,0,0.8); color: #ffe600; position: relative; z-index: 15; }
+        .hero-banner h2 { font-size: 1.45rem; margin-bottom: 10px; font-weight: bold; text-shadow: 2px 2px 6px rgba(0,0,0,0.8); color: #fff; position: relative; z-index: 15; }
+        .hero-banner p { font-size: 1rem; opacity: 0.95; font-weight: 500; text-shadow: 1px 1px 4px rgba(0,0,0,0.8); color: #ffe600; position: relative; z-index: 15; }
 
         .marquee-container { background: #ff6600; color: white; padding: 9px 0; font-size: 0.90rem; font-weight: bold; overflow: hidden; white-space: nowrap; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .marquee-container marquee { width: 100%; }
@@ -595,143 +607,4 @@
             }
 
             function editPost(id) {
-                const p = allPosts.find(item => item.id === id);
-                if(!p) return;
-
-                document.getElementById("editPostId").value = p.id;
-                document.getElementById("newsCategory").value = p.category;
-                document.getElementById("mediaUrl").value = p.media || "";
-                
-                let pLang = p.lang || currentLang;
-                if(pLang === 'AM') {
-                    document.getElementById("titleAM").value = p.title || "";
-                    document.getElementById("contentAM").value = p.content || "";
-                } else if(pLang === 'OR') {
-                    document.getElementById("titleOR").value = p.title || "";
-                    document.getElementById("contentOR").value = p.content || "";
-                } else if(pLang === 'EN') {
-                    document.getElementById("titleEN").value = p.title || "";
-                    document.getElementById("contentEN").value = p.content || "";
-                }
-
-                document.getElementById("adminSection").scrollIntoView({ behavior: 'smooth' });
-            }
-
-            function deletePost(id) {
-                if(confirm("ይህን መረጃ በእርግጥ መሰረዝ ትፈልጋለህ?")) {
-                    allPosts = allPosts.filter(item => item.id !== id);
-                    saveToLocal(allPosts);
-                    render();
-                    alert("መረጃው በተሳካ ሁኔታ ተሰርዟል!");
-                }
-            }
-
-            document.querySelectorAll('#mainNav a[data-cat]').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    setCategory(this.getAttribute('data-cat'));
-                });
-            });
-
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    setLanguage(this.getAttribute('data-lang'));
-                });
-            });
-
-            document.getElementById('openAdminBtn').addEventListener('click', function() {
-                document.getElementById("passwordModal").classList.add("active");
-                setTimeout(() => document.getElementById("adminPasswordInput").focus(), 100);
-            });
-
-            document.getElementById('cancelPassBtn').addEventListener('click', function() {
-                document.getElementById("passwordModal").classList.remove("active");
-                document.getElementById("adminPasswordInput").value = "";
-            });
-
-            document.getElementById('verifyPassBtn').addEventListener('click', verifyPassword);
-
-            document.getElementById('adminPasswordInput').addEventListener('keypress', function(e) {
-                if(e.key === 'Enter') verifyPassword();
-            });
-
-            document.getElementById('closeAdminBtn').addEventListener('click', function() {
-                isAdminLoggedIn = false;
-                document.getElementById("adminSection").classList.remove("active");
-                document.getElementById("newsForm").reset();
-                document.getElementById("editPostId").value = "";
-                render();
-            });
-
-            document.getElementById("subscribeForm").addEventListener("submit", function(e) {
-                e.preventDefault();
-                const emailInput = document.getElementById("subscriberEmail").value;
-                try {
-                    const subs = JSON.parse(localStorage.getItem(SUB_KEY) || '[]');
-                    subs.push({ email: emailInput, language: currentLang, subscribedAt: Date.now() });
-                    localStorage.setItem(SUB_KEY, JSON.stringify(subs));
-                } catch(err) {}
-                alert(translations[currentLang].successMsg);
-                this.reset();
-            });
-
-            document.getElementById("newsForm").addEventListener("submit", function(e) {
-                e.preventDefault();
-                const editId = document.getElementById("editPostId").value;
-                const category = document.getElementById("newsCategory").value;
-                const media = document.getElementById("mediaUrl").value.trim();
-
-                const tAM = document.getElementById("titleAM").value.trim();
-                const cAM = document.getElementById("contentAM").value.trim();
-                const tOR = document.getElementById("titleOR").value.trim();
-                const cOR = document.getElementById("contentOR").value.trim();
-                const tEN = document.getElementById("titleEN").value.trim();
-                const cEN = document.getElementById("contentEN").value.trim();
-
-                if(!tAM && !tOR && !tEN) {
-                    alert("እባክዎ ቢያንስ የአንድ ቋንቋ ርዕስ ያስገቡ!");
-                    return;
-                }
-
-                let postsToSave = [];
-                if(tAM) postsToSave.push({ lang: 'AM', title: tAM, content: cAM });
-                if(tOR) postsToSave.push({ lang: 'OR', title: tOR, content: cOR });
-                if(tEN) postsToSave.push({ lang: 'EN', title: tEN, content: cEN });
-
-                if(editId) {
-                    let singlePost = postsToSave[0] || { lang: currentLang, title: tAM || tOR || tEN, content: cAM || cOR || cEN };
-                    const postData = { category, media, lang: singlePost.lang, title: singlePost.title, content: singlePost.content };
-                    
-                    allPosts = allPosts.map(p => p.id === editId ? { ...p, ...postData } : p);
-                    saveToLocal(allPosts);
-                    alert("መረጃው በተሳካ ሁኔታ ተስተካክሏል!");
-                } else {
-                    for(let sp of postsToSave) {
-                        const newPostData = {
-                            id: 'post_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5) + '_' + sp.lang,
-                            category,
-                            media,
-                            lang: sp.lang,
-                            title: sp.title,
-                            content: sp.content,
-                            createdAt: Date.now()
-                        };
-                        allPosts.unshift(newPostData);
-                    }
-                    saveToLocal(allPosts);
-                    alert("መረጃው በተሳካ ሁኔታ ተለጥፏል!");
-                }
-
-                document.getElementById("newsForm").reset();
-                document.getElementById("editPostId").value = "";
-                document.getElementById("adminSection").classList.remove("active");
-                isAdminLoggedIn = false;
-                render();
-            });
-
-            loadData();
-        })();
-    </script>
-</body>
-</html>
+                const
