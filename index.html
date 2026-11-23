@@ -330,6 +330,7 @@
             let allPosts = [];
             let isAdminLoggedIn = false;
 
+            // የድሮውንም ሆነ የአዲሱን ቁልፎች በሙሉ በአንድ ላይ እንፈልጋለን
             const STORAGE_KEYS = [
                 'mataaharaa_saved_posts_2019', 
                 'mataaharaa_saved_posts_v3', 
@@ -511,15 +512,20 @@
             function loadData() {
                 let userPosts = [];
                 try {
-                    // መጀመሪያ በሁሉም የ Storage ቁልፎች ውስጥ የተጠቃሚው ዜና መኖሩን እንፈልጋለን
+                    // በሁሉም የ STORAGE_KEYS ማህደሮች ውስጥ የተጠቃሚው ዜና መኖሩን እንፈልጋለን
                     STORAGE_KEYS.forEach(key => {
                         const raw = localStorage.getItem(key);
                         if(raw) {
                             const parsed = JSON.parse(raw);
-                            if(Array.isArray(parsed) && parsed.length > 0) {
-                                // ነባሪዎቹን (defaultPosts) አውጥተን ትክክለኛዎቹን የተጠቃሚ ዜናዎች ብቻ እንይዛለን
-                                const actualUserItems = parsed.filter(item => item && item.id && !item.id.startsWith('default_'));
-                                userPosts = [...userPosts, ...actualUserItems];
+                            if(Array.isArray(parsed)) {
+                                parsed.forEach(item => {
+                                    if(item && item.id && !item.id.startsWith('default_')) {
+                                        // እንዳይደጋገሙ በ id አመሳክረን እንይዛለን
+                                        if(!userPosts.some(p => p.id === item.id)) {
+                                            userPosts.push(item);
+                                        }
+                                    }
+                                });
                             }
                         }
                     });
@@ -529,11 +535,9 @@
 
                 const map = new Map();
                 
-                // 1. መጀመሪያ የተጠቃሚው ዜናዎች ከኖሩ በ Map ውስጥ እንጭናቸዋለን (በፊት እንዲመጡ)
+                // 1. መጀመሪያ አንተ የጫንካቸውን ትክክለኛ ዜናዎች እንጭናለን (በፊት እንዲመጡ)
                 userPosts.forEach(item => {
-                    if(item && item.id) {
-                        map.set(item.id, item);
-                    }
+                    map.set(item.id, item);
                 });
 
                 // 2. ቀጥሎ ነባሪዎቹን (defaultPosts) እንጨምራለን (የተጠቃሚው ዜና ከሌለ ብቻ እንዲታዩ)
@@ -545,6 +549,12 @@
 
                 allPosts = Array.from(map.values());
                 allPosts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                
+                // የጫንካቸው ዜናዎች በሙሉ በሁሉም ኪዮች ውስጥ እንዲቀመጡ እናረጋግጣለን
+                if(userPosts.length > 0) {
+                    saveToLocal(allPosts);
+                }
+
                 render();
             }
 
@@ -755,7 +765,6 @@
                 if(tOR) postsToSave.push({ lang: 'OR', title: tOR, content: cOR });
                 if(tEN) postsToSave.push({ lang: 'EN', title: tEN, content: cEN });
 
-                // አሁን ያሉትን ነባር የተጠቃሚ ዜናዎች እንይዛለን
                 let currentSaved = allPosts.filter(p => !p.id.startsWith('default_'));
 
                 if(editId) {
