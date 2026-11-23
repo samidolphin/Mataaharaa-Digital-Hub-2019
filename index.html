@@ -330,7 +330,6 @@
             let allPosts = [];
             let isAdminLoggedIn = false;
 
-            // **ሁሉም የድሮ እና የአዲስ ማህደሮች ቁልፎች (Keys) በአንድ ላይ እንዲነበቡ ተደርጓል**
             const STORAGE_KEYS = [
                 'mataaharaa_saved_posts_2019', 
                 'mataaharaa_saved_posts_v3', 
@@ -338,6 +337,36 @@
                 'saved_posts'
             ];
             const SUB_KEY = 'mataaharaa_subscribers_v3';
+
+            const defaultPosts = [
+                {
+                    id: 'default_1',
+                    category: 'News',
+                    media: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600',
+                    lang: 'AM',
+                    title: 'እንኳን ወደ መታሃራ ዲጂታል መረጃ ማእከል በደህና መጡ',
+                    content: 'መታሃራ ዲጂታል ማእከል የከተማችንን ቱሪዝም፣ ባህል፣ ልማት እና ወቅታዊ መረጃዎች በሶስት ቋንቋዎች ለህብረተሰቡ የሚያደርስ ድንቅ መድረክ ነው።',
+                    createdAt: Date.now() - 3000
+                },
+                {
+                    id: 'default_2',
+                    category: 'News',
+                    media: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600',
+                    lang: 'OR',
+                    title: 'Baga Gara Wiirtuu Odeeffannoo Mataaharaa Dhuftan',
+                    content: 'Mataaharaa Digital Hub odeeffannoowwan magaalattii, tuuriizimii fi aadaa afaan sadiin tamsaasa.',
+                    createdAt: Date.now() - 2000
+                },
+                {
+                    id: 'default_3',
+                    category: 'News',
+                    media: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600',
+                    lang: 'EN',
+                    title: 'Welcome to Mataaharaa Digital Hub Center',
+                    content: 'Mataaharaa Digital Hub is your premier source for local tourism, culture, development updates, and daily news.',
+                    createdAt: Date.now() - 1000
+                }
+            ];
 
             const translations = {
                 'AM': {
@@ -470,38 +499,51 @@
 
             function saveToLocal(posts) {
                 try {
-                    localStorage.setItem(STORAGE_KEYS[0], JSON.stringify(posts));
+                    const jsonStr = JSON.stringify(posts);
+                    STORAGE_KEYS.forEach(key => {
+                        localStorage.setItem(key, jsonStr);
+                    });
                 } catch(e) {
                     console.error("Save error:", e);
                 }
             }
 
             function loadData() {
-                let combined = [];
+                let userPosts = [];
                 try {
+                    // መጀመሪያ በሁሉም የ Storage ቁልፎች ውስጥ የተጠቃሚው ዜና መኖሩን እንፈልጋለን
                     STORAGE_KEYS.forEach(key => {
                         const raw = localStorage.getItem(key);
                         if(raw) {
                             const parsed = JSON.parse(raw);
-                            if(Array.isArray(parsed)) {
-                                combined = [...combined, ...parsed];
+                            if(Array.isArray(parsed) && parsed.length > 0) {
+                                // ነባሪዎቹን (defaultPosts) አውጥተን ትክክለኛዎቹን የተጠቃሚ ዜናዎች ብቻ እንይዛለን
+                                const actualUserItems = parsed.filter(item => item && item.id && !item.id.startsWith('default_'));
+                                userPosts = [...userPosts, ...actualUserItems];
                             }
                         }
                     });
-                    
-                    const map = new Map();
-                    combined.forEach(item => {
-                        if(item && item.id) {
-                            map.set(item.id, item);
-                        } else if(item && item.title) {
-                            // የ ID ልዩነት ቢኖርም በርዕስ እና በምድብ አንድ አይነት ከሆኑ እንዳይደጋገሙ
-                            map.set(item.title + '_' + item.category + '_' + item.lang, item);
-                        }
-                    });
-                    allPosts = Array.from(map.values());
                 } catch(e) {
-                    allPosts = [];
+                    userPosts = [];
                 }
+
+                const map = new Map();
+                
+                // 1. መጀመሪያ የተጠቃሚው ዜናዎች ከኖሩ በ Map ውስጥ እንጭናቸዋለን (በፊት እንዲመጡ)
+                userPosts.forEach(item => {
+                    if(item && item.id) {
+                        map.set(item.id, item);
+                    }
+                });
+
+                // 2. ቀጥሎ ነባሪዎቹን (defaultPosts) እንጨምራለን (የተጠቃሚው ዜና ከሌለ ብቻ እንዲታዩ)
+                defaultPosts.forEach(item => {
+                    if(!map.has(item.id)) {
+                        map.set(item.id, item);
+                    }
+                });
+
+                allPosts = Array.from(map.values());
                 allPosts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
                 render();
             }
@@ -635,7 +677,7 @@
                 if(confirm("ይህን መረጃ በእርግጥ መሰረዝ ትፈልጋለህ?")) {
                     allPosts = allPosts.filter(item => item.id !== id);
                     saveToLocal(allPosts);
-                    render();
+                    loadData();
                     alert("መረጃው በተሳካ ሁኔታ ተሰርዟል!");
                 }
             }
@@ -713,39 +755,8 @@
                 if(tOR) postsToSave.push({ lang: 'OR', title: tOR, content: cOR });
                 if(tEN) postsToSave.push({ lang: 'EN', title: tEN, content: cEN });
 
+                // አሁን ያሉትን ነባር የተጠቃሚ ዜናዎች እንይዛለን
+                let currentSaved = allPosts.filter(p => !p.id.startsWith('default_'));
+
                 if(editId) {
-                    let singlePost = postsToSave[0] || { lang: currentLang, title: tAM || tOR || tEN, content: cAM || cOR || cEN };
-                    const postData = { category, media, lang: singlePost.lang, title: singlePost.title, content: singlePost.content };
-                    
-                    allPosts = allPosts.map(p => p.id === editId ? { ...p, ...postData } : p);
-                    saveToLocal(allPosts);
-                    alert("መረጃው በተሳካ ሁኔታ ተስተካክሏል!");
-                } else {
-                    for(let sp of postsToSave) {
-                        const newPostData = {
-                            id: 'post_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5) + '_' + sp.lang,
-                            category,
-                            media,
-                            lang: sp.lang,
-                            title: sp.title,
-                            content: sp.content,
-                            createdAt: Date.now()
-                        };
-                        allPosts.unshift(newPostData);
-                    }
-                    saveToLocal(allPosts);
-                    alert("መረጃው በተሳካ ሁኔታ ተለጥፏል!");
-                }
-
-                document.getElementById("newsForm").reset();
-                document.getElementById("editPostId").value = "";
-                document.getElementById("adminSection").classList.remove("active");
-                isAdminLoggedIn = false;
-                render();
-            });
-
-            loadData();
-        })();
-    </script>
-</body>
-</html>
+                    let singlePost = postsToSave
