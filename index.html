@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mataaharaa Digital Hub 2019</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #f4f7f6; color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }    
         header { display: flex; justify-content: space-between; align-items: center; padding: 12px 4%; background: #ffffff; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); flex-wrap: wrap; gap: 10px; }        
         .logo-area { display: flex; align-items: center; }
@@ -36,6 +36,7 @@
             border-radius: 50%;
             animation: shootAndExplode 2.2s infinite ease-out;
             z-index: 10;
+            pointer-events: none;
         }
         
         .fs-left-1 { left: 15%; animation-delay: 0s; }
@@ -82,15 +83,17 @@
         .marquee-container { background: #ff6600; color: white; padding: 9px 0; font-size: 0.90rem; font-weight: bold; overflow: hidden; white-space: nowrap; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .marquee-container marquee { width: 100%; }
 
-        nav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-        nav a { text-decoration: none; color: #333; font-weight: 600; font-size: 0.78rem; transition: color 0.3s; padding: 5px 8px; border-radius: 4px; cursor: pointer; }
-        nav a:hover, nav a.active { color: #ff6600; background: #fff3ed; }
+        nav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; position: relative; z-index: 1001; }
+        nav a { text-decoration: none; color: #333; font-weight: 600; font-size: 0.82rem; transition: all 0.2s; padding: 6px 10px; border-radius: 4px; cursor: pointer; display: inline-block; }
+        nav a:hover, nav a.active { color: #ff6600; background: #fff3ed; border-bottom: 2px solid #ff6600; }
         
-        .lang-container { display: flex; align-items: center; gap: 3px; background: #eee; padding: 3px; border-radius: 20px; }
-        .lang-btn { background: transparent; border: none; padding: 3px 8px; border-radius: 15px; cursor: pointer; font-size: 0.75rem; font-weight: bold; color: #555; display: inline-flex; align-items: center; }
+        .lang-container { display: flex; align-items: center; gap: 4px; background: #eee; padding: 4px; border-radius: 20px; }
+        .lang-btn { background: transparent; border: none; padding: 4px 10px; border-radius: 15px; cursor: pointer; font-size: 0.78rem; font-weight: bold; color: #555; transition: all 0.2s; }
+        .lang-btn:hover { background: #ddd; }
         .lang-btn.active { background: #ff6600; color: white; }
 
-        .admin-btn { background: #ff6600; color: white !important; padding: 6px 14px; border-radius: 4px; font-size: 0.78rem; cursor: pointer; border: none; font-weight: bold; }
+        .admin-btn { background: #ff6600; color: white !important; padding: 7px 15px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; border: none; font-weight: bold; transition: background 0.2s; }
+        .admin-btn:hover { background: #e65c00; }
         
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center; padding: 15px; }
         .modal.active { display: flex; }
@@ -172,7 +175,7 @@
             header { padding: 10px 3%; justify-content: center; }
             .logo-area { margin-bottom: 5px; width: 100%; justify-content: center; }
             nav { width: 100%; justify-content: center; gap: 4px; }
-            nav a { font-size: 0.75rem; padding: 4px 6px; }
+            nav a { font-size: 0.78rem; padding: 5px 7px; }
             .hero-banner { padding: 45px 15px; }
             .brand-display .main-title { font-size: 1.6rem; }
             .brand-display .sub-title { font-size: 1.2rem; }
@@ -201,27 +204,27 @@
             <a id="navPhoto" onclick="updateFilter('cat', 'Photo')">የፎቶ ጋለሪ</a>
             
             <div class="lang-container">
-                <button class="lang-btn" id="btnOR" onclick="updateLanguage('OR')">Oro</button>
-                <button class="lang-btn active" id="btnAM" onclick="updateLanguage('AM')">Am</button>
-                <button class="lang-btn" id="btnEN" onclick="updateLanguage('EN')">Eng</button>
+                <button type="button" class="lang-btn" id="btnOR" onclick="updateLanguage('OR')">Oro</button>
+                <button type="button" class="lang-btn active" id="btnAM" onclick="updateLanguage('AM')">Am</button>
+                <button type="button" class="lang-btn" id="btnEN" onclick="updateLanguage('EN')">Eng</button>
             </div>
 
-            <button class="admin-btn" onclick="checkPassword()">አድሚን</button>
+            <button type="button" class="admin-btn" onclick="checkPassword()">አድሚን</button>
         </nav>
     </header>
 
     <div class="modal" id="passwordModal">
         <div class="modal-content">
             <h3>የአድሚን የለፍ ቃል ያስገቡ</h3>
-            <input type="password" id="adminPasswordInput" placeholder="Password">
-            <button onclick="verifyPassword()">ግባ</button>
-            <button style="background:#e74c3c; margin-top:8px;" onclick="closeModal()">ሰርዝ</button>
+            <input type="password" id="adminPasswordInput" placeholder="Password" onkeypress="if(event.key === 'Enter') verifyPassword()">
+            <button type="button" onclick="verifyPassword()">ግባ</button>
+            <button type="button" style="background:#e74c3c; margin-top:8px;" onclick="closeModal()">ሰርዝ</button>
         </div>
     </div>
 
     <div class="detail-modal" id="detailModal">
         <div class="detail-content" id="detailModalContent">
-            <button class="close-detail-btn" onclick="closeDetailModal()">✖ ዝጋ</button>
+            <button type="button" class="close-detail-btn" onclick="closeDetailModal()">✖ ዝጋ</button>
         </div>
     </div>
 
@@ -248,7 +251,7 @@
         <div class="admin-section" id="adminSection">
             <div class="admin-header-flex">
                 <h3 style="color: #ff6600;">መረጃ መጫኛ (Admin Panel)</h3>
-                <button class="close-admin-btn" onclick="closeAdminPanel()">❌ ከአድሚን ውጣ</button>
+                <button type="button" class="close-admin-btn" onclick="closeAdminPanel()">❌ ከአድሚን ውጣ</button>
             </div>
             
             <form id="newsForm">
@@ -329,27 +332,15 @@
         </div>
     </footer>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-        const firebaseConfig = { 
-            apiKey: "AIzaSy...", 
-            authDomain: "mataaharaa-hub-2019.firebaseapp.com",
-            projectId: "mataaharaa-hub-2019",
-            storageBucket: "mataaharaa-hub-2019.appspot.com",
-            messagingSenderId: "538021472549",
-            appId: "1:538021472549:web:dae14f2a677582b9e6d2cc"
-        };
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
+    <script>
+        // ሁሉም አዝራሮች በቀጥታ እና በፍጥነት እንዲሰሩ በGlobal Scope ተዘጋጅተዋል
         let currentCat = 'News';
         let currentLang = 'AM';
         let allPosts = [];
         let isAdminLoggedIn = false;
 
         const STORAGE_KEY = 'mataaharaa_saved_posts_2019';
+        const SUB_KEY = 'mataaharaa_subscribers_2019';
 
         const translations = {
             'AM': {
@@ -397,7 +388,7 @@
             'EN': {
                 badgeText: "🎉 Happy Ethiopian New Year 2019 - Adey Abeba 🌸",
                 heroTitle: "Welcome to Mataaharaa City Digital Information Center",
-                heroSub: "“Mataaharaa — The City Where the Sun Never Sets.” ☀️",
+                heroSub: "“Mataahara — The City Where the Sun Never Sets.” ☀️",
                 marquee: "🔥 Happy Ethiopian New Year 2019! Find the latest city updates, festive wishes, and news right here. 🔥",
                 navNews: "News", navTourism: "Tourism", navCulture: "Culture", navHistory: "History of the Town",
                 navPhilosophy: "Philosophy", navLiterature: "Literature", navVideo: "Video Gallery", navPhoto: "Photo Gallery",
@@ -417,11 +408,12 @@
             }
         };
 
-        window.updateFilter = (type, val) => {
+        function updateFilter(type, val) {
             if(type === 'cat') {
                 currentCat = val;
                 document.querySelectorAll('nav a[id^="nav"]').forEach(a => a.classList.remove('active'));
-                document.getElementById('nav' + val).classList.add('active');
+                const targetNav = document.getElementById('nav' + val);
+                if(targetNav) targetNav.classList.add('active');
                 
                 const flipbookSec = document.getElementById('tourismFlipbookSection');
                 if(val === 'Tourism') {
@@ -433,10 +425,11 @@
             render();
         }
 
-        window.updateLanguage = (lang) => {
+        function updateLanguage(lang) {
             currentLang = lang;
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('btn' + lang).classList.add('active');
+            const targetBtn = document.getElementById('btn' + lang);
+            if(targetBtn) targetBtn.classList.add('active');
             
             document.getElementById('badgeText').innerText = translations[lang].badgeText;
             document.getElementById('heroTitle').innerText = translations[lang].heroTitle;
@@ -469,21 +462,13 @@
             render();
         }
 
-        document.getElementById("subscribeForm").addEventListener("submit", async function(e) {
+        document.getElementById("subscribeForm").addEventListener("submit", function(e) {
             e.preventDefault();
             const emailInput = document.getElementById("subscriberEmail").value;
-            const successMessage = translations[currentLang].successMsg;
-
-            try {
-                await addDoc(collection(db, "subscribers"), {
-                    email: emailInput,
-                    language: currentLang,
-                    subscribedAt: Date.now()
-                });
-            } catch(err) {
-                console.error("Subscription Error: ", err);
-            }
-            alert(successMessage);
+            const subs = JSON.parse(localStorage.getItem(SUB_KEY) || '[]');
+            subs.push({ email: emailInput, language: currentLang, subscribedAt: Date.now() });
+            localStorage.setItem(SUB_KEY, JSON.stringify(subs));
+            alert(translations[currentLang].successMsg);
             this.reset();
         });
 
@@ -491,32 +476,10 @@
             localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
         }
 
-        async function loadData() {
-            // መጀመሪያ በአድሚን የተጫኑና የተቀመጡ መረጃዎችን ከብራውዘር ማህደር እናነባለን
-            let localPosts = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-            allPosts = localPosts;
+        function loadData() {
+            const localPosts = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+            allPosts = localPosts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
             render();
-
-            // ከዚያ Firebase ላይ የተቀመጡ ካሉ አብረን እናመጣለን
-            try {
-                const snap = await getDocs(collection(db, "news"));
-                let firestorePosts = [];
-                snap.forEach(d => {
-                    firestorePosts.push({id: d.id, ...d.data()});
-                });
-                
-                if (firestorePosts.length > 0) {
-                    const map = new Map();
-                    [...localPosts, ...firestorePosts].forEach(item => map.set(item.id, item));
-                    allPosts = Array.from(map.values());
-                    saveToLocal(allPosts);
-                }
-                
-                allPosts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-                render();
-            } catch(err) {
-                console.warn("Firebase connection fallback to local storage:", err);
-            }
         }
 
         function getMediaHtml(mediaUrl) {
@@ -567,10 +530,10 @@
                             <p>${shortContent}</p>
                         </div>
                         <div class="card-actions">
-                            <button class="read-more-btn" onclick="openDetailModal('${p.id}')">${translations[currentLang].readMore}</button>
+                            <button type="button" class="read-more-btn" onclick="openDetailModal('${p.id}')">${translations[currentLang].readMore}</button>
                             <div class="${adminControlsClass}">
-                                <button class="edit-btn" onclick="editPost('${p.id}')">አስተካክል</button>
-                                <button class="delete-btn" onclick="deletePost('${p.id}')">ሰርዝ</button>
+                                <button type="button" class="edit-btn" onclick="editPost('${p.id}')">አስተካክል</button>
+                                <button type="button" class="delete-btn" onclick="deletePost('${p.id}')">ሰርዝ</button>
                             </div>
                         </div>
                     </div>
@@ -578,7 +541,7 @@
             });
         }
 
-        window.openDetailModal = (id) => {
+        function openDetailModal(id) {
             const p = allPosts.find(item => item.id === id);
             if(!p) return;
 
@@ -586,7 +549,7 @@
 
             const modalContent = document.getElementById("detailModalContent");
             modalContent.innerHTML = `
-                <button class="close-detail-btn" onclick="closeDetailModal()">✖ ዝጋ</button>
+                <button type="button" class="close-detail-btn" onclick="closeDetailModal()">✖ ዝጋ</button>
                 ${mediaHtml}
                 <span class="cat">${p.category}</span>
                 <h2>${p.title}</h2>
@@ -595,15 +558,71 @@
             document.getElementById("detailModal").classList.add("active");
         }
 
-        window.closeDetailModal = () => {
+        function closeDetailModal() {
             document.getElementById("detailModal").classList.remove("active");
         }
 
-        window.checkPassword = () => {
+        function checkPassword() {
             document.getElementById("passwordModal").classList.add("active");
+            setTimeout(() => document.getElementById("adminPasswordInput").focus(), 100);
         }
-        window.closeModal = () => {
+
+        function closeModal() {
             document.getElementById("passwordModal").classList.remove("active");
             document.getElementById("adminPasswordInput").value = "";
         }
-        window.verifyPassword = ()
+
+        function verifyPassword() {
+            const pass = document.getElementById("adminPasswordInput").value;
+            if(pass === "sami2all@8080") { 
+                isAdminLoggedIn = true;
+                document.getElementById("passwordModal").classList.remove("active");
+                document.getElementById("adminSection").classList.add("active");
+                document.getElementById("adminPasswordInput").value = "";
+                render();
+            } else {
+                alert("የገባው የለፍ ቃል ስህተት ነው!");
+            }
+        }
+
+        function closeAdminPanel() {
+            isAdminLoggedIn = false;
+            document.getElementById("adminSection").classList.remove("active");
+            document.getElementById("newsForm").reset();
+            document.getElementById("editPostId").value = "";
+            render();
+        }
+
+        function editPost(id) {
+            const p = allPosts.find(item => item.id === id);
+            if(!p) return;
+
+            document.getElementById("editPostId").value = p.id;
+            document.getElementById("newsCategory").value = p.category;
+            document.getElementById("mediaUrl").value = p.media || "";
+            
+            let pLang = p.lang || currentLang;
+            if(pLang === 'AM') {
+                document.getElementById("titleAM").value = p.title || "";
+                document.getElementById("contentAM").value = p.content || "";
+            } else if(pLang === 'OR') {
+                document.getElementById("titleOR").value = p.title || "";
+                document.getElementById("contentOR").value = p.content || "";
+            } else if(pLang === 'EN') {
+                document.getElementById("titleEN").value = p.title || "";
+                document.getElementById("contentEN").value = p.content || "";
+            }
+
+            document.getElementById("adminSection").scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function deletePost(id) {
+            if(confirm("ይህን መረጃ በእርግጥ መሰረዝ ትፈልጋለህ?")) {
+                allPosts = allPosts.filter(item => item.id !== id);
+                saveToLocal(allPosts);
+                render();
+                alert("መረጃው በተሳካ ሁኔታ ተሰርዟል!");
+            }
+        }
+
+        document.getElement
