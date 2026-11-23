@@ -330,7 +330,13 @@
             let allPosts = [];
             let isAdminLoggedIn = false;
 
-            const STORAGE_KEYS = ['mataaharaa_saved_posts_2019', 'mataaharaa_saved_posts_v3'];
+            // **ሁሉም የድሮ እና የአዲስ ማህደሮች ቁልፎች (Keys) በአንድ ላይ እንዲነበቡ ተደርጓል**
+            const STORAGE_KEYS = [
+                'mataaharaa_saved_posts_2019', 
+                'mataaharaa_saved_posts_v3', 
+                'mataaharaa_saved_posts', 
+                'saved_posts'
+            ];
             const SUB_KEY = 'mataaharaa_subscribers_v3';
 
             const translations = {
@@ -485,7 +491,12 @@
                     
                     const map = new Map();
                     combined.forEach(item => {
-                        if(item && item.id) map.set(item.id, item);
+                        if(item && item.id) {
+                            map.set(item.id, item);
+                        } else if(item && item.title) {
+                            // የ ID ልዩነት ቢኖርም በርዕስ እና በምድብ አንድ አይነት ከሆኑ እንዳይደጋገሙ
+                            map.set(item.title + '_' + item.category + '_' + item.lang, item);
+                        }
                     });
                     allPosts = Array.from(map.values());
                 } catch(e) {
@@ -555,7 +566,7 @@
                         </div>
                     `;
 
-                    card.querySelector('.read-more-btn').addEventListener('click', () => openDetailModal(p.id));
+                    card.querySelector('.read-more-btn').addEventListener('click', () => openDetailModal(p.id || p.title));
                     const editBtn = card.querySelector('.edit-btn');
                     const delBtn = card.querySelector('.delete-btn');
                     if(editBtn) editBtn.addEventListener('click', () => editPost(p.id));
@@ -565,8 +576,8 @@
                 });
             }
 
-            function openDetailModal(id) {
-                const p = allPosts.find(item => item.id === id);
+            function openDetailModal(identifier) {
+                const p = allPosts.find(item => item.id === identifier || item.title === identifier);
                 if(!p) return;
 
                 let mediaHtml = getMediaHtml(p.media);
