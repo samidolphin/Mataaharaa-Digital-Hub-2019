@@ -759,4 +759,38 @@
                 let currentSaved = allPosts.filter(p => !p.id.startsWith('default_'));
 
                 if(editId) {
-                    let singlePost = postsToSave
+                    let singlePost = postsToSave[0] || { lang: currentLang, title: tAM || tOR || tEN, content: cAM || cOR || cEN };
+                    const postData = { category, media, lang: singlePost.lang, title: singlePost.title, content: singlePost.content };
+                    
+                    currentSaved = currentSaved.map(p => p.id === editId ? { ...p, ...postData } : p);
+                    saveToLocal(currentSaved);
+                    alert("መረጃው በተሳካ ሁኔታ ተስተካክሏል!");
+                } else {
+                    for(let sp of postsToSave) {
+                        const newPostData = {
+                            id: 'post_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5) + '_' + sp.lang,
+                            category,
+                            media,
+                            lang: sp.lang,
+                            title: sp.title,
+                            content: sp.content,
+                            createdAt: Date.now()
+                        };
+                        currentSaved.unshift(newPostData);
+                    }
+                    saveToLocal(currentSaved);
+                    alert("መረጃው በተሳካ ሁኔታ ተለጥፏል!");
+                }
+
+                document.getElementById("newsForm").reset();
+                document.getElementById("editPostId").value = "";
+                document.getElementById("adminSection").classList.remove("active");
+                isAdminLoggedIn = false;
+                loadData();
+            });
+
+            loadData();
+        })();
+    </script>
+</body>
+</html>
