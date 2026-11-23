@@ -327,7 +327,6 @@
             let allPosts = [];
             let isAdminLoggedIn = false;
 
-            // የድሮውንም ሆነ የአዲሱን ማህደር አብሮ አንብቦ እንዲያመጣ ተደርጓል
             const STORAGE_KEYS = ['mataaharaa_saved_posts_2019', 'mataaharaa_saved_posts_v3'];
             const SUB_KEY = 'mataaharaa_subscribers_v3';
 
@@ -481,7 +480,6 @@
                         }
                     });
                     
-                    // ድግግሞሾችን ማስወገድ
                     const map = new Map();
                     combined.forEach(item => {
                         if(item && item.id) map.set(item.id, item);
