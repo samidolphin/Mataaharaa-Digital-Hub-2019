@@ -203,7 +203,6 @@
         window.deleteDoc = deleteDoc;
         window.doc = doc;
         
-        // Dispatch event that firebase is ready
         window.dispatchEvent(new Event('firebase-ready'));
     </script>
 </head>
@@ -359,38 +358,6 @@
             let allPosts = [];
             let isAdminLoggedIn = false;
 
-            const SUB_KEY = 'mataaharaa_subscribers_v3';
-
-            const defaultPosts = [
-                {
-                    id: 'default_1',
-                    category: 'News',
-                    media: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600',
-                    lang: 'AM',
-                    title: 'እንኳን ወደ መታሃራ ዲጂታል መረጃ ማእከል በደህና መጡ',
-                    content: 'መታሃራ ዲጂታል ማእከል የከተማችንን ቱሪዝም፣ ባህል፣ ልማት እና ወቅታዊ መረጃዎች በሶስት ቋንቋዎች ለህብረተሰቡ የሚያደርስ ድንቅ መድረክ ነው።',
-                    createdAt: 1795623078036
-                },
-                {
-                    id: 'default_2',
-                    category: 'News',
-                    media: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600',
-                    lang: 'OR',
-                    title: 'Baga Gara Wiirtuu Odeeffannoo Mataaharaa Dhuftan',
-                    content: 'Mataaharaa Digital Hub odeeffannoowwan magaalattii, tuuriizimii fi aadaa afaan sadiin tamsaasa.',
-                    createdAt: 1795623079036
-                },
-                {
-                    id: 'default_3',
-                    category: 'News',
-                    media: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600',
-                    lang: 'EN',
-                    title: 'Welcome to Mataaharaa Digital Hub Center',
-                    content: 'Mataaharaa Digital Hub is your premier source for local tourism, culture, development updates, and daily news.',
-                    createdAt: 1795623080036
-                }
-            ];
-
             const translations = {
                 'AM': {
                     badgeText: "🎉 እንኳን ለ2019 ዓ.ም አዲስ ዓመት በሰላም አደረሳችሁ! 🌸",
@@ -527,20 +494,9 @@
                     querySnapshot.forEach((docSnap) => {
                         allPosts.push({ id: docSnap.id, ...docSnap.data() });
                     });
-
-                    if(allPosts.length === 0) {
-                        // If firebase is empty, upload default posts once
-                        for(let p of defaultPosts) {
-                            await window.addDoc(window.collection(window.db, "posts"), p);
-                        }
-                        const reloadSnap = await window.getDocs(window.collection(window.db, "posts"));
-                        reloadSnap.forEach((docSnap) => {
-                            allPosts.push({ id: docSnap.id, ...docSnap.data() });
-                        });
-                    }
                 } catch(e) {
-                    console.log("Firestore load error, fallback to default", e);
-                    allPosts = defaultPosts;
+                    console.log("Firestore load error", e);
+                    allPosts = [];
                 }
                 render();
             }
@@ -569,11 +525,7 @@
                 if(!container) return;
                 container.innerHTML = "";
                 
-                const filtered = allPosts.filter(p => {
-                    let pLang = p.lang ? p.lang.trim().toUpperCase() : 'AM';
-                    let cLang = currentLang.trim().toUpperCase();
-                    return (p.category === currentCat) && (pLang === cLang);
-                });
+                const filtered = allPosts.filter(p => p.category === currentCat);
 
                 if(filtered.length === 0) {
                     container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #777; padding: 30px; background: #fff; border-radius: 8px;">${translations[currentLang].noData}</p>`;
@@ -581,19 +533,34 @@
                 }
 
                 filtered.forEach((p) => {
+                    let title = "";
+                    let content = "";
+
+                    if(currentLang === 'AM') {
+                        title = p.titleAM || p.title || "";
+                        content = p.contentAM || p.content || "";
+                    } else if(currentLang === 'OR') {
+                        title = p.titleOR || p.title || "";
+                        content = p.contentOR || p.content || "";
+                    } else if(currentLang === 'EN') {
+                        title = p.titleEN || p.title || "";
+                        content = p.contentEN || p.content || "";
+                    }
+
+                    if(!title && !content) return;
+
                     const card = document.createElement('div');
                     card.className = 'news-card';
                     
                     let mediaHtml = getMediaHtml(p.media);
-                    let contentText = p.content || "";
-                    let shortContent = contentText.length > 100 ? contentText.substring(0, 100) + "..." : contentText;
+                    let shortContent = content.length > 100 ? content.substring(0, 100) + "..." : content;
                     let adminControlsClass = isAdminLoggedIn ? "admin-controls active" : "admin-controls";
 
                     card.innerHTML = `
                         <div class="card-body-content">
                             ${mediaHtml}
                             <span class="cat">${p.category}</span>
-                            <h3>${p.title}</h3>
+                            <h3>${title}</h3>
                             <p>${shortContent}</p>
                         </div>
                         <div class="card-actions">
@@ -605,7 +572,7 @@
                         </div>
                     `;
 
-                    card.querySelector('.read-more-btn').addEventListener('click', () => openDetailModal(p.id || p.title));
+                    card.querySelector('.read-more-btn').addEventListener('click', () => openDetailModal(p.id, title, content, p.media, p.category));
                     const editBtn = card.querySelector('.edit-btn');
                     const delBtn = card.querySelector('.delete-btn');
                     if(editBtn) editBtn.addEventListener('click', () => editPost(p.id));
@@ -615,18 +582,15 @@
                 });
             }
 
-            function openDetailModal(identifier) {
-                const p = allPosts.find(item => item.id === identifier || item.title === identifier);
-                if(!p) return;
-
-                let mediaHtml = getMediaHtml(p.media);
+            function openDetailModal(id, title, content, media, category) {
+                let mediaHtml = getMediaHtml(media);
                 const modalContent = document.getElementById("detailModalContent");
                 modalContent.innerHTML = `
                     <button type="button" class="close-detail-btn" id="dynamicCloseDetail">✖ ዝጋ</button>
                     ${mediaHtml}
-                    <span class="cat">${p.category}</span>
-                    <h2>${p.title}</h2>
-                    <p>${p.content}</p>
+                    <span class="cat">${category}</span>
+                    <h2>${title}</h2>
+                    <p>${content}</p>
                 `;
                 document.getElementById("dynamicCloseDetail").addEventListener('click', () => {
                     document.getElementById("detailModal").classList.remove("active");
@@ -655,17 +619,12 @@
                 document.getElementById("newsCategory").value = p.category;
                 document.getElementById("mediaUrl").value = p.media || "";
                 
-                let pLang = p.lang || currentLang;
-                if(pLang === 'AM') {
-                    document.getElementById("titleAM").value = p.title || "";
-                    document.getElementById("contentAM").value = p.content || "";
-                } else if(pLang === 'OR') {
-                    document.getElementById("titleOR").value = p.title || "";
-                    document.getElementById("contentOR").value = p.content || "";
-                } else if(pLang === 'EN') {
-                    document.getElementById("titleEN").value = p.title || "";
-                    document.getElementById("contentEN").value = p.content || "";
-                }
+                document.getElementById("titleAM").value = p.titleAM || "";
+                document.getElementById("contentAM").value = p.contentAM || "";
+                document.getElementById("titleOR").value = p.titleOR || "";
+                document.getElementById("contentOR").value = p.contentOR || "";
+                document.getElementById("titleEN").value = p.titleEN || "";
+                document.getElementById("contentEN").value = p.contentEN || "";
 
                 document.getElementById("adminSection").scrollIntoView({ behavior: 'smooth' });
             }
@@ -722,7 +681,6 @@
 
             document.getElementById("subscribeForm").addEventListener("submit", function(e) {
                 e.preventDefault();
-                const emailInput = document.getElementById("subscriberEmail").value;
                 alert(translations[currentLang].successMsg);
                 this.reset();
             });
@@ -745,30 +703,24 @@
                     return;
                 }
 
-                let postsToSave = [];
-                if(tAM) postsToSave.push({ lang: 'AM', title: tAM, content: cAM });
-                if(tOR) postsToSave.push({ lang: 'OR', title: tOR, content: cOR });
-                if(tEN) postsToSave.push({ lang: 'EN', title: tEN, content: cEN });
+                const postData = {
+                    category,
+                    media,
+                    titleAM: tAM,
+                    contentAM: cAM,
+                    titleOR: tOR,
+                    contentOR: cOR,
+                    titleEN: tEN,
+                    contentEN: cEN,
+                    createdAt: Date.now()
+                };
 
                 try {
                     if(editId) {
-                        let singlePost = postsToSave[0] || { lang: currentLang, title: tAM || tOR || tEN, content: cAM || cOR || cEN };
-                        const postData = { category, media, lang: singlePost.lang, title: singlePost.title, content: singlePost.content };
-                        
                         await window.updateDoc(window.doc(window.db, "posts", editId), postData);
                         alert("መረጃው በተሳካ ሁኔታ ተስተካክሏል!");
                     } else {
-                        for(let sp of postsToSave) {
-                            const newPostData = {
-                                category,
-                                media,
-                                lang: sp.lang,
-                                title: sp.title,
-                                content: sp.content,
-                                createdAt: Date.now()
-                            };
-                            await window.addDoc(window.collection(window.db, "posts"), newPostData);
-                        }
+                        await window.addDoc(window.collection(window.db, "posts"), postData);
                         alert("መረጃው በተሳካ ሁኔታ ተለጥፏል!");
                     }
 
