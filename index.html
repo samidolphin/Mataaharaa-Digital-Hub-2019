@@ -4,6 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mataaharaa Digital Hub 2019</title>
+    
+    <!-- Firebase SDK (v9 Modular) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, updateDoc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        // የሳምሶን መታሃራ ዲጂታል ሁብ የ Firebase ማዋቀሪያ (Firebase Configuration)
+        const firebaseConfig = {
+            apiKey: "AIzaSyD-MataaharaaHubSamiDolphin2019...",
+            authDomain: "mataaharaa-digital-hub.firebaseapp.com",
+            projectId: "mataaharaa-digital-hub",
+            storageBucket: "mataaharaa-digital-hub.appspot.com",
+            messagingSenderId: "1234567890",
+            appId: "1:1234567890:web:abcdef123456"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.db = db;
+        window.FB_SDK = { collection, getDocs, addDoc, deleteDoc, doc, updateDoc, query, orderBy, serverTimestamp };
+    </script>
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #f4f7f6; color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }    
@@ -20,7 +43,6 @@
         }
         .logo-text h1 { font-size: 0.95rem; color: #ff6600; font-weight: bold; white-space: nowrap; }
 
-        /* Navigation Links */
         nav { display: flex; align-items: center; gap: 5px; flex-wrap: nowrap; overflow-x: auto; max-width: 100%; padding: 5px 0; -webkit-overflow-scrolling: touch; }
         nav::-webkit-scrollbar { height: 3px; }
         nav::-webkit-scrollbar-thumb { background: #ff6600; border-radius: 3px; }
@@ -241,7 +263,7 @@
     <div class="main-container">
         <div class="admin-section" id="adminSection">
             <div class="admin-header-flex">
-                <h3 style="color: #ff6600;">መረጃ መጫኛ (Admin Panel)</h3>
+                <h3 style="color: #ff6600;">መረጃ መጫኛ (Admin Panel - Firebase Cloud)</h3>
                 <button type="button" class="close-admin-btn" id="closeAdminBtn">❌ ከአድሚን ውጣ</button>
             </div>
             
@@ -278,7 +300,7 @@
                 <div class="form-group"><input type="text" id="titleEN" placeholder="English Title"></div>
                 <div class="form-group"><textarea id="contentEN" placeholder="English Content"></textarea></div>
 
-                <button type="submit" class="submit-btn" id="formSubmitBtn">መረጃውን አስቀምጥ (Save)</button>
+                <button type="submit" class="submit-btn" id="formSubmitBtn">መረጃውን በሰርቨር አስቀምጥ (Save to Cloud)</button>
             </form>
         </div>
 
@@ -324,21 +346,14 @@
     </footer>
 
     <script>
-        (function() {
+        setTimeout(() => {
             let currentCat = 'News';
             let currentLang = 'AM';
             let allPosts = [];
             let isAdminLoggedIn = false;
 
-            const STORAGE_KEYS = [
-                'mataaharaa_saved_posts_2019', 
-                'mataaharaa_saved_posts_v3', 
-                'mataaharaa_saved_posts', 
-                'saved_posts',
-                'sami_mataaharaa_permanent_db'
-            ];
-            const MASTER_KEY = 'sami_mataaharaa_permanent_db';
-            const SUB_KEY = 'mataaharaa_subscribers_v3';
+            const db = window.db;
+            const { collection, getDocs, addDoc, deleteDoc, doc, updateDoc, query, orderBy, serverTimestamp } = window.FB_SDK;
 
             const defaultPosts = [
                 {
@@ -480,7 +495,7 @@
                 document.getElementById('navPhilosophy').innerText = t.navPhilosophy;
                 document.getElementById('navLiterature').innerText = t.navLiterature;
                 document.getElementById('navVideo').innerText = t.navVideo;
-                document.getElementById('navPhoto').innerText = t.navPhoto;
+                document.getElementById('navPhoto').innerText, t.navPhoto;
 
                 document.getElementById('sectionHeading').innerText = t.sectionHeading;
                 document.getElementById('footerAboutTitle').innerText = t.footerAboutTitle;
@@ -499,81 +514,24 @@
                 render();
             }
 
-            function saveToLocal(posts) {
+            async function loadDataFromCloud() {
                 try {
-                    const cleanPosts = posts.filter(p => !p.id?.startsWith('default_'));
-                    const jsonStr = JSON.stringify(cleanPosts);
-                    STORAGE_KEYS.forEach(key => {
-                        localStorage.setItem(key, jsonStr);
+                    const q = query(collection(db, "mataaharaa_posts"), orderBy("createdAt", "desc"));
+                    const querySnapshot = await getDocs(q);
+                    let cloudPosts = [];
+                    querySnapshot.forEach((docSnap) => {
+                        cloudPosts.push({ id: docSnap.id, ...docSnap.data() });
                     });
-                } catch(e) {
-                    console.error("Save error:", e);
-                }
-            }
 
-            function loadData() {
-                let userPosts = [];
-                try {
-                    for (let i = 0; i < localStorage.length; i++) {
-                        const key = localStorage.key(i);
-                        if (key && (key.includes('post') || key.includes('saved') || key.includes('mataaharaa') || key.includes('sami'))) {
-                            const raw = localStorage.getItem(key);
-                            if (raw) {
-                                try {
-                                    const parsed = JSON.parse(raw);
-                                    if (Array.isArray(parsed)) {
-                                        parsed.forEach(item => {
-                                            if (item && item.title && !item.id?.startsWith('default_')) {
-                                                if (!userPosts.some(p => p.title === item.title && p.category === item.category && p.lang === item.lang)) {
-                                                    userPosts.push(item);
-                                                }
-                                            }
-                                        });
-                                    }
-                                } catch(err) {}
-                            }
-                        }
+                    if(cloudPosts.length > 0) {
+                        allPosts = cloudPosts;
+                    } else {
+                        allPosts = defaultPosts;
                     }
-
-                    STORAGE_KEYS.forEach(key => {
-                        const raw = localStorage.getItem(key);
-                        if(raw) {
-                            const parsed = JSON.parse(raw);
-                            if(Array.isArray(parsed)) {
-                                parsed.forEach(item => {
-                                    if(item && item.title && !item.id?.startsWith('default_')) {
-                                        if(!userPosts.some(p => p.title === item.title && p.category === item.category && p.lang === item.lang)) {
-                                            userPosts.push(item);
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    });
                 } catch(e) {
-                    userPosts = [];
+                    console.error("Cloud load error, falling back to local:", e);
+                    allPosts = defaultPosts;
                 }
-
-                const map = new Map();
-                
-                userPosts.forEach(item => {
-                    const uniqueKey = item.id || (item.title + '_' + item.category + '_' + item.lang);
-                    map.set(uniqueKey, item);
-                });
-
-                defaultPosts.forEach(item => {
-                    if(!Array.from(map.values()).some(p => p.category === item.category && p.lang === item.lang)) {
-                        map.set(item.id, item);
-                    }
-                });
-
-                allPosts = Array.from(map.values());
-                allPosts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-                
-                if(userPosts.length > 0) {
-                    saveToLocal(allPosts);
-                }
-
                 render();
             }
 
@@ -702,12 +660,15 @@
                 document.getElementById("adminSection").scrollIntoView({ behavior: 'smooth' });
             }
 
-            function deletePost(id) {
+            async function deletePost(id) {
                 if(confirm("ይህን መረጃ በእርግጥ መሰረዝ ትፈልጋለህ?")) {
-                    allPosts = allPosts.filter(item => item.id !== id);
-                    saveToLocal(allPosts.filter(p => !p.id?.startsWith('default_')));
-                    loadData();
-                    alert("መረጃው በተሳካ ሁኔታ ተሰርዟል!");
+                    try {
+                        await deleteDoc(doc(db, "mataaharaa_posts", id));
+                        alert("መረጃው በተሳካ ሁኔታ ተሰርዟል!");
+                        loadDataFromCloud();
+                    } catch(e) {
+                        alert("እባክዎ እንደገና ይሞክሩ (خطأ): " + e.message);
+                    }
                 }
             }
 
@@ -749,19 +710,7 @@
                 render();
             });
 
-            document.getElementById("subscribeForm").addEventListener("submit", function(e) {
-                e.preventDefault();
-                const emailInput = document.getElementById("subscriberEmail").value;
-                try {
-                    const subs = JSON.parse(localStorage.getItem(SUB_KEY) || '[]');
-                    subs.push({ email: emailInput, language: currentLang, subscribedAt: Date.now() });
-                    localStorage.setItem(SUB_KEY, JSON.stringify(subs));
-                } catch(err) {}
-                alert(translations[currentLang].successMsg);
-                this.reset();
-            });
-
-            document.getElementById("newsForm").addEventListener("submit", function(e) {
+            document.getElementById("newsForm").addEventListener("submit", async function(e) {
                 e.preventDefault();
                 const editId = document.getElementById("editPostId").value;
                 const category = document.getElementById("newsCategory").value;
@@ -775,50 +724,4 @@
                 const cEN = document.getElementById("contentEN").value.trim();
 
                 if(!tAM && !tOR && !tEN) {
-                    alert("እባክዎ ቢያንስ የአንድ ቋንቋ ርዕስ ያስገቡ!");
-                    return;
-                }
-
-                let postsToSave = [];
-                if(tAM) postsToSave.push({ lang: 'AM', title: tAM, content: cAM });
-                if(tOR) postsToSave.push({ lang: 'OR', title: tOR, content: cOR });
-                if(tEN) postsToSave.push({ lang: 'EN', title: tEN, content: cEN });
-
-                let currentSaved = allPosts.filter(p => !p.id?.startsWith('default_'));
-
-                if(editId) {
-                    let singlePost = postsToSave[0] || { lang: currentLang, title: tAM || tOR || tEN, content: cAM || cOR || cEN };
-                    const postData = { category, media, lang: singlePost.lang, title: singlePost.title, content: singlePost.content };
-                    
-                    currentSaved = currentSaved.map(p => p.id === editId ? { ...p, ...postData } : p);
-                    saveToLocal(currentSaved);
-                    alert("መረጃው በተሳካ ሁኔታ ተስተካክሏል!");
-                } else {
-                    for(let sp of postsToSave) {
-                        const newPostData = {
-                            id: 'post_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5) + '_' + sp.lang,
-                            category,
-                            media,
-                            lang: sp.lang,
-                            title: sp.title,
-                            content: sp.content,
-                            createdAt: Date.now()
-                        };
-                        currentSaved.unshift(newPostData);
-                    }
-                    saveToLocal(currentSaved);
-                    alert("መረጃው በተሳካ ሁኔታ ተለጥፏል!");
-                }
-
-                document.getElementById("newsForm").reset();
-                document.getElementById("editPostId").value = "";
-                document.getElementById("adminSection").classList.remove("active");
-                isAdminLoggedIn = false;
-                loadData();
-            });
-
-            loadData();
-        })();
-    </script>
-</body>
-</html>
+                    alert("
