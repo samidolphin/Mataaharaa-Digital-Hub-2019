@@ -330,7 +330,6 @@
             let allPosts = [];
             let isAdminLoggedIn = false;
 
-            // የሁሉም ሊሆኑ የሚችሉ የውሂብ ማህደር ቁልፎች
             const STORAGE_KEYS = [
                 'mataaharaa_saved_posts_2019', 
                 'mataaharaa_saved_posts_v3', 
@@ -504,7 +503,6 @@
                 try {
                     const cleanPosts = posts.filter(p => !p.id?.startsWith('default_'));
                     const jsonStr = JSON.stringify(cleanPosts);
-                    // በሁሉም ቁልፎች እና በቋሚው MASTER_KEY ላይ በአንድ ላይ እናስቀምጣለን
                     STORAGE_KEYS.forEach(key => {
                         localStorage.setItem(key, jsonStr);
                     });
@@ -516,7 +514,6 @@
             function loadData() {
                 let userPosts = [];
                 try {
-                    // ብራውዘር ውስጥ ያሉትን ማህደሮች በሙሉ በመቃኘት የጫንካቸውን መረጃዎች እንሰበስባለን
                     for (let i = 0; i < localStorage.length; i++) {
                         const key = localStorage.key(i);
                         if (key && (key.includes('post') || key.includes('saved') || key.includes('mataaharaa') || key.includes('sami'))) {
@@ -559,13 +556,11 @@
 
                 const map = new Map();
                 
-                // 1. አንተ የጫንካቸው ዜናዎችና ምስሎች ቅድሚያ ተሰጥቷቸው ይጫናሉ
                 userPosts.forEach(item => {
                     const uniqueKey = item.id || (item.title + '_' + item.category + '_' + item.lang);
                     map.set(uniqueKey, item);
                 });
 
-                // 2. የተጠቃሚው ዜና ከሌለ ብቻ ነባሪዎቹ ይጫናሉ
                 defaultPosts.forEach(item => {
                     if(!Array.from(map.values()).some(p => p.category === item.category && p.lang === item.lang)) {
                         map.set(item.id, item);
@@ -710,7 +705,7 @@
             function deletePost(id) {
                 if(confirm("ይህን መረጃ በእርግጥ መሰረዝ ትፈልጋለህ?")) {
                     allPosts = allPosts.filter(item => item.id !== id);
-                    saveToLocal(allPosts);
+                    saveToLocal(allPosts.filter(p => !p.id?.startsWith('default_')));
                     loadData();
                     alert("መረጃው በተሳካ ሁኔታ ተሰርዟል!");
                 }
