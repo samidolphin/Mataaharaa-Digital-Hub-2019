@@ -126,11 +126,6 @@
         .form-group textarea { height: 95px; resize: vertical; }
         .submit-btn { background: #ff6600; color: white; border: none; padding: 11px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; font-size: 1rem; }
 
-        /* ኤክስፖርት ማድረጊያ ሣጥን */
-        .sync-box { background: #fff8f3; border: 1px solid #ff6600; padding: 12px; border-radius: 6px; margin-bottom: 15px; text-align: center; }
-        .sync-box textarea { height: 50px; font-size: 0.75rem; font-family: monospace; }
-        .sync-btn { background: #27ae60; color: white; border: none; padding: 8px 12px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 0.85rem; margin-top: 5px; width: 100%; }
-
         .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
         .news-card { background: white; border-radius: 8px; padding: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.06); transition: transform 0.3s; display: flex; flex-direction: column; justify-content: space-between; }
         .news-card:hover { transform: translateY(-3px); }
@@ -249,12 +244,6 @@
                 <button type="button" class="close-admin-btn" id="closeAdminBtn">❌ ከአድሚን ውጣ</button>
             </div>
             
-            <div class="sync-box">
-                <p style="font-size: 0.8rem; font-weight: bold; color: #d35400; margin-bottom: 5px;">📱 ዜናዎችዎ በሞባይል እንዲታዩ ከፈለጉ:</p>
-                <textarea id="exportDataBox" readonly placeholder="Export ቁልፍን ይጫኑ..."></textarea>
-                <button type="button" class="sync-btn" id="exportBtn">የሞባይል ዜና ኮድ አውጣ (Export)</button>
-            </div>
-            
             <form id="newsForm">
                 <input type="hidden" id="editPostId">
                 <div class="form-group">
@@ -340,7 +329,7 @@
             let allPosts = [];
             let isAdminLoggedIn = false;
 
-            const STORAGE_KEY = 'mataaharaa_permanent_posts_v5';
+            const STORAGE_KEY = 'mataaharaa_permanent_posts_v6';
             const SUB_KEY = 'mataaharaa_subscribers_v3';
 
             const defaultPosts = [
@@ -524,15 +513,6 @@
                     localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
                 } catch(e) {}
             }
-
-            // 📱 ይህንን አዝራር ስትጫኑ ላፕቶፕህ ላይ የጫንካቸውን ዜናዎች በሙሉ ኮድ አድርጎ ይሰጥሃል
-            document.getElementById('exportBtn').addEventListener('click', function() {
-                const currentData = JSON.stringify(allPosts);
-                document.getElementById('exportDataBox').value = currentData;
-                document.getElementById('exportDataBox').select();
-                navigator.clipboard.writeText(currentData);
-                alert("የኮዱ መረጃዎች ተኮርጅረዋል! አሁን ይህንን ኮድ እዚህ ቻት ውስጥ ፕላስተር (Paste) አድርገህ ላኩልኝ፤ በቋሚነት በኮዱ ውስጥ እንዲያዝ አድርጌ እመልስልሃለሁ።");
-            });
 
             function getMediaHtml(mediaUrl) {
                 if (!mediaUrl || mediaUrl.trim() === '') return '';
