@@ -176,6 +176,36 @@
         .footer-col p { margin-bottom: 8px; }
         .footer-bottom { text-align: center; padding-top: 20px; font-size: 0.8rem; color: #888; }
     </style>
+
+    <!-- Firebase SDKs (v10 Modular) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBIeLWWlDVi5jEFzzHsjHZgwKjSWoe4JzA",
+            authDomain: "mataaharaa-hub-2019.firebaseapp.com",
+            projectId: "mataaharaa-hub-2019",
+            storageBucket: "mataaharaa-hub-2019.firebasestorage.app",
+            messagingSenderId: "538021472549",
+            appId: "1:538021472549:web:dae14f2a677582b9e6d2cc",
+            measurementId: "G-L7N73W1Z0K"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.db = db;
+        window.collection = collection;
+        window.getDocs = getDocs;
+        window.addDoc = addDoc;
+        window.updateDoc = updateDoc;
+        window.deleteDoc = deleteDoc;
+        window.doc = doc;
+        
+        // Dispatch event that firebase is ready
+        window.dispatchEvent(new Event('firebase-ready'));
+    </script>
 </head>
 <body>
 
@@ -323,13 +353,12 @@
     </footer>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        window.addEventListener('firebase-ready', function() {
             let currentCat = 'News';
             let currentLang = 'AM';
             let allPosts = [];
             let isAdminLoggedIn = false;
 
-            const STORAGE_KEY = 'mataaharaa_permanent_posts_v10';
             const SUB_KEY = 'mataaharaa_subscribers_v3';
 
             const defaultPosts = [
@@ -491,27 +520,29 @@
                 render();
             }
 
-            function loadData() {
+            async function loadDataFromFirebase() {
                 try {
-                    const saved = localStorage.getItem(STORAGE_KEY);
-                    if(saved) {
-                        const parsed = JSON.parse(saved);
-                        if(Array.isArray(parsed) && parsed.length > 0) {
-                            allPosts = parsed;
-                            render();
-                            return;
-                        }
-                    }
-                } catch(e) {}
-                
-                allPosts = defaultPosts;
-                render();
-            }
+                    const querySnapshot = await window.getDocs(window.collection(window.db, "posts"));
+                    allPosts = [];
+                    querySnapshot.forEach((docSnap) => {
+                        allPosts.push({ id: docSnap.id, ...docSnap.data() });
+                    });
 
-            function saveToLocal(posts) {
-                try {
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
-                } catch(e) {}
+                    if(allPosts.length === 0) {
+                        // If firebase is empty, upload default posts once
+                        for(let p of defaultPosts) {
+                            await window.addDoc(window.collection(window.db, "posts"), p);
+                        }
+                        const reloadSnap = await window.getDocs(window.collection(window.db, "posts"));
+                        reloadSnap.forEach((docSnap) => {
+                            allPosts.push({ id: docSnap.id, ...docSnap.data() });
+                        });
+                    }
+                } catch(e) {
+                    console.log("Firestore load error, fallback to default", e);
+                    allPosts = defaultPosts;
+                }
+                render();
             }
 
             function getMediaHtml(mediaUrl) {
@@ -639,12 +670,15 @@
                 document.getElementById("adminSection").scrollIntoView({ behavior: 'smooth' });
             }
 
-            function deletePost(id) {
+            async function deletePost(id) {
                 if(confirm("ይህን መረጃ በእርግጥ መሰረዝ ትፈልጋለህ?")) {
-                    allPosts = allPosts.filter(item => item.id !== id);
-                    saveToLocal(allPosts);
-                    render();
-                    alert("መረጃው በተሳካ ሁኔታ ተሰርዟል!");
+                    try {
+                        await window.deleteDoc(window.doc(window.db, "posts", id));
+                        await loadDataFromFirebase();
+                        alert("መረጃው በተሳካ ሁኔታ ተሰርዟል!");
+                    } catch(err) {
+                        alert("ሰርዝ ላይ ችግር አጋጥሟል!");
+                    }
                 }
             }
 
@@ -689,16 +723,11 @@
             document.getElementById("subscribeForm").addEventListener("submit", function(e) {
                 e.preventDefault();
                 const emailInput = document.getElementById("subscriberEmail").value;
-                try {
-                    const subs = JSON.parse(localStorage.getItem(SUB_KEY) || '[]');
-                    subs.push({ email: emailInput, language: currentLang, subscribedAt: Date.now() });
-                    localStorage.setItem(SUB_KEY, JSON.stringify(subs));
-                } catch(err) {}
                 alert(translations[currentLang].successMsg);
                 this.reset();
             });
 
-            document.getElementById("newsForm").addEventListener("submit", function(e) {
+            document.getElementById("newsForm").addEventListener("submit", async function(e) {
                 e.preventDefault();
                 const editId = document.getElementById("editPostId").value;
                 const category = document.getElementById("newsCategory").value;
@@ -721,37 +750,40 @@
                 if(tOR) postsToSave.push({ lang: 'OR', title: tOR, content: cOR });
                 if(tEN) postsToSave.push({ lang: 'EN', title: tEN, content: cEN });
 
-                if(editId) {
-                    let singlePost = postsToSave[0] || { lang: currentLang, title: tAM || tOR || tEN, content: cAM || cOR || cEN };
-                    const postData = { category, media, lang: singlePost.lang, title: singlePost.title, content: singlePost.content };
-                    allPosts = allPosts.map(p => p.id === editId ? { ...p, ...postData } : p);
-                    saveToLocal(allPosts);
-                    alert("መረጃው በተሳካ ሁኔታ ተስተካክሏል!");
-                } else {
-                    for(let sp of postsToSave) {
-                        const newPostData = {
-                            id: 'post_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5) + '_' + sp.lang,
-                            category,
-                            media,
-                            lang: sp.lang,
-                            title: sp.title,
-                            content: sp.content,
-                            createdAt: Date.now()
-                        };
-                        allPosts.unshift(newPostData);
+                try {
+                    if(editId) {
+                        let singlePost = postsToSave[0] || { lang: currentLang, title: tAM || tOR || tEN, content: cAM || cOR || cEN };
+                        const postData = { category, media, lang: singlePost.lang, title: singlePost.title, content: singlePost.content };
+                        
+                        await window.updateDoc(window.doc(window.db, "posts", editId), postData);
+                        alert("መረጃው በተሳካ ሁኔታ ተስተካክሏል!");
+                    } else {
+                        for(let sp of postsToSave) {
+                            const newPostData = {
+                                category,
+                                media,
+                                lang: sp.lang,
+                                title: sp.title,
+                                content: sp.content,
+                                createdAt: Date.now()
+                            };
+                            await window.addDoc(window.collection(window.db, "posts"), newPostData);
+                        }
+                        alert("መረጃው በተሳካ ሁኔታ ተለጥፏል!");
                     }
-                    saveToLocal(allPosts);
-                    alert("መረጃው በተሳካ ሁኔታ ተለጥፏል!");
-                }
 
-                document.getElementById("newsForm").reset();
-                document.getElementById("editPostId").value = "";
-                document.getElementById("adminSection").classList.remove("active");
-                isAdminLoggedIn = false;
-                render();
+                    document.getElementById("newsForm").reset();
+                    document.getElementById("editPostId").value = "";
+                    document.getElementById("adminSection").classList.remove("active");
+                    isAdminLoggedIn = false;
+                    await loadDataFromFirebase();
+                } catch(err) {
+                    console.log("Error saving to Firebase:", err);
+                    alert("መረጃውን ማስቀመጥ ላይ ችግር አጋጥሟል!");
+                }
             });
 
-            loadData();
+            loadDataFromFirebase();
         });
     </script>
 </body>
