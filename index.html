@@ -330,13 +330,15 @@
             let allPosts = [];
             let isAdminLoggedIn = false;
 
-            // የሁሉም ሊሆኑ የሚችሉ የLocalStorage ቁልፎች ዝርዝር
+            // የሁሉም ሊሆኑ የሚችሉ የውሂብ ማህደር ቁልፎች
             const STORAGE_KEYS = [
                 'mataaharaa_saved_posts_2019', 
                 'mataaharaa_saved_posts_v3', 
                 'mataaharaa_saved_posts', 
-                'saved_posts'
+                'saved_posts',
+                'sami_mataaharaa_permanent_db'
             ];
+            const MASTER_KEY = 'sami_mataaharaa_permanent_db';
             const SUB_KEY = 'mataaharaa_subscribers_v3';
 
             const defaultPosts = [
@@ -500,7 +502,9 @@
 
             function saveToLocal(posts) {
                 try {
-                    const jsonStr = JSON.stringify(posts);
+                    const cleanPosts = posts.filter(p => !p.id?.startsWith('default_'));
+                    const jsonStr = JSON.stringify(cleanPosts);
+                    // በሁሉም ቁልፎች እና በቋሚው MASTER_KEY ላይ በአንድ ላይ እናስቀምጣለን
                     STORAGE_KEYS.forEach(key => {
                         localStorage.setItem(key, jsonStr);
                     });
@@ -512,10 +516,10 @@
             function loadData() {
                 let userPosts = [];
                 try {
-                    // በሁለቱም በ STORAGE_KEYS እና በቀጥታ በ localStorage ያሉትን ፋይሎች በሙሉ እንፈትሻለን
+                    // ብራውዘር ውስጥ ያሉትን ማህደሮች በሙሉ በመቃኘት የጫንካቸውን መረጃዎች እንሰበስባለን
                     for (let i = 0; i < localStorage.length; i++) {
                         const key = localStorage.key(i);
-                        if (key && (key.includes('post') || key.includes('saved') || key.includes('mataaharaa'))) {
+                        if (key && (key.includes('post') || key.includes('saved') || key.includes('mataaharaa') || key.includes('sami'))) {
                             const raw = localStorage.getItem(key);
                             if (raw) {
                                 try {
@@ -534,7 +538,6 @@
                         }
                     }
 
-                    // እንዲሁም በ STORAGE_KEYS ዝርዝር ውስጥ ያሉትን በግልጽ እንፈትሻለን
                     STORAGE_KEYS.forEach(key => {
                         const raw = localStorage.getItem(key);
                         if(raw) {
@@ -556,15 +559,15 @@
 
                 const map = new Map();
                 
-                // 1. መጀመሪያ የተጠቃሚው ዜናዎችና ምስሎች ቅድሚያ ተሰጥቷቸው ይጫናሉ
+                // 1. አንተ የጫንካቸው ዜናዎችና ምስሎች ቅድሚያ ተሰጥቷቸው ይጫናሉ
                 userPosts.forEach(item => {
                     const uniqueKey = item.id || (item.title + '_' + item.category + '_' + item.lang);
                     map.set(uniqueKey, item);
                 });
 
-                // 2. ቀጥሎ ነባሪዎቹን (defaultPosts) እንጨምራለን (የተጠቃሚው ዜና ከሌለ ብቻ)
+                // 2. የተጠቃሚው ዜና ከሌለ ብቻ ነባሪዎቹ ይጫናሉ
                 defaultPosts.forEach(item => {
-                    if(!Array.from(map.values()).some(p => p.category === item.category && p.lang === item.lang && p.title === item.title)) {
+                    if(!Array.from(map.values()).some(p => p.category === item.category && p.lang === item.lang)) {
                         map.set(item.id, item);
                     }
                 });
@@ -707,7 +710,7 @@
             function deletePost(id) {
                 if(confirm("ይህን መረጃ በእርግጥ መሰረዝ ትፈልጋለህ?")) {
                     allPosts = allPosts.filter(item => item.id !== id);
-                    saveToLocal(allPosts.filter(p => !p.id?.startsWith('default_')));
+                    saveToLocal(allPosts);
                     loadData();
                     alert("መረጃው በተሳካ ሁኔታ ተሰርዟል!");
                 }
