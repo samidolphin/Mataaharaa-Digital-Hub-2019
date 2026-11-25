@@ -537,16 +537,17 @@
                     let content = "";
 
                     if(currentLang === 'AM') {
-                        title = p.titleAM || p.title || "";
-                        content = p.contentAM || p.content || "";
+                        title = p.titleAM || "";
+                        content = p.contentAM || "";
                     } else if(currentLang === 'OR') {
-                        title = p.titleOR || p.title || "";
-                        content = p.contentOR || p.content || "";
+                        title = p.titleOR || "";
+                        content = p.contentOR || "";
                     } else if(currentLang === 'EN') {
-                        title = p.titleEN || p.title || "";
-                        content = p.contentEN || p.content || "";
+                        title = p.titleEN || "";
+                        content = p.contentEN || "";
                     }
 
+                    // If current language has no content, do not show empty card
                     if(!title && !content) return;
 
                     const card = document.createElement('div');
