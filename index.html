@@ -494,6 +494,8 @@
                     querySnapshot.forEach((docSnap) => {
                         allPosts.push({ id: docSnap.id, ...docSnap.data() });
                     });
+                    // Sort by createdAt descending (newest first)
+                    allPosts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
                 } catch(e) {
                     console.log("Firestore load error", e);
                     allPosts = [];
@@ -547,7 +549,6 @@
                         content = p.contentEN || "";
                     }
 
-                    // If current language has no content, do not show empty card
                     if(!title && !content) return;
 
                     const card = document.createElement('div');
